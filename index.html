@@ -1,0 +1,873 @@
+<!doctype html>
+<html lang="is">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Öll lið Vals í körfubolta: leikir, úrslit, staða og leikreglur 2026–27, af kki.is.">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Valur körfubolti 2026–27</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap">
+<style>
+/* Layout: red scoreboard band on top, sticky filter strip, then a single column of dated game rows grouped by day. */
+:root{
+  --bg:#f6f4f3; --surface:#ffffff; --fg:#1d1517; --muted:#6c5f62; --line:#e6dfde;
+  --red:#c8102e; --red-ink:#a50d26; --red-soft:#fbe9ec; --on-red:#ffffff;
+  --win:#1f7a4d; --loss:#b3261e; --draw:#8a6d00;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141012; --surface:#1e191b; --fg:#f3eeee; --muted:#a8999c; --line:#332a2d;
+  --red:#d81f3c; --red-ink:#ff6b80; --red-soft:#3a1a21; --on-red:#ffffff;
+  --win:#4cc38a; --loss:#ff7a70; --draw:#e0c050; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141012; --surface:#1e191b; --fg:#f3eeee; --muted:#a8999c; --line:#332a2d;
+  --red:#d81f3c; --red-ink:#ff6b80; --red-soft:#3a1a21; --on-red:#ffffff;
+  --win:#4cc38a; --loss:#ff7a70; --draw:#e0c050; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.45}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--red)}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.band{background:var(--red);color:var(--on-red)}
+header.band .wrap{padding-block:22px 18px;display:flex;flex-direction:column;gap:6px}
+.eyebrow{font-family:var(--display);font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:13px;opacity:.85}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(34px,8vw,54px);line-height:.95;margin:0;text-transform:uppercase;letter-spacing:.01em;text-wrap:balance}
+.tally{display:flex;flex-wrap:wrap;gap:6px 18px;font-family:var(--display);font-size:17px;font-weight:600;margin-top:6px}
+.tally b{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}
+.stamp{font-size:12.5px;opacity:.85}
+.filters{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.filters .wrap{padding-block:10px;display:flex;flex-direction:column;gap:8px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+select,.seg button{font:inherit;color:var(--fg)}
+select{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-weight:600;flex:1 1 220px;min-width:0;max-width:100%}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface);flex-wrap:nowrap;max-width:100%;overflow-x:auto}
+.seg button{border:0;background:none;padding:7px 12px;cursor:pointer;font-weight:600;font-size:14px;white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--red);color:var(--on-red)}
+button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--red-ink);outline-offset:2px}
+main .wrap{padding-block:14px 48px;display:flex;flex-direction:column;gap:22px}
+.teams{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.tcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;text-align:left;cursor:pointer;font:inherit;color:inherit;display:flex;flex-direction:column;gap:2px;min-width:0}
+.tcard:hover{border-color:var(--red)}
+.tcard .nm{font-family:var(--display);font-weight:700;font-size:18px;line-height:1.1}
+.tcard .rec{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.tcard .nx{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+h2{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+.teamhead{display:flex;flex-direction:column;gap:4px}
+.teamhead h2{font-size:28px;letter-spacing:.01em;color:var(--fg);text-transform:none}
+.teamhead .sub{color:var(--muted);font-variant-numeric:tabular-nums}
+.day{display:flex;flex-direction:column;gap:6px}
+.dayhd{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--red-ink);border-bottom:2px solid var(--red);padding-bottom:3px}
+.g{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:4px 12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 12px;color:inherit;text-decoration:none}
+.g:hover{border-color:var(--red)}
+.g .tm{font-family:var(--display);font-weight:700;font-size:19px;font-variant-numeric:tabular-nums}
+.g .mid{min-width:0;display:flex;flex-direction:column;gap:1px}
+.g .vs{font-weight:600;overflow-wrap:anywhere}
+.g .vs .us{color:var(--red-ink)}
+.g .meta{font-size:12.5px;color:var(--muted);overflow-wrap:anywhere}
+.g .res{font-family:var(--display);font-weight:800;font-size:20px;text-align:right;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:6px;justify-content:flex-end}
+.pill{font-family:var(--body);font-size:11px;font-weight:700;letter-spacing:.06em;border-radius:5px;padding:2px 6px;text-transform:uppercase}
+.pill.S{background:var(--win);color:#fff}.pill.T{background:var(--loss);color:#fff}.pill.J{background:var(--draw);color:#fff}
+.tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:1px 6px;border-radius:4px;margin-right:6px;vertical-align:1px}
+.tag.bikar{background:var(--red);color:var(--on-red)}
+.tag.fjol{background:var(--red-soft);color:var(--red-ink)}
+.tag.onnur{border:1px solid var(--line);color:var(--muted)}
+.home{font-size:11px;font-weight:700;color:var(--red-ink);letter-spacing:.06em}
+.empty{color:var(--muted);padding:18px 0}
+.g.mot{background:var(--red-soft);border-style:dashed}
+.g.mot .umf{display:block;font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--muted);line-height:1}
+.st{font-family:var(--body);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--red-ink)}
+.st.done{color:var(--muted)}
+.note{font-size:12.5px;color:var(--muted)}
+.gf{display:flex;flex-direction:column;gap:8px}
+.tabs{display:flex;gap:18px;border-bottom:1px solid var(--line);margin-bottom:2px}
+.tabs a{font-family:var(--display);font-weight:700;font-size:17px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:4px 0 6px;border-bottom:3px solid transparent;margin-bottom:-1px}
+.tabs a[aria-current="page"]{color:var(--fg);border-bottom-color:var(--red)}
+.linkbtn{align-self:flex-start;font:inherit;font-weight:600;font-size:13.5px;color:var(--red-ink);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font:inherit;font-weight:600;font-size:13.5px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:5px 12px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:var(--on-red)}
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface);-webkit-overflow-scrolling:touch}
+table.rules{border-collapse:separate;border-spacing:0;font-size:13.5px;min-width:760px;width:100%}
+.rules th,.rules td{padding:9px 10px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+.rules thead th{font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:.02em;background:var(--surface);position:sticky;top:0}
+.rules tbody th{font-weight:600;white-space:nowrap}
+.rules th:first-child{position:sticky;left:0;background:var(--surface);z-index:1;box-shadow:1px 0 0 var(--line)}
+.rules tr:last-child>*{border-bottom:0}
+.rules td.skv{color:var(--muted)}
+.rules td.chg{box-shadow:inset 3px 0 0 var(--red)}
+.rules .hl{background:var(--red-soft)}
+.rules thead th.hl{color:var(--red-ink)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.kv{display:grid;grid-template-columns:minmax(0,10em) minmax(0,1fr);gap:6px 14px;margin:0}
+.kv dt{color:var(--muted);font-size:13.5px}.kv dd{margin:0;font-weight:600}
+.kv dd.skv{font-weight:400;color:var(--muted)}
+table.rules.stand{min-width:0;font-variant-numeric:tabular-nums}
+table.rules.stand.summary{min-width:480px}
+.rules .num{text-align:right}
+.rules.stand tbody th{white-space:normal}
+.rules.stand td{white-space:nowrap}
+.rules.stand tr.me>*{background:var(--red-soft);font-weight:700}
+.rules.stand tr.me th{color:var(--red-ink)}
+.rules.stand a{color:var(--fg);text-decoration:none}.rules.stand a:hover{color:var(--red-ink);text-decoration:underline}
+.pos{font-family:var(--display);font-weight:800;font-size:16px}
+.pos.top{color:var(--red-ink)}.pos.low{color:var(--loss)}
+.of{color:var(--muted);font-size:12.5px}
+.tcard .rec .pos{font-size:14px}
+[id^="s-"],[id^="m-"]{scroll-margin-top:120px}
+.mv{font-size:12px;font-weight:700;white-space:nowrap}
+.mv.up{color:var(--win)}.mv.down{color:var(--loss)}.mv.stay{color:var(--muted)}
+details.card summary{cursor:pointer;font-size:15px}
+.fiba{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.08em;padding:0 5px;border-radius:4px;border:1px solid var(--line);color:var(--muted);vertical-align:1px;white-space:nowrap}
+table.rules:not(.stand):not(.def){min-width:980px}
+table.rules.def{min-width:640px}
+.rules.def tbody th{white-space:normal;min-width:11em}
+.ok{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:5px;padding:2px 7px}
+.ok.yes{background:color-mix(in srgb,var(--win) 16%,transparent);color:var(--win)}
+.ok.no{background:var(--loss);color:#fff}
+.def-kv{grid-template-columns:minmax(0,1fr)}.def-kv dt{font-weight:700;color:var(--fg)}.def-kv dd{margin-bottom:6px}
+ul.keys{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px;max-width:65ch}
+.more{align-self:center;font:inherit;font-weight:600;background:none;border:1px solid var(--line);border-radius:8px;padding:8px 14px;color:var(--fg);cursor:pointer}
+footer{color:var(--muted);font-size:12.5px}
+@media (max-width:420px){.g{grid-template-columns:44px minmax(0,1fr) auto;padding:8px 10px}.g .tm{font-size:17px}.g .res{font-size:18px}}
+@media (prefers-reduced-motion:no-preference){.g,.tcard{transition:border-color .15s}}
+</style>
+
+</head>
+<body>
+<header class="band"><div class="wrap">
+  <div class="eyebrow">Knattspyrnufélagið Valur · Körfubolti</div>
+  <h1>Leikir Vals 2026–27</h1>
+  <div class="tally" id="tally"></div>
+  <div class="stamp">Gögn af kki.is · sótt 5. nóvember 2026</div>
+</div></header>
+
+<div class="filters"><div class="wrap">
+  <nav class="tabs" id="view" aria-label="Síður">
+    <a href="#leikir" data-v="leikir" aria-current="page">Leikir</a>
+    <a href="#stada" data-v="stada">Staða</a>
+    <a href="#reglur" data-v="reglur">Leikreglur</a>
+  </nav>
+  <div id="gamefilters" class="gf">
+  <div class="row">
+    <select id="team" aria-label="Veldu lið"></select>
+  </div>
+  <div class="row">
+    <div class="seg" role="group" aria-label="Tími" id="when">
+      <button data-v="upcoming" aria-pressed="true">Framundan</button>
+      <button data-v="played" aria-pressed="false">Úrslit</button>
+      <button data-v="all" aria-pressed="false">Allt</button>
+    </div>
+    <div class="seg" role="group" aria-label="Keppni" id="comp">
+      <button data-v="all" aria-pressed="true">Öll mót</button>
+      <button data-v="deild" aria-pressed="false">Deild</button>
+      <button data-v="bikar" aria-pressed="false">Bikar</button>
+      <button data-v="fjol" aria-pressed="false">Fjölliðamót</button>
+    </div>
+  </div>
+  </div>
+</div></div>
+
+<main><div class="wrap" id="main"></div></main>
+<div class="wrap"><footer>Heimaleikir merktir „heima“. Smelltu á leik til að opna hann á kki.is. Minnibolti og 7.–8. flokkur spila fjölliðamót: mótadagar og gestgjafar eru úr staðsetningaskjali KKÍ 2026–27, en einstakir leikir birtast þegar KKÍ raðar niður hverri umferð.</footer></div>
+
+<script>
+const RAW=`0509|1315|10d|Haukar|60:89|Valur|Ásvellir|6156668
+0509|1330|9s|Breiðablik|20:0|Valur b|Smárinn|6156756
+0509|1600|9s|Hamar/Þór Þ.|39:80|Valur|Hveragerði|6156567
+0609|1345|9d|Höttur|56:65|Valur|Varðarhöllin|6156975
+0609|1500|10s|Valur|62:54|Stjarnan|H3|6182051
+0709|2030|11d|Valur|103:72|Ármann|H3|6182062
+0809|2100|12k|Breiðablik/Augnablik b|104:89|Valur b|Smárinn|6158197
+1009|1910|OK|Keflavík|80:80|Valur|Blue-höllin|6178114
+1009|1930|12k|Valur|82:87|Fjölnir/Vængir Júpíters|H3|6159725
+1009|2030|12v|Valur b|38:81|Valur|H3|6171626
+1209|1200|9s|Valur|59:41|Njarðvík|H3|6181645
+1209|1330|10d|Breiðablik b|88:69|Valur|Smárinn|6156669
+1209|1330|9s|Valur b|69:27|ÍR|H3|6156763
+1209|1500|10d|Valur b|99:76|ÍR|H3|6182041
+1209|1700|12k|Valur b|100:79|Fjölnir/Vængir Júpíters b|H3|6158203
+1309|1145|11d|Valur b|88:67|KR/KV b|Kennaraháskólinn|6157992
+1309|1230|9d|Valur b|60:44|Vestri|H3|6158797
+1309|1330|10s|Valur|94:42|Þór Þ./Hamar|Kennaraháskólinn|6182076
+1309|1400|11d|Valur|88:71|Þór Ak.|H3|6182063
+1509|2000|10d|Ármann b|44:84|Valur b|Laugardalshöll|6156898
+1509|2100|12k|Breiðablik/Augnablik|101:59|Valur|Smárinn|6159732
+1709|2030|12v|Valur|56:58|Breiðablik|H3|6157879
+1709|2030|12v|Ármann|83:71|Valur b|Laugardalshöll|6171636
+1809|1810|8s|KR|34:20|Valur|Blue-höllin|6179712
+1809|1920|8s|KR b|49:29|Valur b|Blue-höllin|6179721
+1909|0900|8d|Valur|48:49|Selfoss|Höllin Ak|6179865
+1909|0900|MB11d|Valur|36:32|Snæfell|Fjölnishöll|6186449
+1909|0900|MB11s|Aþena c|23:26|Valur b|Laugarvatn|6183966
+1909|0930|MB11d|Valur b|16:20|Haukar d|Fjölnishöll|6186486
+1909|0930|MB11s|Stjarnan|39:20|Valur|Laugarvatn|6183918
+1909|1000|MB11s|Breiðablik b|19:37|Valur b|Laugarvatn|6183968
+1909|1030|MB11d|Valur|41:21|Ármann b|Fjölnishöll|6186452
+1909|1030|MB11s|Valur|24:13|Haukar|Laugarvatn|6183920
+1909|1100|MB11d|Valur b|29:41|ÍA b|Fjölnishöll|6186489
+1909|1120|8d|Valur b|60:51|Breiðablik b|Höllin Ak|6186272
+1909|1130|MB11s|Hamar b|32:12|Valur d|Laugarvatn|6183975
+1909|1200|MB11s|Valur|26:15|Njarðvík|Laugarvatn|6183923
+1909|1200|MB11s|Stjarnan c|24:4|Valur d|Laugarvatn|6183977
+1909|1230|8d|Valur|74:45|ÍR|Höllin Ak|6179862
+1909|1330|12k|Valur|101:102|Þór Þ.|H3|6159734
+1909|1330|MB11s|Valur c|24:8|Stjarnan d|Laugarvatn|6183985
+1909|1340|8d|Fjölnir b|58:30|Valur b|Höllin Ak|6186271
+1909|1450|8s|Breiðablik|49:20|Valur b|Blue-höllin|6179723
+1909|1500|MB11s|Valur c|16:19|KR c|Laugarvatn|6183988
+1909|1600|8s|Keflavík|20:19|Valur|Blue-höllin|6179714
+1909|1700|10d|Valur|78:76|KR|H3|6182025
+2009|0900|8d|Fjölnir b|68:28|Valur b|Höllin Ak|6186274
+2009|0900|MB11s|Valur b|28:14|Ármann|Laugarvatn|6183970
+2009|0900|8s|Höttur|56:12|Valur b|Blue-höllin|6179728
+2009|1000|MB11s|Aþena|22:40|Valur|Laugarvatn|6183928
+2009|1030|MB11s|KR|24:32|Valur b|Laugarvatn|6183973
+2009|1100|9d|Valur|51:57|Sindri|H3|6156977
+2009|1100|MB11s|Valur|29:25|Breiðablik|Laugarvatn|6183930
+2009|1120|8d|Valur b|36:79|Breiðablik b|Höllin Ak|6186275
+2009|1120|8s|Ármann|18:29|Valur|Blue-höllin|6179719
+2009|1130|MB11s|Selfoss b|0:20|Valur d|Laugarvatn|6183980
+2009|1200|MB11d|Valur b|39:20|Fjölnir d|Fjölnishöll|6186492
+2009|1230|8d|Valur|67:27|Haukar|Síðuskóli|6179868
+2009|1230|MB11s|Aþena b|28:10|Valur d|Laugarvatn|6183982
+2009|1300|MB11d|Valur b|17:25|Álftanes c|Fjölnishöll|6186494
+2009|1330|MB11d|Valur|28:16|Selfoss b|Fjölnishöll|6186454
+2009|1400|MB11d|Snæfell|37:23|Valur|Fjölnishöll|6186455
+2009|1430|MB11s|Valur c|17:14|Breiðablik c|Laugarvatn|6183991
+2009|1450|8d|Valur|76:28|Skallagrímur/Tindastóll|Síðuskóli|6179870
+2009|1450|8s|ÍR|74:16|Valur b|Blue-höllin|6179726
+2009|1500|MB11s|Haukar b|34:16|Valur c|Laugarvatn|6183994
+2009|1600|11d|Valur|74:94|Stjarnan/KFG|H3|6182064
+2009|1600|8s|Valur|58:20|Njarðvík b|Blue-höllin|6179716
+2009|1645|10s|Stjarnan|81:60|Valur|ÞG Verk höllin|6158344
+2109|1930|11d|Njarðvík|80:85|Valur b|Ljónagryfjan|6157996
+2309|1930|OV|Fjölnir|68:98|Valur|Dalhús|6183549
+2409|1850|12v|Fjölnir|81:68|Valur|Dalhús|6157882
+2609|0900|7d|Haukar|35:51|Valur|Skógarsel|6187498
+2609|0900|MB10d|Breiðablik|40:18|Valur|ÞG Verk höllin|6190183
+2609|0930|MB10s|Stjarnan|26:6|Valur|Icelandic Glacial höllin|6189363
+2609|1000|MB10d|Tindastóll|40:7|Valur|ÞG Verk höllin|6190185
+2609|1010|7d|Valur b|32:27|Ármann b|Fylkishöllin|6187529
+2609|1010|7s|Haukar|66:22|Valur|Vallaskóli|6187755
+2609|1030|MB10s|Valur|5:25|Haukar|Icelandic Glacial höllin|6189365
+2609|1045|10d|Stjarnan b|50:76|Valur|ÞG Urriðaholt|6156678
+2609|1100|9s|Haukar|35:66|Valur|Ásvellir 2|6156575
+2609|1120|7d|Fjölnir|53:56|Valur|Skógarsel|6187500
+2609|1130|MB10s|Þór Ak.|32:12|Valur b|Icelandic Glacial höllin|6189407
+2609|1200|MB10s|Valur|25:26|Njarðvík|Icelandic Glacial höllin|6189368
+2609|1230|7s|Aþena|37:40|Valur|Vallaskóli|6187757
+2609|1230|MB10d|Álftanes|30:22|Valur b|ÞG Verk höllin|6190226
+2609|1230|MB10s|Aþena b|26:24|Valur b|Icelandic Glacial höllin|6189409
+2609|1300|12k|Valur|90:112|Þór Ak.|H3|6159743
+2609|1330|MB10d|Keflavík c|10:31|Valur b|ÞG Verk höllin|6190228
+2609|1340|7d|Valur b|36:25|Fylkir|Fylkishöllin|6187532
+2609|1500|10d|Valur b|85:61|Stjarnan c|H3|6182042
+2709|0900|7d|Selfoss|35:37|Valur|Skógarsel|6187503
+2709|0900|MB10d|Valur b|22:25|Njarðvík b|ÞG Verk höllin|6190229
+2709|1000|MB10s|Álftanes|4:10|Valur b|Icelandic Glacial höllin|6189414
+2709|1030|MB10d|Valur b|14:11|Álftanes|ÞG Verk höllin|6190232
+2709|1100|MB10s|Valur b|20:22|Stjarnan c|Icelandic Glacial höllin|6189411
+2709|1120|7d|Ármann|60:41|Valur|Skógarsel|6187505
+2709|1200|MB10d|KR|24:25|Valur|ÞG Verk höllin|6190190
+2709|1230|MB10s|Aþena|27:19|Valur|Icelandic Glacial höllin|6189373
+2709|1245|9d|Valur|48:71|Haukar|H3|6156982
+2709|1330|MB10d|ÍA|58:25|Valur|ÞG Verk höllin|6190188
+2709|1330|MB10s|Valur|28:16|Breiðablik|Icelandic Glacial höllin|6189375
+2709|1450|7s|Valur|32:25|Álftanes|Vallaskóli|6187759
+2709|1515|OK|Valur|77:71|Höttur|H|6191729
+2709|1600|10s|Njarðvík|64:68|Valur|IceMar-höllin|6158349
+2709|1600|7d|Valur b|35:53|ÍR b|Fylkishöllin|6187535
+2709|1820|7d|Valur b|54:62|Keflavík d|Fylkishöllin|6187537
+2709|1820|7s|Stjarnan|41:22|Valur|Vallaskóli|6187762
+2809|2030|11d|Keflavík/Víðir|112:86|Valur|Blue-höllin|6156496
+3009|1915|BV|Valur|77:64|Njarðvík|H|6154185
+0110|1915|OK|Ármann|90:100|Valur|Laugardalshöll|6172829
+0110|1930|12k|Valur b|126:74|Haukar b|H3|6158214
+0110|1930|10dB|Njarðvík|68:67|Valur|Ljónagryfjan|6160558
+0310|1400|9d|Valur b|42:63|Álftanes|H3|6158801
+0410|1500|9dB|Fylkir|31:93|Valur|Fylkishöllin|6160567
+0510|2015|12v|Valur|58:69|Haukar|H3|6157888
+0610|1915|BV|Valur|68:84|KR|H|6154191
+0810|1915|BK|Valur|90:77|Stjarnan|H|6153463
+1010|1330|9s|Valur b|44:53|KR b|H3|6156774
+1010|1645|11d|Tindastóll/Smári|88:71|Valur b|Sauðárkrókur|6158077
+1110|1330|11d|Tindastóll/Smári|83:59|Valur b|Sauðárkrókur|6158005
+1110|1330|9d|Valur b|50:51|Stjarnan d|H3|6158808
+1110|1530|9d|Stjarnan|93:33|Valur|ÞG Verk höllin|6156986
+1110|1700|10s|KR/KV|66:101|Valur|Meistaravellir|6158353
+1110|1700|3K|Stál-úlfur|94:89|Valur b|Fagrilundur|6180957
+1210|1920|12v|Valur b|82:85|Breiðablik|H3|6171627
+1310|1730|10d|Skallagrímur|38:63|Valur b|Borgarnes|6156907
+1310|1915|BV|Ármann|78:89|Valur|Laugardalshöll|6154196
+1310|1930|12k|ÍR/Léttir b|20:0|Valur b|TM Hellirinn|6158219
+1410|1930|12v|Fjölnir|116:49|Valur b|Dalhús|6171637
+1610|1930|BK|Valur|81:74|Grindavík|H|6153468
+1710|1200|9s|Keflavík|23:77|Valur|Blue-höllin|6156583
+1710|1700|12k|Valur|74:107|Stjarnan/KFG|H3|6159753
+1810|1330|9d|Snæfell|65:39|Valur b|Stykkishólmur|6158813
+1810|1430|9s|Njarðvík b|17:83|Valur b|IceMar-höllin|6156782
+1810|1700|11d|Valur|100:91|Haukar|H3|6182065
+1810|1800|VK|Þór Þ.|90:92|Valur|Icelandic Glacial höllin|6190832
+2010|1915|BV|Valur|85:90|Haukar|H|6154201
+2010|1930|12k|Selfoss/Laugdælir b|94:100|Valur b|Laugarvatn|6158225
+2210|1845|12v|Valur b|58:80|Haukar|H3|6171628
+2210|1915|BK|Njarðvík|85:93|Valur|IceMar-höllin|6153470
+2210|2030|12v|Valur|68:80|Keflavík|H3|6157897
+2510|1300|11d|Valur b|82:68|Vestri|H3|6158013
+2510|1500|3K|Valur b|58:100|Álftanes b|H3|6180962
+2610|2100|11d|Breiðablik/Augnablik|100:99|Valur|Smárinn|6156506
+2710|1930|12k|Selfoss/Laugdælir|87:74|Valur|Laugarvatn|6159754
+2710|2000|10s|Aþena|49:80|Valur|Unbroken Höllin|6158362
+2810|1915|BV|Tindastóll|45:72|Valur|Sauðárkrókur|6154206
+3010|1900|BK|Valur|87:84|Ármann|H|6153479
+3110|1245|9d|Valur|65:54|Höttur|H3|6157003
+3110|1330|9s|Valur b|63:20|Snæfell|Kennaraháskólinn|6156785
+3110|1500|10d|Keflavík|58:61|Valur|Blue-höllin|6156690
+0111|1330|11d|Valur b|50:62|Tindastóll/Smári|H3|6158041
+0111|1500|9d|Keflavík|70:73|Valur|Blue-höllin|6156995
+0111|1515|10s|Njarðvík|61:86|Valur|IceMar-höllin|6158359
+0111|1515|9d|Valur b||ÍR b|H3|6158818
+0111|1645|11d|Valur b|68:61|Ármann b|H3|6158085
+0111|1700|11d|Ármann|78:77|Valur|Laugardalshöll|6156511
+0211|1915|BV|Valur|87:70|Keflavík|H|6154211
+0411|1815|12kB|Stjarnan/KFG||Valur|ÞG Verk höllin|6196926
+0611|1915|BK|Sindri||Valur|Ice Lagoon höllin|6153483
+0811|1600|9dB|Valur||Afturelding|H3|6196910
+0811|1730|10d|Valur b||Haukar b|H3|6182043
+0911|1930|12v|Valur b||Keflavík|H3|6171629
+1011|2030|12k|Valur||Njarðvík|H3|6159762
+1211|1845|12v|Valur||Njarðvík|H3|6157906
+1211|1915|BK|Valur||Álftanes|H|6153490
+1411|1300|12k|Þór Ak. b||Valur b|Glerárskóli|6158204
+1411|1300|10d|Valur||Afturelding|H3|6182026
+1411|1600|12k|Valur b||Álftanes|H3|6158237
+1411|1630|3K|Hamar b||Valur b|Hveragerði|6180966
+1511|1500|12k|Þór Ak. b||Valur b|Glerárskóli|6158231
+1611|2030|11d|Valur b||Haukar b|H3|6158019
+1711|1830|12k|KR/KV||Valur|Meistaravellir|6159765
+1811|1930|10d|Njarðvík||Valur|Ljónagryfjan|6156687
+1911|1900|12v|KR/KV||Valur b|Meistaravellir|6171639
+1911|1915|BK|Höttur||Valur|Varðarhöllin|6153496
+1911|1930|9d|Valur||Breiðablik|H3|6156989
+1911|2030|12v|Stjarnan||Valur|ÞG Verk höllin|6157915
+2111|1315|12k|Valur b||Breiðablik/Augnablik b|H3|6158242
+2111|1330|9s|KR||Valur|Hagaskóli|6156591
+2111|1500|10d|Valur||Haukar|H3|6182027
+2211|1330|9d|Valur||Laugdælir/Selfoss|H3|6156996
+2211|1400|11d|Stjarnan/KFG||Valur|ÞG Verk höllin|6156518
+2211|1630|9d|ÍA b||Valur b|AvAir höllin|6158823
+2411|1915|BV|Fjölnir||Valur|Dalhús|6154216
+2411|2030|12k|Valur||Keflavík/Víðir|H3|6159771
+2511|1930|12v|Valur||KR/KV|H3|6157904
+2811|1330|9s|Valur||Hamar/Þór Þ.|H3|6156595
+2811|1330|9s|Þór Ak.||Valur b|Glerárskóli|6156802
+2811|1500|10d|Valur||Breiðablik b|H3|6182028
+2911|1430|10s|Þór Þ./Hamar||Valur|Icelandic Glacial höllin|6158370
+3011|1915|12v|Valur||Ármann|H3|6157925
+0112|1830|10d|ÍR||Valur b|TM Hellirinn|6156922
+0212|1915|BV|Valur||Grindavík|H|6154221
+0412|1900|BK|Valur||ÍR|H|6153501
+0612|1400|3K|Valur b||Ármann b|H3|6180974
+0812|1915|BV|Stjarnan||Valur|ÞG Verk höllin|6154226
+1012|1915|BK|Keflavík||Valur|Blue-höllin|6153509
+1012|2030|12v|Valur b||Njarðvík|H3|6171630
+1112|1800|9s|Stjarnan||Valur b|ÞG Verk höllin|6156795
+1112|1830|10d|Haukar b||Valur b|Ásvellir 2|6156943
+1212|1300|9s|Njarðvík||Valur|IceMar-höllin|6156599
+1212|1500|10d|Valur b||Ármann b|H3|6182044
+1212|1600|VV|Njarðvík||Valur|IceMar-höllin|6199573
+1212|1700|12k|Valur b||Fjölnir/Vængir Júpíters b|H3|6158248
+1212|1800|10d|KR||Valur|Meistaravellir|6156704
+1312|1500|10s|Valur||Stjarnan|H3|6182052
+1312|1700|11d|Valur||Keflavík/Víðir|H3|6182066
+1312|1830|11d|KR/KV b||Valur b|Meistaravellir|6158028
+1412|1915|VK|Valur||Sindri|H|6199584
+1412|2030|12v|Stjarnan||Valur b|ÞG Urriðaholt|6171640
+1512|1915|BV|Njarðvík||Valur|IceMar-höllin|6154230
+1512|2030|12k|ÍR/Léttir||Valur|TM Hellirinn|6159776
+1812|1900|BK|Valur||Tindastóll|H|6153512
+2112|1915|BV|KR||Valur|Meistaravellir|6154236
+2812|1915|BK|KR||Valur|Meistaravellir|6153522
+0301|1700|11d|Valur b||Njarðvík|H3|6158032
+0501|1915|BV|Valur||Ármann|H|6154241
+0601|2045|12k|Fjölnir/Vængir Júpíters||Valur|Dalhús|6159780
+0701|1915|BK|Stjarnan||Valur|ÞG Verk höllin|6153529
+1201|1915|BV|Haukar||Valur|Ásvellir|6154246
+1401|1915|BK|Grindavík||Valur|HS Orku-höllin|6153534
+1401|1915|12v|Valur||Valur b|H3|6171641
+1601|1330|9s|Valur||Haukar|H3|6156603
+1601|1330|9s|Ármann||Valur b|Laugardalshöll|6156809
+1601|1500|11d|Snæfell||Valur b|Stykkishólmur|6158037
+1601|1500|10d|Valur||Stjarnan b|H3|6182029
+1601|1630|10d|Stjarnan c||Valur b|ÞG Verk höllin|6156929
+1601|1700|12k|Valur||Breiðablik/Augnablik|H3|6159787
+1701|1330|9d|Haukar||Valur|Ásvellir 2|6157010
+1701|1330|9d|Valur b||Breiðablik c|H3|6158837
+1701|1500|10s|Valur||Njarðvík|H3|6182053
+1701|1500|3K|Höttur b||Valur b|Varðarhöllin|6180978
+1801|1915|BV|Valur||Tindastóll|H|6154251
+1801|2030|11d|Haukar||Valur|Ásvellir 2|6156532
+1901|1845|12k|Haukar b||Valur b|Ásvellir 2|6158259
+1901|1930|12v|Breiðablik||Valur|Smárinn|6157934
+2101|1915|BK|Valur||Njarðvík|H|6153536
+2101|2115|12v|Valur b||Ármann|H3|6171631
+2301|1300|11d|Valur b||Snæfell|H3|6158001
+2301|1600|12k|Valur b||ÍR/Léttir b|H3|6158264
+2401|1600|11d|Valur||Breiðablik/Augnablik|H3|6182067
+2401|1800|3K|Valur b||Stjarnan b|H3|6180979
+2501|1915|BV|Keflavík||Valur|Blue-höllin|6154256
+2601|2030|12k|Þór Þ.||Valur|Icelandic Glacial höllin|6159789
+2801|1915|BK|Ármann||Valur|Laugardalshöll|6153545
+2801|2030|12v|Valur||Fjölnir|H3|6157937
+3001|1500|10d|Valur b||Skallagrímur|H3|6182045
+3001|1545|10d|Afturelding||Valur|Helgafellsskóli|6156711
+3001|1645|12k|Þór Ak.||Valur|Glerárskóli|6159798
+3101|1300|9d|Vestri||Valur b|Kerecishöllin|6158842
+3101|1330|9d|Valur||Stjarnan|H3|6157014
+3101|1500|10s|Valur||KR/KV|H3|6182054
+0802|2030|11d|Valur||Ármann|H3|6182068
+0902|2030|12k|Valur b||Selfoss/Laugdælir b|H3|6158270
+1102|1915|BK|Valur||Sindri|H|6153549
+1102|2000|12v|Breiðablik||Valur b|Smárinn|6171642
+1102|2030|12v|Haukar||Valur|Ásvellir 2|6157943
+1302|1100|9s|Valur||Keflavík|H3|6156611
+1302|1230|9s|Valur b||Breiðablik|H3|6156822
+1302|1400|10d|Valur||Njarðvík|H3|6182030
+1302|1645|11d|Þór Ak.||Valur|Glerárskóli|6156515
+1402|1230|9d|Breiðablik||Valur|Smárinn 2|6157017
+1402|1330|11d|Þór Ak.||Valur|Glerárskóli|6156543
+1402|1330|9d|Álftanes||Valur b|Kaldalónshöllin|6158846
+1402|1400|3K|ÍR b||Valur b|Skógarsel 2|6180984
+1802|1845|12v|Valur b||Fjölnir|H3|6171632
+1802|1915|BK|Álftanes||Valur|Kaldalónshöllin|6153556
+2002|1915|BV|Valur||Fjölnir|H|6154261
+2302|2015|11d|Ármann b||Valur b|Laugardalshöll|6158014
+2302|2030|12k|Stjarnan/KFG||Valur|ÞG Verk höllin|6159808
+2402|1915|BV|Grindavík||Valur|HS Orku-höllin|6154266
+2702|1500|10d|Valur||Keflavík|H3|6182031
+2702|1715|12k|Valur||Selfoss/Laugdælir|H3|6159809
+2802|1100|11d|Valur b||Ármann b|H3|6158050
+2802|1300|11d|Valur||Stjarnan/KFG|H3|6182069
+2802|1645|10s|Valur||Aþena|H3|6182055
+2802|1830|3K|Valur b||Haukar b|H3|6180989
+0203|1915|BV|Valur||Stjarnan|H|6154271
+0203|2030|12k|Álftanes||Valur b|Kaldalónshöllin|6158282
+0403|1845|12v|Keflavík||Valur|Blue-höllin|6157952
+0403|1915|BK|Valur||Höttur|H|6153562
+0403|2030|12v|Haukar||Valur b|Ásvellir 2|6171643
+0603|1330|9s|Valur b||Valur F.|H3|6156807
+0603|1330|9s|ÍR||Valur b|TM Hellirinn|6156829
+0603|1500|10d|Valur||Keflavík|H3|6182032
+0703|1330|9d|Valur||Keflavík|H3|6157023
+0703|1400|9d|Stjarnan d||Valur b|ÞG Verk höllin - gamli salur|6158853
+0703|1500|10s|Valur||KR/KV|H3|6182056
+0703|1645|9s|Valur||Tindastóll|H3|6156587
+0803|2030|11d|Keflavík/Víðir||Valur|Blue-höllin|6156552
+1103|1900|12v|KR/KV||Valur|Meistaravellir|6157959
+1103|1915|BK|ÍR||Valur|Skógarsel|6153567
+1303|1315|10d|Haukar||Valur|Ásvellir 2|6156724
+1303|1330|9d|Sindri||Valur|Ice Lagoon höllin|6157005
+1303|1330|9s|Tindastóll||Valur|Sauðárkrókur|6156615
+1303|1330|9s|Keflavík b||Valur b|Blue-höllin|6156769
+1303|1500|11d|Vestri||Valur b|Kerecishöllin|6158049
+1303|1500|10d|Valur b||ÍR|H3|6182046
+1403|1200|9d|Sindri||Valur|Ice Lagoon höllin|6157033
+1403|1645|10s|Valur||Þór Þ./Hamar|H3|6182057
+1603|1930|12k|Njarðvík||Valur|Ljónagryfjan|6159817
+1803|1715|12v|Njarðvík||Valur|Ljónagryfjan|6157961
+1803|1845|12v|Keflavík||Valur b|Blue-höllin|6171644
+1803|1915|BK|Valur||Keflavík|H|6153575
+1803|2000|12k|Breiðablik/Augnablik b||Valur b|Smárinn|6158287
+2003|1330|10d|Breiðablik b||Valur|Smárinn 2|6156725
+2003|1330|9s|Valur||KR|H3|6156619
+2003|1500|10d|Ármann b||Valur b|Laugardalshöll|6156954
+2003|1500|9s|Valur b||Keflavík b|H3|6156835
+2003|1700|12k|Valur||KR/KV|H3|6159820
+2103|1330|9d|Laugdælir/Selfoss||Valur|Vallaskóli|6157024
+2103|1330|9d|Valur b||Snæfell|H3|6158858
+2103|1530|10s|Stjarnan||Valur|ÞG Verk höllin|6158400
+2203|2030|11d|Haukar b||Valur b|Ásvellir 2|6158055
+2403|1915|BK|Tindastóll||Valur|Sauðárkrókur|6153578
+3003|1915|BK|Valur||KR|H|6153588
+3003|2100|12k|Fjölnir/Vængir Júpíters b||Valur b|Dalhús|6158293
+0104|1845|12v|Valur b||KR/KV|H3|6171634
+0104|2030|12v|Valur||Stjarnan|H3|6157970
+0304|1500|10d|Valur||KR|H3|6182033
+0304|1600|9s|Hamar/Þór Þ.||Valur|Hveragerði|6156623
+0304|1645|10d|Valur b||Stjarnan c|H3|6182047
+0304|1730|9s|KR b||Valur b|Meistaravellir|6156840
+0404|1315|11d|Valur||Haukar|H3|6182070
+0404|1330|9d|ÍR b||Valur b|TM Hellirinn|6158863
+0404|1645|10s|Valur||Njarðvík|H3|6182058
+0404|1830|11d|Valur b||KR/KV b|H3|6158064
+0604|2030|12k|Keflavík/Víðir||Valur|Blue-höllin|6159826
+0804|1730|12v|Njarðvík||Valur b|Ljónagryfjan|6171645
+1004|1200|9s|Valur||Njarðvík|H3|6156627
+1004|1330|9s|Valur b||Njarðvík b|H3|6156848
+1004|1500|10d|Skallagrímur||Valur b|Borgarnes|6156963
+1004|1500|9d|Valur||Höttur|H3|6157031
+1004|1515|10d|Stjarnan b||Valur|ÞG Verk höllin - gamli salur|6156734
+1104|1145|12k|Valur b||Þór Ak. b|H3|6158276
+1104|1330|9d|Valur b||ÍA b|H3|6158868
+1104|1845|10s|KR/KV||Valur|Meistaravellir|6158409
+1204|1930|11d|Njarðvík||Valur b|Ljónagryfjan|6158068
+1204|2100|11d|Breiðablik/Augnablik||Valur|Smárinn|6156562
+1304|2030|12k|Valur b||Selfoss/Laugdælir b|H3|6158243
+1504|2030|12v|Ármann||Valur|Laugardalshöll|6157980
+1504|2030|12v|Valur b||Stjarnan|H3|6171635
+1704|1330|9s|Haukar||Valur|Ásvellir 2|6156631
+1704|1330|9s|Snæfell||Valur b|Stykkishólmur|6156851
+1704|1500|10d|Valur||Afturelding|H3|6182034
+1704|1715|12k|Valur b||Haukar b|H3|6158304
+1804|1330|9d|Valur||Haukar|H3|6157038
+1804|1645|11d|Valur b||Snæfell|H3|6158073
+2004|2030|12k|Valur||ÍR/Léttir|H3|6159831
+2404|1100|9s|Valur||KR|H3|6156635
+2404|1230|9s|Valur b||Stjarnan|H3|6156861
+2404|1400|10d|Valur b||Haukar b|H3|6182048
+2404|1500|10d|Njarðvík||Valur|IceMar-höllin|6156743
+2504|1330|9d|Laugdælir/Selfoss||Valur|Laugarvatn|6157040
+2504|1500|10s|Aþena||Valur|Unbroken Höllin|6158418`;
+
+const LEAGUE={BK:"Bónus deild karla",BV:"Bónus deild kvenna","3K":"3. deild karla",VK:"VÍS bikar karla",VV:"VÍS bikar kvenna",OK:"Önnur mót karla",OV:"Önnur mót kvenna",
+ "12k":"12. flokkur karla","12v":"12. flokkur kvenna","11d":"11. flokkur drengja","10d":"10. flokkur drengja","10s":"10. flokkur stúlkna","9d":"9. flokkur drengja","9s":"9. flokkur stúlkna",
+ "8d":"8. flokkur drengja","8s":"8. flokkur stúlkna","7d":"7. flokkur drengja","7s":"7. flokkur stúlkna",MB11d:"Minnibolti drengja 11 ára",MB11s:"Minnibolti stúlkna 11 ára",MB10d:"Minnibolti drengja 10 ára",MB10s:"Minnibolti stúlkna 10 ára"};
+const GROUP_ORDER=["mv","mk","12k","12v","11d","10d","10s","9d","9s","8d","8s","7d","7s","MB11d","MB11s","MB10d","MB10s"];
+const GROUP_NAME={mv:"Meistaraflokkur kvenna",mk:"Meistaraflokkur karla"};
+const VENUE={H:"N1-höllin á Hlíðarenda",H3:"N1-höllin á Hlíðarenda 3"};
+// Íslandsmót minnibolta, 7. og 8. flokks 2026–27 — staðsetningar frá KKÍ (PDF)
+const RND={MB10:["26-27.9","21-22.11","13-14.3","8-9.5"],MB11:["19-20.9","14-15.11","23-24.1","27-28.2","22-23.5"],"7":["25-27.9","20-22.11","29-31.1","12-14.3","7-9.5"],"8":["18-20.9","13-15.11","22-24.1","26-28.2","21-23.5"]};
+const HOST={MB10d:["Stjarnan","Ármann","Haukar","Fjölnir"],MB10s:["Þór Þorlákshöfn","KR","Snæfell","Breiðablik"],
+ MB11d:["Fjölnir","Valur","Keflavík","ÍA","Þór Akureyri"],MB11s:["Laugdælir","Breiðablik","Selfoss","Stjarnan","Þór Akureyri"],
+ "7d":["ÍR/Fylkir","Njarðvík/Keflavík","Stjarnan/Álftanes","Fjölnir","Afturelding"],"7s":["Selfoss","ÍA","Ármann","KR","Haukar"],
+ "8d":["Þór Akureyri","Stjarnan/Álftanes","Valur/Fylkir","ÍR","Keflavík/Fylkir"],"8s":["Keflavík","Höttur","ÍR","Breiðablik","Njarðvík"]};
+const ROUNDS=Object.entries(HOST).flatMap(([g,hs])=>{const r=RND[g.replace(/[ds]$/,"")];
+  return hs.map((host,i)=>{const[dd,m]=r[i].split(".");const[a,b]=dd.split("-").map(Number);const mm=+m,y=mm>=8?2026:2027;
+    return{g,n:i+1,total:hs.length,start:new Date(Date.UTC(y,mm-1,a,9)),end:new Date(Date.UTC(y,mm-1,b,23,59)),host,valurHost:/Valur/.test(host)}})});
+// KKÍ: Mismunur leikreglna milli aldursflokka (20. september 2023)
+const SKV="Samkvæmt leikreglum";
+const RULE_COLS=["MB10","MB11","7. fl.","8. fl.","9. fl.","10. fl.","11. fl.","12. fl.","Ung. fl."];
+const rep=(v,n)=>Array(n).fill(v);
+const RULES=[
+ ["Leiktími",["2x10","2x10","4x8","4x8","4x8","4x10","4x10","4x10","4x10"]],
+ ["Leikklukka stöðvuð",[...rep("Síðasta mín í hvorum hálfleik",2),...rep(SKV,7)]],
+ ["Hálfleikur",["1 mín","1 mín","3 mín","3 mín",...rep("5 mín",5)]],
+ ["Leikhlutahlé",["N/A","N/A",...rep("1 mín",7)]],
+ ["Framlenging",[...rep("1x3 mín, gullkarfa ef enn jafnt",2),"3 mín","3 mín",...rep(SKV,5)]],
+ ["Leikhlé",[...rep("Eitt (1) leikhlé á lið pr. leik",2),...rep("Eitt (1) leikhlé á lið pr. hálfleik",2),"Tvö (2) leikhlé á lið pr. hálfleik",...rep(SKV,4)]],
+ ["Skotklukka",["N/A","N/A",...rep("24 sek eftir að bolti kemur yfir miðju. Annars skv. leikreglum.",2),...rep(SKV,5)]],
+ ["Boltastærð",["5","5","6","6",...rep("KVK: 6 · KK: 7",5)]],
+ ["Körfuhæð",["260 cm","260 cm",...rep("305 cm",7)]]];
+// KKÍ: Skýringar með reglugerð um körfuknattleiksmót — varnarreglur yngri flokka (30.08.2022). 1 = heimilt, 0 = bannað. Dálkar: MB10, MB11, 7., 8., 9., 10. fl.
+const DEF=[
+ ["Spila vörn á sóknarvelli",[1,1,1,1,1,1],"Ekki sérstaklega bannað, og því heimilt í öllum flokkum."],
+ ["Svæðisvörn og svæðisvarnarafbrigði",[0,0,0,0,0,1],"Bannað, líka afbrigði þar sem hluti liðs spilar svæði og aðrir maður á mann, t.d. box og einn eða þríhyrningur og tveir. Þegar tveir gildra boltann er eðlilegt að hinir skilji eftir sóknarmanninn sem er lengst frá bolta."],
+ ["Tvídekka leikmann án bolta",[0,0,0,0,0,1],"Telst svæðisvörn og er því bannað þar sem svæðisvörn er bönnuð."],
+ ["Tvídekka leikmann með bolta",[0,0,1,1,1,1],"Sérstaklega bannað í minnibolta en ekki nefnt í reglum 7. flokks og eldri. Ekki eðlilegt að senda þrjá eða fleiri á boltann úti á velli, en getur gerst þegar sótt er að körfu."],
+ ["Skiptivarnir, skipta á hindrunum",[1,1,1,1,1,1],"Má skipta á hindrunum, bæði á bolta og frá bolta. En lið sem skipta kerfisbundið á flestum eða öllum aðgerðum frá bolta, t.d. stungum að körfu, eru að leika svæðisvörn, sem er óheimilt í 9. flokki og yngri."],
+ ["Almennar hjálparreglur í maður á mann vörn",[1,1,1,1,1,1],"Leikmenn á veiku hliðinni mega stíga í átt að teig til að hjálpa, en verða að fylgja sínum manni þegar hann færir sig nær bolta. Ef varnarmaður verður oftast eftir í hjálparstöðu má álykta að verið sé að spila svæðisvörn."]];
+const DEF_SUMMARY=["Einungis maður á mann vörn. Ekki má tvöfalda eða gildra.","Einungis maður á mann vörn. Ekki má tvöfalda eða gildra.","Svæðisvörn bönnuð, bæði á varnar- og sóknarvelli.","Svæðisvörn bönnuð, bæði á varnar- og sóknarvelli.","Svæðisvörn bönnuð, bæði á varnar- og sóknarvelli.","Engar sérreglur um varnarleik."];
+// Staða í deildum af kki.is (Stada?league_id=…), sótt 5. nóvember 2026. Röð: sæti|lið|leikir|unnir|töp|stig|skor|+/-|síðustu 5
+//<STAND>
+const STAND={"BK":[["Deildarkeppni",["1|Álftanes|4|4|0|8|468/380|88|4/0","2|KR|4|4|0|8|390/329|61|4/0","3|Valur|4|4|0|8|351/320|31|4/0","4|Tindastóll|4|3|1|6|377/342|35|3/1","5|Keflavík|4|3|1|6|436/409|27|3/1","6|Grindavík|4|2|2|4|356/367|-11|2/2","7|Höttur|4|2|2|4|387/417|-30|2/2","8|Stjarnan|4|1|3|2|369/387|-18|1/3","9|ÍR|4|1|3|2|377/420|-43|1/3","10|Njarðvík|4|0|4|0|338/366|-28|0/4","11|Sindri|4|0|4|0|354/388|-34|0/4","12|Ármann|4|0|4|0|334/412|-78|0/4"]]],"BV":[["Deildarkeppni",["1|Grindavík|6|6|0|12|554/436|118|5/0","2|Stjarnan|6|5|1|10|538/447|91|5/0","3|Haukar|6|4|2|8|518/452|66|3/2","4|Njarðvík|6|4|2|8|550/486|64|4/1","5|KR|6|4|2|8|527/533|-6|3/2","6|Valur|6|4|2|8|478/431|47|3/2","7|Tindastóll|6|2|4|4|439/457|-18|1/4","8|Keflavík|6|1|5|2|452/485|-33|1/4","9|Ármann|6|0|6|0|453/557|-104|0/5","10|Fjölnir|6|0|6|0|387/612|-225|0/5"]]],"3K":[["Deildarkeppni",["1|UMFÁ|2|2|0|4|199/135|64|2/0","2|Stál-úlfur|2|2|0|4|193/165|28|2/0","3|Stjarnan b|1|1|0|2|91/79|12|1/0","4|Haukar b|1|1|0|2|70/69|1|1/0","5|Höttur b|0|0|0|0|0/0|0|0/0","6|ÍR b|1|0|1|0|79/91|-12|0/1","7|Hamar b|1|0|1|0|77/99|-22|0/1","8|Ármann b|2|0|2|0|145/169|-24|0/2","9|Valur b|2|0|2|0|147/194|-47|0/2"]]],"12k":[["1. deild",["1|Stjarnan/KFG|5|5|0|10|554/430|124|5/0","2|Njarðvík|7|5|2|10|651/577|74|3/2","3|Keflavík/Víðir|7|4|3|8|659/631|28|3/2","4|Fjölnir|7|4|3|8|632/621|11|3/2","5|Breiðablik|5|4|1|8|462/393|69|4/1","6|Þór Ak.|6|4|2|8|570/577|-7|3/2","7|Selfoss/Laugdælir|6|3|3|6|526/544|-18|3/2","8|ÍR|6|2|4|4|524/579|-55|2/3","9|Þór Þ.|5|1|4|2|481/534|-53|1/4","10|KR|4|0|4|0|352/409|-57|0/4","11|Valur|6|0|6|0|480/596|-116|0/5"]],["3. deild",["1|Breiðablik b|7|6|1|12|626/479|147|5/0","2|Álftanes|6|4|2|8|573/496|77|4/1","3|Valur b|5|3|2|6|415/371|44|3/2","4|Haukar b|7|3|4|6|512/564|-52|1/4","5|ÍR b|6|2|4|4|358/490|-132|2/3","6|Þór Ak. b|5|2|3|4|387/430|-43|2/3","7|Selfoss/Laugdælir b|3|1|2|2|259/260|-1|1/2","8|Fjölnir b|3|0|3|0|235/275|-40|0/3"]]],"12v":[["1. deild",["1|Njarðvík|5|5|0|10|446/346|100|5/0","2|Haukar|7|5|2|10|546/455|91|4/1","3|Stjarnan|5|4|1|8|434/337|97|4/1","4|Fjölnir|6|4|2|8|519/440|79|4/1","5|Keflavík|5|3|2|6|351/396|-45|3/2","6|Breiðablik|6|3|3|6|421/474|-53|3/2","7|Valur|5|1|4|2|331/326|5|1/4","8|Ármann|5|1|4|2|345/424|-79|1/4","9|KR|3|0|3|0|190/238|-48|0/3","10|Valur b|5|0|5|0|298/445|-147|0/5"]]],"11d":[["1. deild",["1|Stjarnan/KFG|6|6|0|12|635/388|247|5/0","2|Breiðablik|8|6|2|12|703/645|58|5/0","3|Valur|7|3|4|6|627/618|9|1/4","4|Ármann|6|3|3|6|530/499|31|3/2","5|Keflavík/Víðir|5|2|3|4|413/449|-36|2/3","6|Haukar|6|2|4|4|457/509|-52|1/4","7|Þór Ak.|8|1|7|2|510/767|-257|0/5"]],["3. deild",["1|Tindastóll|7|6|1|12|585/456|129|4/1","2|Haukar b|6|5|1|10|472/372|100|5/0","3|Valur b|7|4|3|8|503/509|-6|2/3","4|Njarðvík|6|4|2|8|485/441|44|4/1","5|Ármann b|6|2|4|4|388/462|-74|1/4","6|Snæfell|4|1|3|2|282/369|-87|1/3","7|Vestri|6|1|5|2|438/483|-45|1/4","8|KR b|6|1|5|2|410/471|-61|1/4"]]],"10d":[["2. deild",["1|Afturelding|6|6|0|12|543/385|158|5/0","2|Njarðvík|6|5|1|10|553/443|110|4/1","3|Breiðablik b|6|4|2|8|503/494|9|4/1","4|Valur|5|4|1|8|373/332|41|4/1","5|Keflavík|7|3|4|6|506/503|3|2/3","6|KR|6|2|4|4|447/447|0|1/4","7|Haukar|7|1|6|2|519/632|-113|1/4","8|Stjarnan b|7|0|7|0|451/659|-208|0/5"]],["4. deild",["1|Valur b|4|4|0|8|331/219|112|4/0","2|ÍR|5|4|1|8|395/325|70|4/1","3|Ármann b|5|2|3|4|314/338|-24|2/3","4|Skallagrímur|5|2|3|4|269/311|-42|2/3","5|Haukar b|4|2|2|4|235/230|5|2/2","6|Afturelding b|0|0|0|0|0/0|0|0/0","7|Stjarnan c|5|0|5|0|266/387|-121|0/5"]]],"10s":[["1. deild",["1|Valur|7|6|1|12|551/417|134|4/1","2|Stjarnan|6|5|1|10|538/329|209|5/0","3|KR/KV|7|3|4|6|491/524|-33|2/3","4|Aþena|6|3|3|6|373/436|-63|2/3","5|Njarðvík|6|2|4|4|405/435|-30|1/4","6|Þór Þ./Hamar|6|0|6|0|311/528|-217|0/5"]]],"9d":[["1. deild",["1|Breiðablik|5|4|1|8|348/270|78|4/1","2|Sindri|5|3|2|6|304/276|28|3/2","3|Haukar|6|3|3|6|339/376|-37|3/2","4|Stjarnan|3|3|0|6|263/136|127|3/0","5|Valur|6|3|3|6|335/401|-66|2/3","6|Höttur|6|2|4|4|372/385|-13|2/3","7|Keflavík|5|2|3|4|300/343|-43|2/3","8|Laugdælir/Selfoss|4|0|4|0|219/293|-74|0/4"]],["4. deild",["1|Álftanes|5|5|0|10|271/211|60|5/0","2|Snæfell|3|3|0|6|170/133|37|5/0","3|Valur b|4|1|3|2|191/223|-32|2/3","4|ÍR b|2|1|1|2|107/99|8|2/2","5|Vestri|6|1|5|2|283/302|-19|1/4","6|Stjarnan d|3|1|2|2|138/152|-14|2/2","7|ÍA b|3|1|2|2|111/151|-40|1/2","8|Breiðablik c|0|0|0|0|0/0|0|0/0"]]],"9s":[["1. deild",["1|Valur|4|4|0|8|282/138|144|4/0","2|KR|4|4|0|8|275/151|124|5/0","3|Njarðvík|4|2|2|4|220/200|20|3/2","4|Hamar/Þór Þ.|5|2|3|4|255/314|-59|2/3","5|Haukar|4|2|2|4|219/213|6|2/2","6|Keflavík|4|0|4|0|146/257|-111|1/4","7|Tindastóll|3|0|3|0|75/199|-124|0/3"]],["2. deild",["1|Stjarnan|6|5|1|10|282/199|83|4/1","2|Keflavík b|6|5|1|10|309/211|98|4/1","3|Breiðablik|4|4|0|8|203/84|119|4/0","4|KR b|4|4|0|8|191/123|68|4/0","5|Valur b|5|3|2|6|259/137|122|3/2","6|Njarðvík b|6|2|4|4|227/301|-74|2/3","7|ÍR|3|1|2|2|108/157|-49|1/2","8|Ármann|4|1|3|2|160/186|-26|1/3","9|Þór Ak.|5|1|4|2|165/245|-80|1/4","10|Snæfell|5|1|4|2|177/229|-52|1/4","11|Valur F.|6|0|6|0|144/353|-209|0/5"]]]};
+//</STAND>
+// Minnibolti: riðlastaða eftir 1. umferð af kki.is (Stada?league_id=34045/34047/244/245), sótt 5. nóvember 2026.
+// levels = fjöldi riðla á hverju styrkleikastigi. Röð: sæti|lið|leikir|unnir|töp|stig|skor|+/-
+//<MB>
+const MB={"MB10d":{"levels":{"A":1,"B":2,"C":4,"D":2},"t":[["A",["1|Stjarnan|5|5|0|10|203/60|143","2|Haukar|5|3|2|6|155/108|47","3|Keflavík|5|3|2|6|133/115|18","4|Höttur|5|3|2|6|121/162|-41","5|Selfoss|5|1|4|2|127/163|-36","6|Njarðvík|5|0|5|0|83/214|-131"]],["B2",["1|Tindastóll|4|4|0|8|138/77|61","2|Breiðablik|4|3|1|6|160/94|66","3|ÍA|4|1|3|2|130/143|-13","4|KR|4|1|3|2|102/129|-27","5|Valur|4|1|3|2|75/162|-87"]],["C4",["1|Njarðvík b|4|4|0|8|123/90|33","2|Álftanes|4|2|2|4|101/96|5","3|Valur b|4|2|2|4|89/76|13","4|Stjarnan|0|0|0|0|0/0|0","5|Keflavík c|4|0|4|0|67/118|-51"]]],"umferd":1},"MB10s":{"levels":{"A":1,"B":1,"C":2,"D":2},"t":[["A",["1|Stjarnan|5|5|0|10|145/62|83","2|Haukar|5|4|1|8|126/59|67","3|Aþena|5|3|2|6|114/110|4","4|Njarðvík|5|2|3|4|84/117|-33","5|Valur|5|1|4|2|83/120|-37","6|Breiðablik|5|0|5|0|36/120|-84"]],["C2",["1|Þór Ak.|4|4|0|8|109/36|73","2|Stjarnan c|4|3|1|6|74/75|-1","3|Valur b|4|1|3|2|66/84|-18","4|Álftanes|4|1|3|2|40/62|-22","5|Aþena b|4|1|3|2|68/100|-32"]]],"umferd":1},"MB11d":{"levels":{"A":1,"B":2,"C":4,"D":4},"t":[["A",["1|Stjarnan|5|5|0|10|153/127|26","2|Höttur|5|4|1|8|156/124|32","3|Haukar|5|2|3|4|141/127|14","4|Keflavík|5|2|3|4|118/133|-15","5|Selfoss|5|2|3|4|96/131|-35","6|Njarðvík|5|0|5|0|118/140|-22"]],["D1",["1|Snæfell|4|3|1|6|136/86|50","2|Valur|4|3|1|6|128/106|22","3|Selfoss b|4|2|2|4|85/97|-12","4|Ármann b|4|0|4|0|63/123|-60"]],["D4",["1|Álftanes|4|4|0|8|133/97|36","2|ÍA b|4|3|1|6|148/97|51","3|Valur b|4|1|3|2|101/106|-5","4|Haukar d|4|1|3|2|89/119|-30","5|Fjölnir d|4|1|3|2|77/129|-52"]]],"umferd":1},"MB11s":{"levels":{"A":1,"B":1,"C":2,"D":2},"t":[["A",["1|Stjarnan|5|5|0|10|166/76|90","2|Valur|5|4|1|8|139/114|25","3|Aþena|5|3|2|6|118/123|-5","4|Haukar|5|2|3|4|79/110|-31","5|Njarðvík|5|1|4|2|93/118|-25","6|Breiðablik|5|0|5|0|69/123|-54"]],["C2",["1|Valur b|4|4|0|8|123/80|43","2|KR|4|3|1|6|82/49|33","3|Aþena c|4|2|2|4|89/63|26","4|Breiðablik b|4|1|3|2|51/97|-46","5|Ármann|4|0|4|0|41/97|-56"]],["D1",["1|Stjarnan c|4|4|0|8|106/36|70","2|Hamar|4|3|1|6|96/56|40","3|Aþena b|4|2|2|4|74/66|8","4|Valur d|4|1|3|2|46/84|-38","5|Selfoss b|4|0|4|0|0/80|-80"]],["D2",["1|KR c|4|4|0|8|75/45|30","2|Haukar b|4|2|2|4|99/73|26","3|Breiðablik c|4|2|2|4|76/71|5","4|Valur c|4|2|2|4|73/75|-2","5|Stjarnan d|4|0|4|0|49/108|-59"]]],"umferd":1},"7d":{"levels":{"A":1,"B":1,"C":2,"D":2,"E":1},"t":[["A",["1|KR|4|4|0|8|243/134|109","2|Njarðvík|4|2|2|4|221/164|57","3|Sindri|4|2|2|4|160/206|-46","4|Álftanes|4|2|2|4|179/201|-22","5|Stjarnan|4|0|4|0|127/225|-98"]],["B",["1|Valur|4|3|1|6|185/183|2","2|Fjölnir|4|3|1|6|255/171|84","3|Haukar|4|2|2|4|158/190|-32","4|Ármann|4|2|2|4|182/180|2","5|Selfoss|4|0|4|0|135/191|-56"]],["D1",["1|ÍR b|4|4|0|8|181/118|63","2|Fylkir|4|2|2|4|147/143|4","3|Valur b|4|2|2|4|157/167|-10","4|Keflavík d|4|2|2|4|170/209|-39","5|Ármann b|4|0|4|0|138/156|-18"]]],"umferd":1},"7s":{"levels":{"A":1,"B":1,"C":2,"D":1},"t":[["A",["1|Haukar|4|4|0|8|290/104|186","2|Stjarnan|4|3|1|6|183/165|18","3|Valur|4|2|2|4|116/169|-53","4|Aþena|4|1|3|2|139/213|-74","5|Álftanes|4|0|4|0|102/179|-77"]]],"umferd":1},"8d":{"levels":{"A":1,"B":1,"C":2,"D":2},"t":[["A",["1|KR|4|4|0|8|296/173|123","2|Stjarnan|4|3|1|6|229/226|3","3|Breiðablik|4|2|2|4|229/222|7","4|Keflavík|4|1|3|2|220/271|-51","5|Sindri|4|0|4|0|200/282|-82"]],["C1",["1|Selfoss|4|3|1|6|210/186|24","2|Valur|4|3|1|6|265/149|116","3|ÍR|4|2|2|4|202/220|-18","4|Skallagrímur|4|1|3|2|181/249|-68","5|Haukar|4|1|3|2|176/230|-54"]],["D2",["1|Fjölnir b|4|4|0|8|249/155|94","2|Breiðablik b|4|1|3|2|227/219|8","3|Valur b|4|1|3|2|154/256|-102"]]],"umferd":1},"8s":{"levels":{"A":1,"B":1,"C":1},"t":[["A",["1|Njarðvík|4|4|0|8|285/116|169","2|Tindastóll|4|3|1|6|199/195|4","3|Stjarnan|4|2|2|4|155/178|-23","4|Haukar|4|1|3|2|186/239|-53","5|Aþena|4|0|4|0|142/239|-97"]],["B",["1|KR|4|4|0|8|235/114|121","2|Valur|4|2|2|4|126/92|34","3|Keflavík|4|2|2|4|180/132|48","4|Ármann|4|2|2|4|136/144|-8","5|Njarðvík b|4|0|4|0|87/282|-195"]],["C",["1|ÍR|4|4|0|8|241/123|118","2|Höttur|4|3|1|6|189/137|52","3|KR b|4|2|2|4|158/156|2","4|Breiðablik|4|1|3|2|147/168|-21","5|Valur b|4|0|4|0|77/228|-151"]]],"umferd":1}};
+//</MB>
+const TITLE_ROUNDS={MB10d:"3. og 4. umferð",MB10s:"3. og 4. umferð",MB11d:"3., 4. og 5. umferð",MB11s:"3., 4. og 5. umferð"};
+const NEXT_LEVEL={A:"B",B:"C",C:"D",D:"E",E:null};
+function moveOf(g,riðill,i,n){const lv=riðill[0];const L=MB[g].levels;
+  if(lv==="A")return i>=n-(L.B||1)?"down":"stay";
+  if(i===0)return "up";
+  if(i===n-1&&NEXT_LEVEL[lv]&&L[NEXT_LEVEL[lv]])return "down";
+  return "stay"}
+const MOVE_TXT={up:"↑ Upp",stay:"= Helst",down:"↓ Niður"};
+function mbStandingOf(t){const m=MB[t.g];if(!m)return null;const nm=t.letter?"Valur "+t.letter:"Valur";
+  for(const [r,rows] of m.t){const rs=rows.map(x=>x.split("|"));const i=rs.findIndex(x=>x[1]===nm);if(i>=0)return{g:t.g,riðill:r,rows:rs,i,move:moveOf(t.g,r,i,rs.length)}}return null}
+const riðillName=r=>r==="A"?"A-riðill":r[0]+"-riðill"+(r.length>1?" "+r.slice(1):"");
+function mbTable(g,r,rs,hl){const isA=r==="A"&&/^MB/.test(g);
+  return `<div class="tblwrap"><table class="rules stand"><thead><tr><th scope="col">Nr.</th><th scope="col">Lið</th><th scope="col" class="num">U/T</th><th scope="col" class="num">Stig</th><th scope="col" class="num">Skor</th><th scope="col" class="num">${isA?"Titilstig*":"Næsta umf.**"}</th></tr></thead>
+  <tbody>${rs.map((x,i)=>{const mv=moveOf(g,r,i,rs.length);const me=/^Valur( [b-e])?$/.test(x[1]);
+    return `<tr${me?' class="me"':""}><td>${x[0]}.</td><th scope="row">${esc(x[1])}</th><td class="num">${x[3]}/${x[4]}</td><td class="num"><b>${x[5]}</b></td><td class="num">${x[6]}</td><td class="num">${isA?(i<5?5-i:0)+(mv==="down"?' <span class="mv down">↓</span>':""):`<span class="mv ${mv}">${MOVE_TXT[mv]}</span>`}</td></tr>`}).join("")}</tbody></table></div>`}
+function standingOf(t){
+  const code=t.g==="mk"?(t.letter?"3K":"BK"):t.g==="mv"?"BV":t.g;
+  const nm=t.letter?"Valur "+t.letter:"Valur";
+  for(const [title,rows] of (STAND[code]||[])){const rs=rows.map(r=>r.split("|"));const i=rs.findIndex(r=>r[1]===nm);
+    if(i>=0)return{code,title,rows:rs,i,nm,league:LEAGUE[code]}}
+  return null}
+function standTable(s){
+  return `<div class="tblwrap"><table class="rules stand"><thead><tr><th scope="col">Nr.</th><th scope="col">Lið</th><th scope="col" class="num">U/T</th><th scope="col" class="num">Stig</th><th scope="col" class="num" title="Skoruð/fengin stig">Skor</th></tr></thead>
+  <tbody>${s.rows.map((r,i)=>`<tr${i===s.i?' class="me"':""}><td>${r[0]}.</td><th scope="row">${esc(r[1])}</th><td class="num">${r[3]}/${r[4]}</td><td class="num"><b>${r[5]}</b></td><td class="num">${r[6]}</td></tr>`).join("")}</tbody></table></div>`}
+// Reglugerð um körfuknattleiksmót (KKÍ) — greinar 10, 14, 25, 30–34, 43
+const EXTRA=[ // sérreglur eftir dálki í RULE_COLS (0=MB10,1=MB11,2=7.fl,3=8.fl)
+ ["4 leikmenn inni á vellinum í einu, 4–7 í liði. Völlur a.m.k. 18 x 12 m.","Sóknarlið má ekki setja hindrun fyrir leikmann með bolta. Það er dæmt sóknarvilla.","Brot í skoti: eitt vítaskot sem gildir 2 eða 3 stig. Ef karfan fer niður gildir vítið 1 stig. Vítalína er 4,0 m frá körfu.","20 stiga reglan: þegar munurinn nær 20 stigum hættir að telja stig liðsins sem leiðir, þar til munurinn fer undir 20. Stigataflan sýnir aldrei meira en 20 stiga mun.","Frjálsar skiptingar. Ekki þarf að bíða eftir að boltinn fari úr leik, en skipt er við varamannabekk.","Eftir brot á varnarvelli má liðið taka innkast strax, án aðkomu dómara.","Ólögleg vörn: dómari stöðvar leik og aðvarar þjálfara. Við endurtekin brot fær þjálfarinn tæknivillu."],
+ null,
+ ["24 sek. skotklukka fer af stað þegar boltinn kemur yfir miðlínu.","Bolti nr. 6 og stórar körfur (305 cm).","Eftir brot á varnarvelli má liðið taka innkast strax, án aðkomu dómara. Aðeins liðið með boltann má skipta eða taka leikhlé.","Svæðisvörn: leikur stöðvaður og þjálfari aðvaraður. Við endurtekin brot fær þjálfarinn tæknivillu."],
+ null];
+EXTRA[1]=EXTRA[0];EXTRA[3]=EXTRA[2];
+const AGES=[["MB10","10 ára","5. bekkur"],["MB11","11 ára","6. bekkur"],["7. flokkur","12 ára","7. bekkur"],["8. flokkur","13 ára","8. bekkur"],["9. flokkur","14 ára","9. bekkur"],["10. flokkur","15 ára","10. bekkur"],["11. flokkur (drengir)","16 ára",""],["12. flokkur","Drengir 17–18 ára · stúlkur 16–18 ára",""],["Ungmennaflokkur","19–20 ára",""]];
+const RULE_COL_OF={MB10d:0,MB10s:0,MB11d:1,MB11s:1,"7d":2,"7s":2,"8d":3,"8s":3,"9d":4,"9s":4,"10d":5,"10s":5,"11d":6,"12k":7,"12v":7};
+const isUs=n=>/^Valur( [b-e])?$/.test(n);
+const groupOf=c=>{const b=c.replace(/B$/,"");if(["BK","OK","VK","3K"].includes(b))return"mk";if(["BV","OV","VV"].includes(b))return"mv";return b};
+const compOf=c=>{if(/B$/.test(c)||c==="VK"||c==="VV")return"bikar";if(c==="OK"||c==="OV")return"onnur";if(/^(MB|7|8)/.test(c))return"fjol";return"deild"};
+const leagueName=c=>/B$/.test(c)?LEAGUE[c.slice(0,-1)]+" · bikar":LEAGUE[c];
+const teamLabel=(g,letter)=>(GROUP_NAME[g]||LEAGUE[g])+(letter?" "+letter.toUpperCase()+"-lið":"");
+
+const games=RAW.trim().split("\n").map(l=>{
+  const [dm,hm,code,home,score,away,v,id]=l.split("|");
+  const d=+dm.slice(0,2),m=+dm.slice(2,4),y=m>=8?2026:2027;
+  const dt=new Date(Date.UTC(y,m-1,d,+hm.slice(0,2),+hm.slice(2,4)));
+  const g=groupOf(code);
+  const sides=[];
+  if(isUs(home))sides.push({side:"h",letter:(home.split(" ")[1]||"")});
+  if(isUs(away))sides.push({side:"a",letter:(away.split(" ")[1]||"")});
+  let sc=null;if(score){const[a,b]=score.split(":").map(Number);sc=[a,b]}
+  return{dt,code,home,away,sc,venue:VENUE[v]||v,id,g,comp:compOf(code),sides};
+});
+
+// team index
+const teams=new Map();
+for(const gm of games){for(const s of gm.sides){const key=gm.g+(s.letter?"-"+s.letter:"");
+  if(!teams.has(key))teams.set(key,{key,g:gm.g,letter:s.letter,label:teamLabel(gm.g,s.letter),games:[]});
+  teams.get(key).games.push({gm,side:s.side});}}
+const teamList=[...teams.values()].sort((a,b)=>GROUP_ORDER.indexOf(a.g)-GROUP_ORDER.indexOf(b.g)||a.letter.localeCompare(b.letter));
+
+const now=new Date();
+const isPlayed=gm=>!!gm.sc;
+const outcome=(gm,side)=>{if(!gm.sc)return null;const[h,a]=gm.sc;const us=side==="h"?h:a,them=side==="h"?a:h;return us>them?"S":us<them?"T":"J"};
+const DAYS=["sun.","mán.","þri.","mið.","fim.","fös.","lau."];
+const MON=["jan.","feb.","mar.","apr.","maí","jún.","júl.","ágú.","sep.","okt.","nóv.","des."];
+const DAYS_LONG=["Sunnudagur","Mánudagur","Þriðjudagur","Miðvikudagur","Fimmtudagur","Föstudagur","Laugardagur"];
+const fmtDay=d=>`${DAYS_LONG[d.getUTCDay()]} ${d.getUTCDate()}. ${MON[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+const fmtShort=d=>`${DAYS[d.getUTCDay()]} ${d.getUTCDate()}. ${MON[d.getUTCMonth()]}`;
+const fmtTime=d=>String(d.getUTCHours()).padStart(2,"0")+":"+String(d.getUTCMinutes()).padStart(2,"0");
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function record(t){let S=0,T=0,J=0;for(const{gm,side}of t.games){const o=outcome(gm,side);if(o==="S")S++;else if(o==="T")T++;else if(o==="J")J++;}return{S,T,J}}
+function nextGame(t){return t.games.filter(x=>!isPlayed(x.gm)&&x.gm.dt>=now).sort((a,b)=>a.gm.dt-b.gm.dt)[0]}
+const roundsOf=g=>ROUNDS.filter(r=>r.g===g);
+const nextRound=g=>roundsOf(g).find(r=>r.end>=now);
+const fmtRange=r=>{const a=r.start,b=r.end;return `${DAYS[a.getUTCDay()]} ${a.getUTCDate()}.–${DAYS[b.getUTCDay()]} ${b.getUTCDate()}. ${MON[a.getUTCMonth()]}`};
+const roundStatus=r=>r.end<now?"Lokið":r.start<=now?"Í gangi":"Framundan";
+const groupName=g=>GROUP_NAME[g]||LEAGUE[g];
+function nextText(t){const n=nextGame(t);const r=nextRound(t.g);
+  if(n&&(!r||n.gm.dt<=r.start))return `Næst: ${fmtShort(n.gm.dt)} – ${esc(n.side==="h"?n.gm.away:n.gm.home)}`;
+  if(r)return `Næst: ${r.n}. umferð ${fmtRange(r)} (${esc(r.host)})`;
+  return "Enginn leikur á dagskrá"}
+function roundRow(r){
+  const home=r.valurHost?' · <span class="home">HEIMA</span>':"";
+  return `<div class="g mot"><div class="tm">${r.n}.<span class="umf">umf.</span></div>
+    <div class="mid"><div class="vs">${esc(groupName(r.g))} · ${r.n}. umferð af ${r.total}</div>
+    <div class="meta"><span class="tag fjol">Fjölliðamót</span>${fmtRange(r)} · Gestgjafi: ${esc(r.host)}${home}</div></div>
+    <div class="res"><span class="st ${r.end<now?"done":""}">${roundStatus(r)}</span></div></div>`}
+
+// header tally
+(()=>{const played=games.filter(isPlayed).length,up=games.filter(g=>!isPlayed(g)&&g.dt>=now).length;
+ document.getElementById("tally").innerHTML=`<span><b>${teamList.length}</b> lið</span><span><b>${played}</b> leikir spilaðir</span><span><b>${up}</b> framundan</span>`})();
+
+const state={team:"all",when:"upcoming",comp:"all",limit:60};
+try{const s=JSON.parse(localStorage.getItem("valur-filter")||"{}");if(s.team&&(s.team==="all"||teams.has(s.team)))state.team=s.team;if(s.when)state.when=s.when;if(s.comp)state.comp=s.comp}catch(e){}
+const save=()=>{try{localStorage.setItem("valur-filter",JSON.stringify({team:state.team,when:state.when,comp:state.comp}))}catch(e){}};
+
+const sel=document.getElementById("team");
+sel.innerHTML=`<option value="all">Öll lið Vals (${teamList.length})</option>`+teamList.map(t=>`<option value="${t.key}">${esc(t.label)}</option>`).join("");
+sel.value=state.team;
+sel.addEventListener("change",()=>{state.team=sel.value;state.limit=60;save();render();window.scrollTo({top:0})});
+for(const id of["when","comp"]){const el=document.getElementById(id);
+  el.querySelectorAll("button").forEach(b=>{b.setAttribute("aria-pressed",String(b.dataset.v===state[id]));
+    b.addEventListener("click",()=>{state[id]=b.dataset.v;state.limit=60;el.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));save();render()})})}
+
+function gameRow(gm,side,showTeam){
+  const o=side?outcome(gm,side):null;
+  const nm=(n)=>isUs(n)?`<span class="us">${esc(n)}</span>`:esc(n);
+  const tag=gm.comp==="bikar"?'<span class="tag bikar">Bikar</span>':gm.comp==="fjol"?'<span class="tag fjol">Fjölliðamót</span>':gm.comp==="onnur"?'<span class="tag onnur">Æfingaleikur</span>':"";
+  const home=gm.sides.some(s=>s.side==="h")?' · <span class="home">HEIMA</span>':"";
+  const teamTxt=showTeam?esc(gm.sides.map(s=>teamLabel(gm.g,s.letter)).join(" / "))+" · ":"";
+  let res;
+  if(gm.sc)res=`${gm.sc[0]}:${gm.sc[1]}${o?`<span class="pill ${o}">${o==="S"?"Sigur":o==="T"?"Tap":"Jafnt"}</span>`:""}`;
+  else res=gm.dt<now?'<span class="meta">Úrslit vantar</span>':"";
+  return `<a class="g" href="https://kki.is/motamal/leikir-og-urslit/motayfirlit/Leikur?game_id=${gm.id}" target="_blank" rel="noopener">
+    <div class="tm">${fmtTime(gm.dt)}</div>
+    <div class="mid"><div class="vs">${nm(gm.home)} – ${nm(gm.away)}</div>
+    <div class="meta">${tag}${teamTxt}${esc(gm.venue)}${home}</div></div>
+    <div class="res">${res}</div></a>`;
+}
+
+function renderStandings(main){
+  const list=teamList.map(t=>({t,s:standingOf(t)})).filter(x=>x.s);
+  const fjol=teamList.filter(t=>!standingOf(t)&&roundsOf(t.g).length);
+  let html=`<section class="teamhead"><h2>Staða liða Vals</h2><div class="sub">Deildarkeppni 2026–27 · af kki.is, sótt 5. nóvember 2026</div></section>
+  <div class="tblwrap"><table class="rules stand summary"><thead><tr><th scope="col">Lið</th><th scope="col">Deild</th><th scope="col">Nr.</th><th scope="col" class="num">U/T</th><th scope="col" class="num">Stig</th><th scope="col" class="num">Skor</th></tr></thead><tbody>
+  ${list.map(({t,s})=>{const r=s.rows[s.i];const top=+r[0]===1,bottom=s.i===s.rows.length-1&&+r[2]>0;
+    return `<tr><th scope="row"><a href="#stada" data-s="s-${t.key}">${esc(t.label)}</a></th><td>${esc(s.title==="Deildarkeppni"?s.league:s.title)}</td><td><span class="pos${top?" top":""}${bottom?" low":""}">${r[0]}.</span> <span class="of">af ${s.rows.length}</span></td><td class="num">${r[3]}/${r[4]}</td><td class="num"><b>${r[5]}</b></td><td class="num">${r[6]}</td></tr>`}).join("")}
+  </tbody></table></div>
+  ${list.map(({t,s})=>`<section class="day" id="s-${t.key}"><div class="dayhd">${esc(t.label)} · ${esc(s.title==="Deildarkeppni"?s.league:s.title)}</div>${standTable(s)}</section>`).join("")}
+  <div class="note">U/T = unnir/tapaðir leikir. Tvö stig fást fyrir sigur. Skor = skoruð/fengin stig í deildinni.</div>
+  <div class="note">Bikarkeppnir hafa ekki stöðutöflu.</div>`;
+  const mbl=teamList.map(t=>({t,s:mbStandingOf(t)})).filter(x=>x.s);
+  html+=`<section class="teamhead" style="margin-top:10px"><h2>Fjölliðamót · nýjasta umferð</h2><div class="sub">Riðlastaða af kki.is · næsta umferð og titilstig reiknuð eftir 25. og 33.–34. grein reglugerðar</div></section>
+  <div class="tblwrap"><table class="rules stand summary"><thead><tr><th scope="col">Lið</th><th scope="col">Riðill</th><th scope="col">Nr.</th><th scope="col" class="num">U/T</th><th scope="col">Næsta umferð</th></tr></thead><tbody>
+  ${mbl.map(({t,s})=>{const r=s.rows[s.i];return `<tr><th scope="row"><a href="#stada" data-s="m-${t.key}">${esc(t.label)}</a></th><td>${riðillName(s.riðill)}</td><td><span class="pos${s.riðill==="A"&&s.i===0?" top":""}">${r[0]}.</span> <span class="of">af ${s.rows.length}</span></td><td class="num">${r[3]}/${r[4]}</td><td><span class="mv ${s.move}">${s.riðill==="A"&&s.move==="stay"?"= Helst í A":MOVE_TXT[s.move]}</span></td></tr>`}).join("")}
+  </tbody></table></div>`;
+  for(const g of ["8s","8d","7s","7d","MB11s","MB11d","MB10s","MB10d"]){const m=MB[g];
+    html+=`<section class="day"><div class="dayhd">${esc(LEAGUE[g])} · eftir ${m.umferd||1}. umferð</div>`+
+      m.t.map(([r,rows])=>{const rs=rows.map(x=>x.split("|"));const vt=teamList.find(t=>t.g===g&&rs.some(x=>x[1]===(t.letter?"Valur "+t.letter:"Valur")));
+        const ids=teamList.filter(t=>t.g===g&&rs.some(x=>x[1]===(t.letter?"Valur "+t.letter:"Valur"))).map(t=>`<span id="m-${t.key}"></span>`).join("");
+        return `${ids}<div class="note"><b>${riðillName(r)}</b>${r==="A"?(TITLE_ROUNDS[g]?` · keppt um Íslandsmeistaratitil, stig talin í ${TITLE_ROUNDS[g]}`:" · Íslandsmeistari er efsta liðið í A-riðli í 5. og síðustu umferð"):""}</div>${mbTable(g,r,rs)}`}).join("")+`</section>`;
+  }
+  html+=`<div class="note">*Titilstig (aðeins minnibolti): stigin sem sætið gæfi (5–4–3–2–1) ef það væri ein af umferðunum sem telja. Þau byrja ekki að telja fyrr en í 3. umferð, svo enginn er kominn með stig til titils ennþá. Í 7. og 8. flokki ræður aðeins síðasta umferðin.<br>**Næsta umferð er áætluð eftir reglunni „efsta lið upp, neðsta niður“. Þar sem riðlum er raðað í pýramída (t.d. C1 og C2) getur mótanefnd raðað öðruvísi. Opinber röðun birtist á kki.is fyrir hverja umferð.</div>`;
+  main.innerHTML=html;
+  main.querySelectorAll("a[data-s]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();const el=document.getElementById(a.dataset.s);if(el)el.scrollIntoView({behavior:"smooth",block:"start"})}));
+}
+
+// „Samkvæmt leikreglum“ = almennar FIBA-leikreglur (reglugerð KKÍ: „Ef ekki er annað tekið fram gilda almennar reglur FIBA“)
+const FIBA={
+ "Leikklukka stöðvuð":"Í hvert sinn sem dómari flautar. Á síðustu 2 mín. 4. leikhluta og framlengingar líka eftir skoraða körfu.",
+ "Framlenging":"5 mín, eins oft og þarf þar til úrslit fást.",
+ "Leikhlé":"2 í fyrri hálfleik og 3 í seinni (mest 2 á síðustu 2 mín.), 1 í hverri framlengingu.",
+ "Skotklukka":"24 sek. Fer í 14 sek eftir t.d. sóknarfrákast."};
+const showRule=(k,v)=>v===SKV&&FIBA[k]?`${esc(FIBA[k])} <span class="fiba">FIBA</span>`:esc(v);
+function renderRules(main){
+  const c=state.ruleCol;
+  const cell=(v,i,vals,k)=>{const cls=[v===SKV?"skv":"",i>0&&v!==vals[i-1]?"chg":"",i===c?"hl":""].filter(Boolean).join(" ");
+    return `<td${cls?` class="${cls}"`:""}>${showRule(k,v)}</td>`};
+  let html=`<section class="teamhead"><h2>Leikreglur eftir flokkum</h2>
+    <div class="sub">Mismunur leikreglna milli aldursflokka · KKÍ, 20. september 2023</div></section>
+    <div class="chips" role="group" aria-label="Veldu flokk">${RULE_COLS.map((n,i)=>`<button class="chip" data-c="${i}" aria-pressed="${i===c}">${n}</button>`).join("")}</div>`;
+  if(c!=null){
+    html+=`<div class="card"><h2>${RULE_COLS[c]}</h2><dl class="kv">${RULES.map(([k,v])=>`<dt>${k}</dt><dd${v[c]===SKV?' class="skv"':""}>${showRule(k,v[c])}</dd>`).join("")}</dl>
+      ${c<=5?`<h2>Varnarleikur</h2><div>${esc(DEF_SUMMARY[c])}</div>
+        <dl class="kv">${DEF.map(([k,v])=>`<dt>${k}</dt><dd>${v[c]?'<span class="ok yes">Heimilt</span>':'<span class="ok no">Bannað</span>'}</dd>`).join("")}</dl>`:""}
+      ${c<=3&&EXTRA[c]?`<h2>Sérreglur</h2><ul class="keys">${EXTRA[c].map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}
+      <div class="note">Reglur merktar <span class="fiba">FIBA</span> eru almennar alþjóðlegar leikreglur. Reglugerð KKÍ segir að þær gildi nema annað sé tekið fram.${c<=3?" Bolti er leður eða composite.":""}</div></div>`;
+  }
+  html+=`<h2>Samanburður allra flokka</h2>
+    <div class="tblwrap"><table class="rules"><thead><tr><th scope="col">Regla</th>${RULE_COLS.map((n,i)=>`<th scope="col"${i===c?' class="hl"':""}>${n}</th>`).join("")}</tr></thead>
+    <tbody>${RULES.map(([k,v])=>`<tr><th scope="row">${k}</th>${v.map((x,i)=>cell(x,i,v,k)).join("")}</tr>`).join("")}</tbody></table></div>
+    <div class="note">Reglur merktar <span class="fiba">FIBA</span> eru almennar alþjóðlegar leikreglur. Í skjali KKÍ stendur þar „Samkvæmt leikreglum“. Rauð lína vinstra megin við reit sýnir hvar regla breytist frá yngri flokki. Boltar eru leður eða composite. Aðrar sérreglur má sjá í reglugerð um körfuknattleiksmót. Að öðru leyti gilda FIBA-reglur varðandi leiktíma.</div>
+    <section class="teamhead" style="margin-top:6px"><h2>Varnarreglur yngri flokka</h2>
+      <div class="sub">Skýringar með reglugerð um körfuknattleiksmót · KKÍ, 30. ágúst 2022</div></section>
+    <div class="tblwrap"><table class="rules def"><thead><tr><th scope="col">Varnaraðgerð</th>${RULE_COLS.slice(0,6).map((n,i)=>`<th scope="col"${i===c?' class="hl"':""}>${n}</th>`).join("")}</tr></thead>
+    <tbody>${DEF.map(([k,v])=>`<tr><th scope="row">${k}</th>${v.map((x,i)=>`<td${i===c?' class="hl"':""}><span class="ok ${x?"yes":"no"}">${x?"Heimilt":"Bannað"}</span></td>`).join("")}</tr>`).join("")}</tbody></table></div>
+    <div class="card"><h2>Skýringar</h2><dl class="kv def-kv">${DEF.map(([k,,t])=>`<dt>${k}</dt><dd class="skv">${esc(t)}</dd>`).join("")}</dl>
+      <div class="note">Í stuttu máli: í minnibolta er einungis maður á mann vörn, án þess að tvöfalda eða gildra. Í 7.–9. flokki er svæðisvörn bönnuð, en tvídekkun á bolta er ekki bönnuð. Í 10. flokki gilda engar sérreglur um varnarleik.</div></div>
+    <section class="teamhead" style="margin-top:6px"><h2>Fjölliðamót: MB10, MB11, 7. og 8. flokkur</h2>
+      <div class="sub">Reglugerð um körfuknattleiksmót, 25. og 31.–34. grein · KKÍ</div></section>
+    <div class="card"><h2>Hvernig mótin virka</h2><ul class="keys">
+      <li>Liðum er skipt í styrkleikariðla, <b>A-riðil, B-riðil, C-riðil</b> o.s.frv. Í hverjum riðli eru 3–6 lið.</li>
+      <li>Hver umferð er spiluð á einni helgi (fös.–sun.) og <b>allir spila við alla</b> innan riðilsins.</li>
+      <li><b>Eftir hverja umferð:</b> efsta liðið færist upp um riðil og neðsta liðið niður. Í A-riðli halda fjögur efstu liðin sætinu. Alltaf fer eitt lið upp og eitt eða fleiri niður.</li>
+      <li>Lokaröð síðasta tímabils ræður í hvaða riðli lið byrjar að hausti. Nýtt lið byrjar í neðsta riðli.</li>
+      <li><b>Fjöldi umferða:</b> MB10 spilar 4 umferðir, en MB11, 7. og 8. flokkur 5 umferðir.</li>
+      <li>Ekki má færa leikmenn milli liða félagsins meðan fjölliðamót stendur yfir.</li>
+    </ul></div>
+    <div class="card"><h2>Hvernig Íslandsmeistari er fundinn</h2>
+      <dl class="kv def-kv">
+        <dt>7. og 8. flokkur</dt><dd class="skv">Íslandsmeistari er það lið sem fær flest stig í A-riðli í síðustu umferð.</dd>
+        <dt>MB11 (drengir og stúlkur)</dt><dd class="skv">Lið í A-riðli fá stig til Íslandsmeistaratitils eftir lokaröðun <b>síðustu þriggja umferða</b>.</dd>
+        <dt>MB10 (drengir og stúlkur)</dt><dd class="skv">Lið í A-riðli fá stig til Íslandsmeistaratitils eftir lokaröðun <b>síðustu tveggja umferða</b>.</dd>
+      </dl>
+      <div class="tblwrap"><table class="rules stand"><thead><tr><th scope="col">Sæti í A-riðli</th><th scope="col" class="num">1.</th><th scope="col" class="num">2.</th><th scope="col" class="num">3.</th><th scope="col" class="num">4.</th><th scope="col" class="num">5.</th></tr></thead>
+        <tbody><tr><th scope="row">Stig (MB10 og MB11)</th><td class="num"><b>5</b></td><td class="num"><b>4</b></td><td class="num"><b>3</b></td><td class="num"><b>2</b></td><td class="num"><b>1</b></td></tr></tbody></table></div>
+      <div class="note">Reglugerðin segir ekki berum orðum að stigin úr umferðunum séu lögð saman, en það er eðlilegasti skilningurinn. Röð liða innan riðils ræðst af sigrum skv. FIBA-reglum. Lið í B-riðli og neðar fá engin stig til titils.</div></div>
+
+    <section class="teamhead" style="margin-top:6px"><h2>Aldursflokkar</h2><div class="sub">14. grein · aldur miðast við fæðingarár</div></section>
+    <div class="tblwrap"><table class="rules stand"><thead><tr><th scope="col">Flokkur</th><th scope="col">Aldur</th><th scope="col">Bekkur</th></tr></thead>
+      <tbody>${AGES.map(a=>`<tr><th scope="row">${a[0]}</th><td>${a[1]}</td><td>${a[2]}</td></tr>`).join("")}</tbody></table></div>
+    <div class="note">Heimilt er að tefla fram kynjablönduðu liði. Leikmaður getur þó ekki spilað bæði í drengja- og stúlknaflokki sama árgangs.</div>
+
+    <div class="card"><h2>Gott að vita</h2><ul class="keys">
+      <li><b>A- og B-lið (9. flokkur og eldri):</b> 7 leikjahæstu leikmenn A-liðs mega ekki spila með B-liði. 14 leikjahæstu í A- og B-liði samanlagt mega ekki spila með C-liði.</li>
+      <li><b>Lið sem mætir ekki</b> innan 15 mín. frá auglýstum leiktíma tapar leiknum skv. FIBA. Leikurinn er þá skráður <b>20:0</b> á kki.is. Félagið greiðir kostnað og sekt. Mæti félag ekki í fjölliðamót er því vísað úr mótinu.</li>
+      <li>Úrslit í fjölliðamótum eiga að vera komin á netið innan 24 klst. frá síðasta leik.</li>
+      <li><b>9. flokkur og eldri</b> spila deildarkeppni heima og að heiman og keppa í úrslitakeppni í vor. Í 9. flokki ræður árangur í 8. flokki árið áður hvaða deild lið byrja í.</li>
+    </ul></div>
+
+    <details class="card"><summary><b>Minniboltamót félaga (5. bekkur og yngri)</b></summary>
+      <ul class="keys" style="margin-top:8px">
+        <li><b>1.–2. bekkur:</b> 3 á 3, 1 x 10–12 mín., minnst 4 leikir á lið. Ekki má taka boltann af leikmanni sem hefur vald á honum.</li>
+        <li><b>3.–4. bekkur:</b> 4 á 4, 1 x 10–12 mín., minnst 5 leikir á lið. Dæmt á skref og tvígrip.</li>
+        <li><b>5. bekkur:</b> 4 á 4, 2 x 10 mín. Ekki má leika boltanum aftur fyrir miðju.</li>
+        <li>Á öllum aldursstigum má sóknarlið ekki setja hindrun fyrir leikmann með bolta. Þjálfarar eru hvattir til að aðstoða dómara.</li>
+      </ul></details>
+
+    <div class="card"><h2>Helstu skil milli flokka</h2><ul class="keys">
+      <li><b>7. flokkur:</b> körfan hækkar úr 260 í 305 cm, boltinn stækkar úr 5 í 6, leikið 4x8 og skotklukka tekin upp. Tvídekkun á bolta leyfð, en svæðisvörn áfram bönnuð.</li>
+      <li><b>9. flokkur:</b> drengir fara í bolta nr. 7, hálfleikur lengist í 5 mín og tvö leikhlé á hálfleik.</li>
+      <li><b>10. flokkur:</b> leiktími fer í 4x10, almennar leikreglur gilda og svæðisvörn er leyfð.</li>
+      <li><b>Minnibolti (MB10–MB11):</b> 2x10, klukka stöðvuð aðeins síðustu mínútu hvors hálfleiks, ein 3 mín framlenging og svo gullkarfa.</li>
+    </ul></div>`;
+  main.innerHTML=html;
+  main.querySelectorAll(".chip").forEach(b=>b.addEventListener("click",()=>{const i=+b.dataset.c;state.ruleCol=state.ruleCol===i?null:i;render()}));
+}
+
+function render(){
+  const main=document.getElementById("main");let html="";
+  const view=location.hash==="#reglur"?"reglur":location.hash==="#stada"?"stada":"leikir";
+  document.getElementById("gamefilters").hidden=view!=="leikir";
+  document.querySelectorAll("#view a").forEach(a=>{if(a.dataset.v===view)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  if(view==="reglur"){renderRules(main);return}
+  if(view==="stada"){renderStandings(main);return}
+  const team=state.team==="all"?null:teams.get(state.team);
+  let list=(team?team.games.map(x=>({gm:x.gm,side:x.side})):games.map(gm=>({gm,side:gm.sides[0]?.side})));
+  if(state.comp!=="all")list=list.filter(x=>x.gm.comp===state.comp);
+  if(state.when==="upcoming")list=list.filter(x=>!isPlayed(x.gm)&&x.gm.dt>=now);
+  if(state.when==="played")list=list.filter(x=>isPlayed(x.gm)||x.gm.dt<now);
+  list.forEach(x=>x.dt=x.gm.dt);
+  if(!team&&(state.comp==="all"||state.comp==="fjol")){
+    let rs=ROUNDS;
+    if(state.when==="upcoming")rs=rs.filter(r=>r.end>=now);
+    if(state.when==="played")rs=rs.filter(r=>r.end<now);
+    list=list.concat(rs.map(r=>({mot:r,dt:r.start})));
+  }
+  list.sort((a,b)=>state.when==="played"?b.dt-a.dt:a.dt-b.dt);
+
+  if(team){
+    const r=record(team),n=nextGame(team);
+    const deild=team.games.filter(x=>x.gm.comp==="deild").length,bikar=team.games.filter(x=>x.gm.comp==="bikar").length;
+    html+=`<section class="teamhead"><h2>${esc(team.label)}</h2>
+      <div class="sub">${team.games.length} leikir · ${r.S} sigrar, ${r.T} töp${r.J?`, ${r.J} jafnt`:""}${deild?` · ${deild} í deild`:""}${bikar?` · ${bikar} í bikar`:" · enginn bikarleikur skráður"}</div>
+      ${n?`<div class="sub">Næsti leikur: ${fmtShort(n.gm.dt)} kl. ${fmtTime(n.gm.dt)} – ${esc(n.side==="h"?n.gm.away:n.gm.home)}</div>`:""}</section>`;
+    const ms=mbStandingOf(team);
+    if(ms)html+=`<section class="day"><div class="dayhd">Staða eftir ${MB[ms.g].umferd||1}. umferð · ${riðillName(ms.riðill)} · ${ms.rows[ms.i][0]}. sæti · ${MOVE_TXT[ms.move]}</div>${mbTable(ms.g,ms.riðill,ms.rows)}</section>`;
+    const st=standingOf(team);
+    if(st)html+=`<section class="day"><div class="dayhd">Staða · ${esc(st.title==="Deildarkeppni"?st.league:st.title)} · ${st.rows[st.i][0]}. sæti</div>${standTable(st)}</section>`;
+    if(RULE_COL_OF[team.g]!=null)html+=`<button class="linkbtn" id="torules">Leikreglur í ${RULE_COLS[RULE_COL_OF[team.g]]}: ${esc(RULES[0][1][RULE_COL_OF[team.g]])}, karfa ${esc(RULES[8][1][RULE_COL_OF[team.g]])}, bolti ${esc(RULES[7][1][RULE_COL_OF[team.g]])} →</button>`;
+    const rs=roundsOf(team.g);
+    if(rs.length)html+=`<section class="day"><h2>Mótadagar Íslandsmótsins</h2>${rs.map(roundRow).join("")}
+      <div class="meta note">Leikjaniðurröðun hverrar umferðar birtist á kki.is nokkrum dögum fyrir mót.</div></section>`;
+  }else{
+    html+=`<section style="display:flex;flex-direction:column;gap:10px"><h2>Liðin</h2><div class="teams">`+
+      teamList.map(t=>{const r=record(t),st=standingOf(t);return `<button class="tcard" data-k="${t.key}">
+        <span class="nm">${esc(t.label)}</span>
+        <span class="rec">${st?`<b class="pos${+st.rows[st.i][0]===1?" top":""}">${st.rows[st.i][0]}. sæti</b> ${esc(st.title==="Deildarkeppni"?"":st.title+" · ")}`:""}${r.S}–${r.T}${r.J?`–${r.J}`:""} · ${t.games.length} leikir</span>
+        <span class="nx">${nextText(t)}</span></button>`}).join("")+
+      `</div></section>`;
+  }
+
+  const title=state.when==="upcoming"?"Framundan":state.when==="played"?"Úrslit":"Allir leikir";
+  html+=`<h2>${title} · ${list.length}</h2>`;
+  if(!list.length){html+=`<div class="empty">Engir leikir passa við þessa síu. ${state.comp==="bikar"?"Bikarleikir birtast þegar dregið hefur verið.":""}</div>`}
+  else{
+    const shown=list.slice(0,state.limit);let cur="";let buf="";
+    for(const x of shown){const k=fmtDay(x.dt);if(k!==cur){if(buf)html+=buf+"</div>";cur=k;buf=`<div class="day"><div class="dayhd">${k}</div>`}
+      buf+=x.mot?roundRow(x.mot):gameRow(x.gm,x.side,!team)}
+    html+=buf+"</div>";
+    if(list.length>state.limit)html+=`<button class="more" id="more">Sýna fleiri (${list.length-state.limit} eftir)</button>`;
+  }
+  main.innerHTML=html;
+  main.querySelectorAll(".tcard").forEach(b=>b.addEventListener("click",()=>{state.team=b.dataset.k;sel.value=state.team;state.limit=60;save();render();window.scrollTo({top:0})}));
+  const m=document.getElementById("more");if(m)m.addEventListener("click",()=>{state.limit+=60;render()});
+  const tr=document.getElementById("torules");if(tr)tr.addEventListener("click",()=>{state.ruleCol=RULE_COL_OF[team.g];location.hash="reglur"});
+}
+state.ruleCol=null;
+window.addEventListener("hashchange",()=>{render();window.scrollTo({top:0})});
+render();
+</script>
+
+</body>
+</html>
