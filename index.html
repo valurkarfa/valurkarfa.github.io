@@ -840,13 +840,6 @@ function render(){
     const rs=roundsOf(team.g);
     if(rs.length)html+=`<section class="day"><h2>Mótadagar Íslandsmótsins</h2>${rs.map(roundRow).join("")}
       <div class="meta note">Leikjaniðurröðun hverrar umferðar birtist á kki.is nokkrum dögum fyrir mót.</div></section>`;
-  }else{
-    html+=`<section style="display:flex;flex-direction:column;gap:10px"><h2>Liðin</h2><div class="teams">`+
-      teamList.map(t=>{const r=record(t),st=standingOf(t);return `<button class="tcard" data-k="${t.key}">
-        <span class="nm">${esc(t.label)}</span>
-        <span class="rec">${st?`<b class="pos${+st.rows[st.i][0]===1?" top":""}">${st.rows[st.i][0]}. sæti</b> ${esc(st.title==="Deildarkeppni"?"":st.title+" · ")}`:""}${r.S}–${r.T}${r.J?`–${r.J}`:""} · ${t.games.length} leikir</span>
-        <span class="nx">${nextText(t)}</span></button>`}).join("")+
-      `</div></section>`;
   }
 
   const title=state.when==="upcoming"?"Framundan":state.when==="played"?"Úrslit":"Allir leikir";
