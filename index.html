@@ -15,17 +15,18 @@
   --bg:#f6f4f3; --surface:#ffffff; --fg:#1d1517; --muted:#6c5f62; --line:#e6dfde;
   --red:#c8102e; --red-ink:#a50d26; --red-soft:#fbe9ec; --on-red:#ffffff;
   --win:#1f7a4d; --loss:#b3261e; --draw:#8a6d00;
+  --gold:#b8860b; --silver:#7d858d; --bronze:#a0582c;
   --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
   --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#141012; --surface:#1e191b; --fg:#f3eeee; --muted:#a8999c; --line:#332a2d;
   --red:#d81f3c; --red-ink:#ff6b80; --red-soft:#3a1a21; --on-red:#ffffff;
-  --win:#4cc38a; --loss:#ff7a70; --draw:#e0c050; color-scheme:dark}}
+  --win:#4cc38a; --loss:#ff7a70; --draw:#e0c050; --gold:#f0c84a; --silver:#c9cfd5; --bronze:#d98c55; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#141012; --surface:#1e191b; --fg:#f3eeee; --muted:#a8999c; --line:#332a2d;
   --red:#d81f3c; --red-ink:#ff6b80; --red-soft:#3a1a21; --on-red:#ffffff;
-  --win:#4cc38a; --loss:#ff7a70; --draw:#e0c050; color-scheme:dark}
+  --win:#4cc38a; --loss:#ff7a70; --draw:#e0c050; --gold:#f0c84a; --silver:#c9cfd5; --bronze:#d98c55; color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.45}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--red)}
@@ -112,7 +113,7 @@ table.rules.stand.summary{min-width:480px}
 .rules.stand tr.me th{color:var(--red-ink)}
 .rules.stand a{color:var(--fg);text-decoration:none}.rules.stand a:hover{color:var(--red-ink);text-decoration:underline}
 .pos{font-family:var(--display);font-weight:800;font-size:16px}
-.pos.top{color:var(--red-ink)}.pos.low{color:var(--loss)}
+.pos{color:var(--fg)}.pos.p1{color:var(--gold)}.pos.p2{color:var(--silver)}.pos.p3{color:var(--bronze)}
 .of{color:var(--muted);font-size:12.5px}
 .tcard .rec .pos{font-size:14px}
 [id^="s-"],[id^="m-"]{scroll-margin-top:120px}
@@ -697,13 +698,14 @@ function gameRow(gm,side,showTeam){
     <div class="res">${res}</div></a>`;
 }
 
+const medal=n=>+n<=3?" p"+(+n):"";
 function renderStandings(main){
   const list=teamList.map(t=>({t,s:standingOf(t)})).filter(x=>x.s);
   const fjol=teamList.filter(t=>!standingOf(t)&&roundsOf(t.g).length);
   let html=`<section class="teamhead"><h2>Staða liða Vals</h2><div class="sub">Deildarkeppni 2026–27 · af kki.is, sótt 5. nóvember 2026</div></section>
   <div class="tblwrap"><table class="rules stand summary"><thead><tr><th scope="col">Lið</th><th scope="col">Deild</th><th scope="col">Nr.</th><th scope="col" class="num">U/T</th><th scope="col" class="num">Stig</th><th scope="col" class="num">Skor</th></tr></thead><tbody>
   ${list.map(({t,s})=>{const r=s.rows[s.i];const top=+r[0]===1,bottom=s.i===s.rows.length-1&&+r[2]>0;
-    return `<tr><th scope="row"><a href="#stada" data-s="s-${t.key}">${esc(t.label)}</a></th><td>${esc(s.title==="Deildarkeppni"?s.league:s.title)}</td><td><span class="pos${top?" top":""}${bottom?" low":""}">${r[0]}.</span> <span class="of">af ${s.rows.length}</span></td><td class="num">${r[3]}/${r[4]}</td><td class="num"><b>${r[5]}</b></td><td class="num">${r[6]}</td></tr>`}).join("")}
+    return `<tr><th scope="row"><a href="#stada" data-s="s-${t.key}">${esc(t.label)}</a></th><td>${esc(s.title==="Deildarkeppni"?s.league:s.title)}</td><td><span class="pos${medal(r[0])}">${r[0]}.</span> <span class="of">af ${s.rows.length}</span></td><td class="num">${r[3]}/${r[4]}</td><td class="num"><b>${r[5]}</b></td><td class="num">${r[6]}</td></tr>`}).join("")}
   </tbody></table></div>
   ${list.map(({t,s})=>`<section class="day" id="s-${t.key}"><div class="dayhd">${esc(t.label)} · ${esc(s.title==="Deildarkeppni"?s.league:s.title)}</div>${standTable(s)}</section>`).join("")}
   <div class="note">U/T = unnir/tapaðir leikir. Tvö stig fást fyrir sigur. Skor = skoruð/fengin stig í deildinni.</div>
@@ -711,7 +713,7 @@ function renderStandings(main){
   const mbl=teamList.map(t=>({t,s:mbStandingOf(t)})).filter(x=>x.s);
   html+=`<section class="teamhead" style="margin-top:10px"><h2>Fjölliðamót · nýjasta umferð</h2><div class="sub">Riðlastaða af kki.is · næsta umferð og titilstig reiknuð eftir 25. og 33.–34. grein reglugerðar</div></section>
   <div class="tblwrap"><table class="rules stand summary"><thead><tr><th scope="col">Lið</th><th scope="col">Riðill</th><th scope="col">Nr.</th><th scope="col" class="num">U/T</th><th scope="col">Næsta umferð</th></tr></thead><tbody>
-  ${mbl.map(({t,s})=>{const r=s.rows[s.i];return `<tr><th scope="row"><a href="#stada" data-s="m-${t.key}">${esc(t.label)}</a></th><td>${riðillName(s.riðill)}</td><td><span class="pos${s.riðill==="A"&&s.i===0?" top":""}">${r[0]}.</span> <span class="of">af ${s.rows.length}</span></td><td class="num">${r[3]}/${r[4]}</td><td><span class="mv ${s.move}">${s.riðill==="A"&&s.move==="stay"?"= Helst í A":MOVE_TXT[s.move]}</span></td></tr>`}).join("")}
+  ${mbl.map(({t,s})=>{const r=s.rows[s.i];return `<tr><th scope="row"><a href="#stada" data-s="m-${t.key}">${esc(t.label)}</a></th><td>${riðillName(s.riðill)}</td><td><span class="pos${medal(r[0])}">${r[0]}.</span> <span class="of">af ${s.rows.length}</span></td><td class="num">${r[3]}/${r[4]}</td><td><span class="mv ${s.move}">${s.riðill==="A"&&s.move==="stay"?"= Helst í A":MOVE_TXT[s.move]}</span></td></tr>`}).join("")}
   </tbody></table></div>`;
   for(const g of ["8s","8d","7s","7d","MB11s","MB11d","MB10s","MB10d"]){const m=MB[g];
     html+=`<section class="day"><div class="dayhd">${esc(LEAGUE[g])} · eftir ${m.umferd||1}. umferð</div>`+
