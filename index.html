@@ -20,18 +20,18 @@
   --bg:#f6f4f3; --surface:#ffffff; --fg:#1d1517; --muted:#6c5f62; --line:#e6dfde;
   --red:#c8102e; --red-ink:#a50d26; --red-soft:#fbe9ec; --on-red:#ffffff;
   --win:#1f7a4d; --loss:#b3261e; --draw:#8a6d00;
-  --gold:#b8860b; --silver:#7d858d; --bronze:#a0582c;
+  --gold:#b8860b; --silver:#7d858d; --bronze:#a0582c; --kid-black-edge:#111;
   --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
   --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#141012; --surface:#1e191b; --fg:#f3eeee; --muted:#a8999c; --line:#332a2d;
   --red:#d81f3c; --red-ink:#ff6b80; --red-soft:#3a1a21; --on-red:#ffffff;
-  --win:#4cc38a; --loss:#ff7a70; --draw:#e0c050; --gold:#f0c84a; --silver:#c9cfd5; --bronze:#d98c55; color-scheme:dark}}
+  --win:#4cc38a; --loss:#ff7a70; --draw:#e0c050; --gold:#f0c84a; --silver:#c9cfd5; --bronze:#d98c55; --kid-black-edge:#8a7f82; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#141012; --surface:#1e191b; --fg:#f3eeee; --muted:#a8999c; --line:#332a2d;
   --red:#d81f3c; --red-ink:#ff6b80; --red-soft:#3a1a21; --on-red:#ffffff;
-  --win:#4cc38a; --loss:#ff7a70; --draw:#e0c050; --gold:#f0c84a; --silver:#c9cfd5; --bronze:#d98c55; color-scheme:dark}
+  --win:#4cc38a; --loss:#ff7a70; --draw:#e0c050; --gold:#f0c84a; --silver:#c9cfd5; --bronze:#d98c55; --kid-black-edge:#8a7f82; color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.45}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--red)}
@@ -127,7 +127,15 @@ table.rules.stand.summary{min-width:0}
 .mv{font-size:12px;font-weight:700;white-space:nowrap}
 .mv.up{color:var(--win)}.mv.down{color:var(--loss)}.mv.stay{color:var(--muted)}
 details.card summary{cursor:pointer;font-size:15px}
-.kid{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.02em;padding:1px 7px;border-radius:999px;background:var(--red);color:var(--on-red);margin-right:6px;vertical-align:1px}
+.kid{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.02em;padding:1px 7px;border-radius:999px;background:var(--red);color:var(--on-red);margin-right:6px;vertical-align:1px;border:1px solid var(--red)}
+.kid.c-black{background:#111;border-color:var(--kid-black-edge);color:#fff}
+.kid.c-white{background:#fff;border-color:#c8102e;color:#a50d26}
+.kidtop .kid{margin-right:auto;font-size:12px}
+.colorpick{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 8px;cursor:pointer;background:var(--surface)}
+.colorpick.on{border-color:var(--red);box-shadow:0 0 0 1px var(--red)}
+.colorpick input{margin:0;accent-color:var(--red)}
+.colorpick .kid{margin:0}
+.colorpick:focus-within{outline:2px solid var(--red-ink);outline-offset:2px}
 .kidform{gap:10px}
 .kidform .fl{font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:-4px}
 .kidform input[type=text]{font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%;max-width:420px}
@@ -847,7 +855,10 @@ const minn={kids:loadKids(),mode:"all",sel:null,when:"upcoming",limit:60,edit:nu
 try{const v=JSON.parse(localStorage.getItem(MINN_KEY)||"{}");if(v.mode)minn.mode=v.mode;if(v.sel)minn.sel=v.sel;if(v.when)minn.when=v.when}catch(e){}
 const saveMinnView=()=>{try{localStorage.setItem(MINN_KEY,JSON.stringify({mode:minn.mode,sel:minn.sel,when:minn.when}))}catch(e){}};
 const kidTeams=k=>k.teams.map(key=>teams.get(key)).filter(Boolean);
-const kidChip=n=>`<span class="kid">${esc(n)}</span>`;
+const KID_COLORS=[["red","Rauð"],["black","Svört"],["white","Hvít"]];
+const kidColor=k=>KID_COLORS.some(c=>c[0]===k.color)?k.color:"red";
+const kidChip=k=>`<span class="kid c-${kidColor(k)}">${esc(k.name)}</span>`;
+const nextFreeColor=()=>{const used=minn.kids.map(kidColor);return(KID_COLORS.find(c=>!used.includes(c[0]))||KID_COLORS[minn.kids.length%3])[0]};
 
 function minnForm(){
   const d=minn.draft;const chosen=d.teams.map(k=>teams.get(k)).filter(Boolean);
@@ -860,6 +871,8 @@ function minnForm(){
     <div class="row"><select id="kid-team"><option value="">Veldu flokk…</option>${avail.map(t=>`<option value="${t.key}">${esc(t.label)}</option>`).join("")}</select>
       <button type="button" class="btn" data-act="addteam">Bæta við flokki</button></div>
     <div class="chips">${chosen.length?chosen.map(t=>`<button type="button" class="chip on" data-act="rmteam" data-k="${t.key}" aria-label="Fjarlægja ${esc(t.label)}">${esc(t.label)} ✕</button>`).join(""):'<span class="note">Enginn flokkur valinn enn.</span>'}</div>
+    <span class="fl" id="kid-color-lbl">Merking í leikjalistum</span>
+    <div class="chips" role="radiogroup" aria-labelledby="kid-color-lbl">${KID_COLORS.map(([c,l])=>`<label class="colorpick${d.color===c?" on":""}"><input type="radio" name="kid-color" id="kid-color-${c}" value="${c}"${d.color===c?" checked":""}><span class="kid c-${c}">${esc(d.name||"Nafn")}</span><span class="note">${l}</span></label>`).join("")}</div>
     ${minn.err?`<div class="err" role="alert">${esc(minn.err)}</div>`:""}
     <div class="row"><button type="submit" class="btn primary">Vista</button>${minn.kids.length?'<button type="button" class="btn" data-act="cancel">Hætta við</button>':""}</div>
   </form>`}
@@ -872,11 +885,11 @@ function minnStandingLine(t){
 function renderMinn(main){
   let html=`<section class="teamhead"><h2>Minn Valur</h2>
     <div class="sub">Skráðu iðkendur og flokkana þeirra og sjáðu bara leikina sem skipta þig máli.</div></section>`;
-  if(!minn.kids.length&&!minn.edit){minn.edit="new";minn.draft={name:"",teams:[]};}
+  if(!minn.kids.length&&!minn.edit){minn.edit="new";minn.draft={name:"",teams:[],color:"red"};}
   if(minn.edit)html+=minnForm();
   if(minn.kids.length){
     html+=`<div class="kidcards">${minn.kids.map(k=>{const ts=kidTeams(k);
-      return `<div class="card kidcard"><div class="kidtop"><span class="nm">${esc(k.name)}</span>
+      return `<div class="card kidcard"><div class="kidtop"><span class="nm">${esc(k.name)}</span>${kidChip(k)}
         <span class="kidbtns">${minn.confirmDel===k.id?`<span class="note">Eyða ${esc(k.name)}?</span><button class="btn danger" data-act="del" data-id="${k.id}">Já, eyða</button><button class="btn" data-act="nodel">Hætta við</button>`
           :`<button class="btn" data-act="edit" data-id="${k.id}">Breyta</button><button class="btn" data-act="askdel" data-id="${k.id}">Eyða</button>`}</span></div>
         <ul class="kidteams">${ts.map(t=>`<li><b>${esc(t.label)}</b><span>${minnStandingLine(t)}</span><span class="note">${nextText(t)}</span></li>`).join("")||'<li class="note">Engir flokkar</li>'}</ul></div>`}).join("")}
@@ -897,8 +910,8 @@ function renderMinn(main){
   // sameina leiki: game id -> {gm, side, kids}
   const byId=new Map(),rounds=new Map();
   for(const k of shownKids)for(const t of kidTeams(k)){
-    for(const{gm,side}of t.games){const e=byId.get(gm.id)||{gm,side,kids:new Set()};e.kids.add(k.name);byId.set(gm.id,e)}
-    for(const r of roundsOf(t.g)){const key=r.g+r.n;const e=rounds.get(key)||{mot:r,kids:new Set()};e.kids.add(k.name);rounds.set(key,e)}}
+    for(const{gm,side}of t.games){const e=byId.get(gm.id)||{gm,side,kids:new Set()};e.kids.add(k);byId.set(gm.id,e)}
+    for(const r of roundsOf(t.g)){const key=r.g+r.n;const e=rounds.get(key)||{mot:r,kids:new Set()};e.kids.add(k);rounds.set(key,e)}}
   let list=[...byId.values()].map(e=>({...e,dt:e.gm.dt})).concat([...rounds.values()].map(e=>({...e,dt:e.mot.start})));
   const done=x=>x.mot?x.mot.end<now:(isPlayed(x.gm)||x.gm.dt<now);
   if(minn.when==="upcoming")list=list.filter(x=>!done(x));
@@ -922,12 +935,13 @@ function bindMinn(main){
   const form=main.querySelector("#kidform");
   if(form){
     const name=form.querySelector("#kid-name");
-    name.addEventListener("input",()=>{minn.draft.name=name.value;if(minn.err){minn.err="";const e=form.querySelector(".err");if(e)e.remove()}});
+    name.addEventListener("input",()=>{minn.draft.name=name.value;form.querySelectorAll(".colorpick .kid").forEach(s=>s.textContent=name.value||"Nafn");if(minn.err){minn.err="";const e=form.querySelector(".err");if(e)e.remove()}});
+    form.querySelectorAll('input[name="kid-color"]').forEach(r=>r.addEventListener("change",()=>{minn.draft.color=r.value;form.querySelectorAll(".colorpick").forEach(l=>l.classList.toggle("on",l.contains(r)))}));
     form.addEventListener("submit",ev=>{ev.preventDefault();const d=minn.draft;d.name=name.value.trim();
       if(!d.name){minn.err="Skráðu nafn iðkandans.";renderMinn(main);main.querySelector("#kid-name").focus();return}
       if(!d.teams.length){minn.err="Veldu að minnsta kosti einn flokk.";renderMinn(main);return}
-      if(minn.edit==="new"){const id="k"+Date.now().toString(36);minn.kids.push({id,name:d.name,teams:d.teams});minn.sel=id}
-      else{const k=minn.kids.find(k=>k.id===minn.edit);if(k){k.name=d.name;k.teams=d.teams}}
+      if(minn.edit==="new"){const id="k"+Date.now().toString(36);minn.kids.push({id,name:d.name,teams:d.teams,color:d.color});minn.sel=id}
+      else{const k=minn.kids.find(k=>k.id===minn.edit);if(k){k.name=d.name;k.teams=d.teams;k.color=d.color}}
       saveKids();saveMinnView();minn.edit=null;minn.draft=null;minn.err="";renderMinn(main);window.scrollTo({top:0})});
   }
   const ks=main.querySelector("#minn-kid");if(ks)ks.addEventListener("change",()=>{minn.sel=ks.value;minn.limit=60;saveMinnView();renderMinn(main)});
@@ -935,8 +949,8 @@ function bindMinn(main){
     const a=b.dataset.act,id=b.dataset.id;
     if(a==="addteam"){const s=main.querySelector("#kid-team");if(s.value){minn.draft.teams.push(s.value);minn.err="";}renderMinn(main);main.querySelector("#kid-team")?.focus();return}
     if(a==="rmteam"){minn.draft.teams=minn.draft.teams.filter(k=>k!==b.dataset.k)}
-    if(a==="new"){minn.edit="new";minn.draft={name:"",teams:[]};minn.err="";minn.confirmDel=null}
-    if(a==="edit"){const k=minn.kids.find(k=>k.id===id);minn.edit=id;minn.draft={name:k.name,teams:[...k.teams]};minn.err="";minn.confirmDel=null}
+    if(a==="new"){minn.edit="new";minn.draft={name:"",teams:[],color:nextFreeColor()};minn.err="";minn.confirmDel=null}
+    if(a==="edit"){const k=minn.kids.find(k=>k.id===id);minn.edit=id;minn.draft={name:k.name,teams:[...k.teams],color:kidColor(k)};minn.err="";minn.confirmDel=null}
     if(a==="cancel"){minn.edit=null;minn.draft=null;minn.err=""}
     if(a==="askdel")minn.confirmDel=id;
     if(a==="nodel")minn.confirmDel=null;
