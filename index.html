@@ -127,6 +127,29 @@ table.rules.stand.summary{min-width:0}
 .mv{font-size:12px;font-weight:700;white-space:nowrap}
 .mv.up{color:var(--win)}.mv.down{color:var(--loss)}.mv.stay{color:var(--muted)}
 details.card summary{cursor:pointer;font-size:15px}
+.kid{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.02em;padding:1px 7px;border-radius:999px;background:var(--red);color:var(--on-red);margin-right:6px;vertical-align:1px}
+.kidform{gap:10px}
+.kidform .fl{font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:-4px}
+.kidform input[type=text]{font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%;max-width:420px}
+.kidform select{flex:1 1 200px}
+.btn{font:inherit;font-weight:600;font-size:14px;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--red)}
+.btn.primary{background:var(--red);border-color:var(--red);color:var(--on-red)}
+.btn.danger{background:var(--loss);border-color:var(--loss);color:#fff}
+.chip.on{background:var(--red-soft);border-color:var(--red);color:var(--red-ink)}
+.err{color:var(--loss);font-weight:600;font-size:13.5px}
+.kidcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;align-items:start}
+.kidcard{gap:8px;min-width:0}
+.kidtop{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.kidtop .nm{font-family:var(--display);font-weight:800;font-size:22px;line-height:1}
+.kidbtns{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.kidbtns .btn{padding:4px 10px;font-size:13px}
+.kidteams{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.kidteams li{display:flex;flex-direction:column;gap:1px;border-top:1px solid var(--line);padding-top:7px;font-size:13.5px}
+.kidteams .pos{font-size:15px}
+.more.add{align-self:stretch;min-height:44px}
+.minnbar{gap:8px}
+.minnbar select{flex:0 1 220px}
 .fiba{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.08em;padding:0 5px;border-radius:4px;border:1px solid var(--line);color:var(--muted);vertical-align:1px;white-space:nowrap}
 table.rules:not(.stand):not(.def){min-width:980px}
 table.rules.def{min-width:640px}
@@ -154,6 +177,7 @@ footer{color:var(--muted);font-size:12.5px}
 <div class="filters"><div class="wrap">
   <nav class="tabs" id="view" aria-label="Síður">
     <a href="#leikir" data-v="leikir" aria-current="page">Leikir</a>
+    <a href="#minn" data-v="minn">Minn Valur</a>
     <a href="#stada" data-v="stada">Staða</a>
     <a href="#reglur" data-v="reglur">Leikreglur</a>
   </nav>
@@ -666,11 +690,11 @@ function nextText(t){const n=nextGame(t);const r=nextRound(t.g);
   if(n&&(!r||n.gm.dt<=r.start))return `Næst: ${fmtShort(n.gm.dt)} – ${esc(n.side==="h"?n.gm.away:n.gm.home)}`;
   if(r)return `Næst: ${r.n}. umferð ${fmtRange(r)} (${esc(r.host)})`;
   return "Enginn leikur á dagskrá"}
-function roundRow(r){
+function roundRow(r,extra=""){
   const home=r.valurHost?' · <span class="home">HEIMA</span>':"";
   return `<div class="g mot"><div class="tm">${r.n}.<span class="umf">umf.</span></div>
     <div class="mid"><div class="vs">${esc(groupName(r.g))} · ${r.n}. umferð af ${r.total}</div>
-    <div class="meta"><span class="tag fjol">Fjölliðamót</span>${fmtRange(r)} · Gestgjafi: ${esc(r.host)}${home}</div></div>
+    <div class="meta">${extra}<span class="tag fjol">Fjölliðamót</span>${fmtRange(r)} · Gestgjafi: ${esc(r.host)}${home}</div></div>
     <div class="res"><span class="st ${r.end<now?"done":""}">${roundStatus(r)}</span></div></div>`}
 
 // header tally
@@ -689,7 +713,7 @@ for(const id of["when","comp"]){const el=document.getElementById(id);
   el.querySelectorAll("button").forEach(b=>{b.setAttribute("aria-pressed",String(b.dataset.v===state[id]));
     b.addEventListener("click",()=>{state[id]=b.dataset.v;state.limit=60;el.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));save();render()})})}
 
-function gameRow(gm,side,showTeam){
+function gameRow(gm,side,showTeam,extra=""){
   const o=side?outcome(gm,side):null;
   const nm=(n)=>isUs(n)?`<span class="us">${esc(n)}</span>`:esc(n);
   const tag=gm.comp==="bikar"?'<span class="tag bikar">Bikar</span>':gm.comp==="fjol"?'<span class="tag fjol">Fjölliðamót</span>':gm.comp==="onnur"?'<span class="tag onnur">Æfingaleikur</span>':"";
@@ -701,7 +725,7 @@ function gameRow(gm,side,showTeam){
   return `<a class="g" href="https://kki.is/motamal/leikir-og-urslit/motayfirlit/Leikur?game_id=${gm.id}" target="_blank" rel="noopener">
     <div class="tm">${fmtTime(gm.dt)}</div>
     <div class="mid"><div class="vs">${nm(gm.home)} – ${nm(gm.away)}</div>
-    <div class="meta">${tag}${teamTxt}${esc(gm.venue)}${home}</div></div>
+    <div class="meta">${extra}${tag}${teamTxt}${esc(gm.venue)}${home}</div></div>
     <div class="res">${res}</div></a>`;
 }
 
@@ -814,11 +838,123 @@ function renderRules(main){
   main.querySelectorAll(".chip").forEach(b=>b.addEventListener("click",()=>{const i=+b.dataset.c;state.ruleCol=state.ruleCol===i?null:i;render()}));
 }
 
+// ---------- Minn Valur: iðkendur vistaðir aðeins í vafra notandans (localStorage) ----------
+const KIDS_KEY="valur-idkendur",MINN_KEY="valur-minn";
+let storageOk=true;
+function loadKids(){try{const a=JSON.parse(localStorage.getItem(KIDS_KEY)||"[]");return Array.isArray(a)?a.filter(k=>k&&k.id&&typeof k.name==="string"&&Array.isArray(k.teams)):[]}catch(e){storageOk=false;return[]}}
+function saveKids(){try{localStorage.setItem(KIDS_KEY,JSON.stringify(minn.kids))}catch(e){storageOk=false}}
+const minn={kids:loadKids(),mode:"all",sel:null,when:"upcoming",limit:60,edit:null,draft:null,confirmDel:null,err:""};
+try{const v=JSON.parse(localStorage.getItem(MINN_KEY)||"{}");if(v.mode)minn.mode=v.mode;if(v.sel)minn.sel=v.sel;if(v.when)minn.when=v.when}catch(e){}
+const saveMinnView=()=>{try{localStorage.setItem(MINN_KEY,JSON.stringify({mode:minn.mode,sel:minn.sel,when:minn.when}))}catch(e){}};
+const kidTeams=k=>k.teams.map(key=>teams.get(key)).filter(Boolean);
+const kidChip=n=>`<span class="kid">${esc(n)}</span>`;
+
+function minnForm(){
+  const d=minn.draft;const chosen=d.teams.map(k=>teams.get(k)).filter(Boolean);
+  const avail=teamList.filter(t=>!d.teams.includes(t.key));
+  return `<form class="card kidform" id="kidform" novalidate>
+    <h2>${minn.edit==="new"?"Nýr iðkandi":"Breyta iðkanda"}</h2>
+    <label class="fl" for="kid-name">Nafn</label>
+    <input id="kid-name" type="text" maxlength="40" autocomplete="off" placeholder="t.d. Sara" value="${esc(d.name)}">
+    <label class="fl" for="kid-team">Flokkar sem iðkandinn æfir í</label>
+    <div class="row"><select id="kid-team"><option value="">Veldu flokk…</option>${avail.map(t=>`<option value="${t.key}">${esc(t.label)}</option>`).join("")}</select>
+      <button type="button" class="btn" data-act="addteam">Bæta við flokki</button></div>
+    <div class="chips">${chosen.length?chosen.map(t=>`<button type="button" class="chip on" data-act="rmteam" data-k="${t.key}" aria-label="Fjarlægja ${esc(t.label)}">${esc(t.label)} ✕</button>`).join(""):'<span class="note">Enginn flokkur valinn enn.</span>'}</div>
+    ${minn.err?`<div class="err" role="alert">${esc(minn.err)}</div>`:""}
+    <div class="row"><button type="submit" class="btn primary">Vista</button>${minn.kids.length?'<button type="button" class="btn" data-act="cancel">Hætta við</button>':""}</div>
+  </form>`}
+
+function minnStandingLine(t){
+  const st=standingOf(t);if(st){const r=st.rows[st.i];return `<span class="pos${medal(r[0])}">${r[0]}.</span> sæti · ${esc(st.title==="Deildarkeppni"?st.league:st.title)} · ${r[3]}/${r[4]}`}
+  const ms=mbStandingOf(t);if(ms){const r=ms.rows[ms.i];return `<span class="pos${medal(r[0])}">${r[0]}.</span> sæti · ${riðillName(ms.riðill)} · ${r[3]}/${r[4]} · ${MOVE_TXT[ms.move]}`}
+  return '<span class="note">Engin stöðutafla</span>'}
+
+function renderMinn(main){
+  let html=`<section class="teamhead"><h2>Minn Valur</h2>
+    <div class="sub">Skráðu iðkendur og flokkana þeirra og sjáðu bara leikina sem skipta þig máli.</div></section>`;
+  if(!minn.kids.length&&!minn.edit){minn.edit="new";minn.draft={name:"",teams:[]};}
+  if(minn.edit)html+=minnForm();
+  if(minn.kids.length){
+    html+=`<div class="kidcards">${minn.kids.map(k=>{const ts=kidTeams(k);
+      return `<div class="card kidcard"><div class="kidtop"><span class="nm">${esc(k.name)}</span>
+        <span class="kidbtns">${minn.confirmDel===k.id?`<span class="note">Eyða ${esc(k.name)}?</span><button class="btn danger" data-act="del" data-id="${k.id}">Já, eyða</button><button class="btn" data-act="nodel">Hætta við</button>`
+          :`<button class="btn" data-act="edit" data-id="${k.id}">Breyta</button><button class="btn" data-act="askdel" data-id="${k.id}">Eyða</button>`}</span></div>
+        <ul class="kidteams">${ts.map(t=>`<li><b>${esc(t.label)}</b><span>${minnStandingLine(t)}</span><span class="note">${nextText(t)}</span></li>`).join("")||'<li class="note">Engir flokkar</li>'}</ul></div>`}).join("")}
+      ${minn.edit?"":'<button class="more add" data-act="new">+ Bæta við iðkanda</button>'}</div>`;
+  }
+  if(!storageOk)html+=`<div class="err">Vafrinn leyfir ekki vistun, svo iðkendurnir gleymast þegar síðan er endurhlaðin.</div>`;
+  if(!minn.kids.length){main.innerHTML=html+`<div class="note">Upplýsingarnar eru aðeins vistaðar í þessum vafra og fara hvergi annað.</div>`;bindMinn(main);return}
+
+  // val á sýn
+  if(minn.mode==="one"&&!minn.kids.some(k=>k.id===minn.sel))minn.sel=minn.kids[0].id;
+  const one=minn.mode==="one"?minn.kids.find(k=>k.id===minn.sel):null;
+  const shownKids=one?[one]:minn.kids;
+  html+=`<div class="row minnbar">
+    ${minn.kids.length>1?`<div class="seg" role="group" aria-label="Sýn"><button data-act="mode" data-v="all" aria-pressed="${!one}">Allir saman</button><button data-act="mode" data-v="one" aria-pressed="${!!one}">Einn iðkandi</button></div>`:""}
+    ${one&&minn.kids.length>1?`<select id="minn-kid" aria-label="Veldu iðkanda">${minn.kids.map(k=>`<option value="${k.id}"${k.id===one.id?" selected":""}>${esc(k.name)}</option>`).join("")}</select>`:""}
+    <div class="seg" role="group" aria-label="Tími">${[["upcoming","Framundan"],["played","Úrslit"],["all","Allt"]].map(([v,l])=>`<button data-act="when" data-v="${v}" aria-pressed="${minn.when===v}">${l}</button>`).join("")}</div></div>`;
+
+  // sameina leiki: game id -> {gm, side, kids}
+  const byId=new Map(),rounds=new Map();
+  for(const k of shownKids)for(const t of kidTeams(k)){
+    for(const{gm,side}of t.games){const e=byId.get(gm.id)||{gm,side,kids:new Set()};e.kids.add(k.name);byId.set(gm.id,e)}
+    for(const r of roundsOf(t.g)){const key=r.g+r.n;const e=rounds.get(key)||{mot:r,kids:new Set()};e.kids.add(k.name);rounds.set(key,e)}}
+  let list=[...byId.values()].map(e=>({...e,dt:e.gm.dt})).concat([...rounds.values()].map(e=>({...e,dt:e.mot.start})));
+  const done=x=>x.mot?x.mot.end<now:(isPlayed(x.gm)||x.gm.dt<now);
+  if(minn.when==="upcoming")list=list.filter(x=>!done(x));
+  if(minn.when==="played")list=list.filter(done);
+  list.sort((a,b)=>minn.when==="played"?b.dt-a.dt:a.dt-b.dt);
+  const showNames=!one&&minn.kids.length>1;
+  const title=minn.when==="upcoming"?"Framundan":minn.when==="played"?"Úrslit":"Allir leikir";
+  html+=`<h2>${title}${one?` · ${esc(one.name)}`:""} · ${list.length}</h2>`;
+  if(!list.length)html+=`<div class="empty">Engir leikir hér. ${minn.when==="upcoming"?"Nýir leikir og mótadagar birtast þegar KKÍ raðar þeim niður.":""}</div>`;
+  else{const shown=list.slice(0,minn.limit);let cur="",buf="";
+    for(const x of shown){const k=fmtDay(x.dt);if(k!==cur){if(buf)html+=buf+"</div>";cur=k;buf=`<div class="day"><div class="dayhd">${k}</div>`}
+      const names=showNames?[...x.kids].map(kidChip).join(""):"";
+      buf+=x.mot?roundRow(x.mot,names):gameRow(x.gm,x.side,true,names)}
+    html+=buf+"</div>";
+    if(list.length>minn.limit)html+=`<button class="more" data-act="more">Sýna fleiri (${list.length-minn.limit} eftir)</button>`;}
+  html+=`<div class="note">Iðkendur eru aðeins vistaðir í þessum vafra og fara hvergi annað. Í öðru tæki þarf að skrá þá aftur.</div>`;
+  main.innerHTML=html;bindMinn(main);
+}
+
+function bindMinn(main){
+  const form=main.querySelector("#kidform");
+  if(form){
+    const name=form.querySelector("#kid-name");
+    name.addEventListener("input",()=>{minn.draft.name=name.value;if(minn.err){minn.err="";const e=form.querySelector(".err");if(e)e.remove()}});
+    form.addEventListener("submit",ev=>{ev.preventDefault();const d=minn.draft;d.name=name.value.trim();
+      if(!d.name){minn.err="Skráðu nafn iðkandans.";renderMinn(main);main.querySelector("#kid-name").focus();return}
+      if(!d.teams.length){minn.err="Veldu að minnsta kosti einn flokk.";renderMinn(main);return}
+      if(minn.edit==="new"){const id="k"+Date.now().toString(36);minn.kids.push({id,name:d.name,teams:d.teams});minn.sel=id}
+      else{const k=minn.kids.find(k=>k.id===minn.edit);if(k){k.name=d.name;k.teams=d.teams}}
+      saveKids();saveMinnView();minn.edit=null;minn.draft=null;minn.err="";renderMinn(main);window.scrollTo({top:0})});
+  }
+  const ks=main.querySelector("#minn-kid");if(ks)ks.addEventListener("change",()=>{minn.sel=ks.value;minn.limit=60;saveMinnView();renderMinn(main)});
+  main.querySelectorAll("[data-act]").forEach(b=>b.addEventListener("click",()=>{
+    const a=b.dataset.act,id=b.dataset.id;
+    if(a==="addteam"){const s=main.querySelector("#kid-team");if(s.value){minn.draft.teams.push(s.value);minn.err="";}renderMinn(main);main.querySelector("#kid-team")?.focus();return}
+    if(a==="rmteam"){minn.draft.teams=minn.draft.teams.filter(k=>k!==b.dataset.k)}
+    if(a==="new"){minn.edit="new";minn.draft={name:"",teams:[]};minn.err="";minn.confirmDel=null}
+    if(a==="edit"){const k=minn.kids.find(k=>k.id===id);minn.edit=id;minn.draft={name:k.name,teams:[...k.teams]};minn.err="";minn.confirmDel=null}
+    if(a==="cancel"){minn.edit=null;minn.draft=null;minn.err=""}
+    if(a==="askdel")minn.confirmDel=id;
+    if(a==="nodel")minn.confirmDel=null;
+    if(a==="del"){minn.kids=minn.kids.filter(k=>k.id!==id);minn.confirmDel=null;if(minn.edit===id){minn.edit=null;minn.draft=null}saveKids()}
+    if(a==="mode"){minn.mode=b.dataset.v;minn.limit=60;saveMinnView()}
+    if(a==="when"){minn.when=b.dataset.v;minn.limit=60;saveMinnView()}
+    if(a==="more")minn.limit+=60;
+    renderMinn(main);
+    if(a==="new"||a==="edit"){window.scrollTo({top:0});main.querySelector("#kid-name")?.focus()}
+  }));
+}
+
 function render(){
   const main=document.getElementById("main");let html="";
-  const view=location.hash==="#reglur"?"reglur":location.hash==="#stada"?"stada":"leikir";
+  const view=location.hash==="#reglur"?"reglur":location.hash==="#stada"?"stada":location.hash==="#minn"?"minn":"leikir";
   document.getElementById("gamefilters").hidden=view!=="leikir";
   document.querySelectorAll("#view a").forEach(a=>{if(a.dataset.v===view)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  if(view==="minn"){renderMinn(main);return}
   if(view==="reglur"){renderRules(main);return}
   if(view==="stada"){renderStandings(main);return}
   const team=state.team==="all"?null:teams.get(state.team);
