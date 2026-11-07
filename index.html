@@ -157,6 +157,10 @@ details.card summary{cursor:pointer;font-size:15px}
 .kidteams .pos{font-size:15px}
 .more.add{align-self:stretch;min-height:44px}
 .minnbar{gap:8px}
+.subtabs{display:flex;gap:6px;border-bottom:1px solid var(--line)}
+.subtabs button{font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:.04em;text-transform:uppercase;background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-1px;padding:4px 10px 6px;color:var(--muted);cursor:pointer}
+.subtabs button[aria-current="page"]{color:var(--fg);border-bottom-color:var(--red)}
+.minnstand .meta{font-size:13px;color:var(--muted)}
 .minnbar select{flex:0 1 220px}
 .fiba{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.08em;padding:0 5px;border-radius:4px;border:1px solid var(--line);color:var(--muted);vertical-align:1px;white-space:nowrap}
 table.rules:not(.stand):not(.def){min-width:980px}
@@ -851,9 +855,25 @@ const KIDS_KEY="valur-idkendur",MINN_KEY="valur-minn";
 let storageOk=true;
 function loadKids(){try{const a=JSON.parse(localStorage.getItem(KIDS_KEY)||"[]");return Array.isArray(a)?a.filter(k=>k&&k.id&&typeof k.name==="string"&&Array.isArray(k.teams)):[]}catch(e){storageOk=false;return[]}}
 function saveKids(){try{localStorage.setItem(KIDS_KEY,JSON.stringify(minn.kids))}catch(e){storageOk=false}}
-const minn={kids:loadKids(),mode:"all",sel:null,when:"upcoming",limit:60,edit:null,draft:null,confirmDel:null,err:""};
-try{const v=JSON.parse(localStorage.getItem(MINN_KEY)||"{}");if(v.mode)minn.mode=v.mode;if(v.sel)minn.sel=v.sel;if(v.when)minn.when=v.when}catch(e){}
-const saveMinnView=()=>{try{localStorage.setItem(MINN_KEY,JSON.stringify({mode:minn.mode,sel:minn.sel,when:minn.when}))}catch(e){}};
+const minn={kids:loadKids(),mode:"all",sel:null,when:"upcoming",sub:"leikir",limit:60,edit:null,draft:null,confirmDel:null,err:""};
+try{const v=JSON.parse(localStorage.getItem(MINN_KEY)||"{}");if(v.mode)minn.mode=v.mode;if(v.sel)minn.sel=v.sel;if(v.when)minn.when=v.when;if(v.sub==="stada")minn.sub="stada"}catch(e){}
+const saveMinnView=()=>{try{localStorage.setItem(MINN_KEY,JSON.stringify({mode:minn.mode,sel:minn.sel,when:minn.when,sub:minn.sub}))}catch(e){}};
+
+// Staða-undirflipi: ein tafla á hvern einstakan flokk skráðra iðkenda
+function minnStandings(shownKids,showNames){
+  const byTeam=new Map();
+  for(const k of shownKids)for(const t of kidTeams(k)){const e=byTeam.get(t.key)||{t,kids:[]};e.kids.push(k);byTeam.set(t.key,e)}
+  const items=[...byTeam.values()].sort((a,b)=>teamList.indexOf(a.t)-teamList.indexOf(b.t));
+  if(!items.length)return `<div class="empty">Engir flokkar skráðir.</div>`;
+  return items.map(({t,kids})=>{
+    const chips=showNames?kids.map(kidChip).join(""):"";
+    const st=standingOf(t);
+    if(st){const r=st.rows[st.i];return `<section class="day minnstand"><div class="dayhd">${esc(t.label)}</div>
+      <div class="meta">${chips}${esc(st.title==="Deildarkeppni"?st.league:st.title)} · <span class="pos${medal(r[0])}">${r[0]}.</span> sæti af ${st.rows.length} · ${r[3]}/${r[4]}</div>${standTable(st)}</section>`}
+    const ms=mbStandingOf(t);
+    if(ms){const r=ms.rows[ms.i];return `<section class="day minnstand"><div class="dayhd">${esc(t.label)}</div>
+      <div class="meta">${chips}${riðillName(ms.riðill)} · eftir ${MB[ms.g].umferd||1}. umferð · <span class="pos${medal(r[0])}">${r[0]}.</span> sæti af ${ms.rows.length} · <span class="mv ${ms.move}">${MOVE_TXT[ms.move]}</span></div>${mbTable(ms.g,ms.riðill,ms.rows)}</section>`}
+    return `<section class="day minnstand"><div class="dayhd">${esc(t.label)}</div><div class="meta">${chips}Engin stöðutafla er til fyrir þennan flokk.</div></section>`}).join("")}
 const kidTeams=k=>k.teams.map(key=>teams.get(key)).filter(Boolean);
 const KID_COLORS=[["red","Rauð"],["black","Svört"],["white","Hvít"]];
 const kidColor=k=>KID_COLORS.some(c=>c[0]===k.color)?k.color:"red";
@@ -902,10 +922,15 @@ function renderMinn(main){
   if(minn.mode==="one"&&!minn.kids.some(k=>k.id===minn.sel))minn.sel=minn.kids[0].id;
   const one=minn.mode==="one"?minn.kids.find(k=>k.id===minn.sel):null;
   const shownKids=one?[one]:minn.kids;
+  html+=`<nav class="subtabs" aria-label="Minn Valur">${[["leikir","Leikir"],["stada","Staða"]].map(([v,l])=>`<button data-act="sub" data-v="${v}" aria-current="${minn.sub===v?"page":"false"}">${l}</button>`).join("")}</nav>`;
   html+=`<div class="row minnbar">
     ${minn.kids.length>1?`<div class="seg" role="group" aria-label="Sýn"><button data-act="mode" data-v="all" aria-pressed="${!one}">Allir saman</button><button data-act="mode" data-v="one" aria-pressed="${!!one}">Einn iðkandi</button></div>`:""}
     ${one&&minn.kids.length>1?`<select id="minn-kid" aria-label="Veldu iðkanda">${minn.kids.map(k=>`<option value="${k.id}"${k.id===one.id?" selected":""}>${esc(k.name)}</option>`).join("")}</select>`:""}
-    <div class="seg" role="group" aria-label="Tími">${[["upcoming","Framundan"],["played","Úrslit"],["all","Allt"]].map(([v,l])=>`<button data-act="when" data-v="${v}" aria-pressed="${minn.when===v}">${l}</button>`).join("")}</div></div>`;
+    ${minn.sub==="leikir"?`<div class="seg" role="group" aria-label="Tími">${[["upcoming","Framundan"],["played","Úrslit"],["all","Allt"]].map(([v,l])=>`<button data-act="when" data-v="${v}" aria-pressed="${minn.when===v}">${l}</button>`).join("")}</div>`:""}</div>`;
+  if(minn.sub==="stada"){
+    html+=`<h2>Staða${one?` · ${esc(one.name)}`:""}</h2>`+minnStandings(shownKids,!one&&minn.kids.length>1)+
+      `<div class="note">U/T = unnir/tapaðir leikir. Í fjölliðamótum sýnir taflan riðilinn í nýjustu umferð og hvert liðið færist í þeirri næstu (áætlað).</div>`;
+    main.innerHTML=html;bindMinn(main);return}
 
   // sameina leiki: game id -> {gm, side, kids}
   const byId=new Map(),rounds=new Map();
@@ -957,6 +982,7 @@ function bindMinn(main){
     if(a==="del"){minn.kids=minn.kids.filter(k=>k.id!==id);minn.confirmDel=null;if(minn.edit===id){minn.edit=null;minn.draft=null}saveKids()}
     if(a==="mode"){minn.mode=b.dataset.v;minn.limit=60;saveMinnView()}
     if(a==="when"){minn.when=b.dataset.v;minn.limit=60;saveMinnView()}
+    if(a==="sub"){minn.sub=b.dataset.v;minn.limit=60;saveMinnView()}
     if(a==="more")minn.limit+=60;
     renderMinn(main);
     if(a==="new"||a==="edit"){window.scrollTo({top:0});main.querySelector("#kid-name")?.focus()}
