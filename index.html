@@ -91,6 +91,7 @@ h2{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.12e
 .tabs a{font-family:var(--display);font-weight:700;font-size:17px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:4px 0 6px;border-bottom:3px solid transparent;margin-bottom:-1px}
 .tabs{overflow-x:auto;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tabs a{white-space:nowrap;flex:none}
 @media (max-width:440px){.tabs{gap:8px;justify-content:space-between}.tabs a{font-size:15.5px}}
+.caps{display:flex;flex-direction:column;align-items:flex-end;line-height:1}.caps small{font-family:var(--body);font-size:11px;font-weight:600;color:var(--muted);margin-top:3px;white-space:nowrap}
 .natinfo{margin:0;line-height:1.5}.natinfo+h2{margin-top:4px}
 .tabs a[aria-current="page"]{color:var(--fg);border-bottom-color:var(--red)}
 .linkbtn{align-self:flex-start;font:inherit;font-weight:600;font-size:13.5px;color:var(--red-ink);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
@@ -1020,22 +1021,24 @@ const NAT_INFO={
 const NAT_NAME={ISL:"Ísland",ITA:"Ítalía",GBR:"Bretland",LTU:"Litháen",SRB:"Serbía",TUR:"Tyrkland",BIH:"Bosnía",IRL:"Írland",SUI:"Sviss",AZE:"Aserbaídsjan"};
 const NAT_PLACE={"Reykjavik":"Reykjavík","Hafnarfjordur":"Hafnarfjörður","Belgrade":"Belgrad","Istanbul":"Istanbúl","Ithrottamidstod Asvellir":"Ólafssalur, Ásvöllum"};
 const natPlace=s=>NAT_PLACE[s]||s;
-// Valsarar í landsliðshópum (handvirkt af kki.is og karfan.is): [stig, landslið, leikmaður, skýring, heimild]. Uppfæra þegar nýir hópar eru tilkynntir.
+// Valsarar í landsliðshópum (handvirkt af kki.is, karfan.is og fiba.basketball). caps = leikjafjöldi þar sem hann liggur fyrir.
 const NAT_VALUR=[
- ["A","A-landslið karla","Kári Jónsson","Undankeppni HM 2027 · 15 manna hópur fyrir nóvember 2026 · 50 landsleikir","https://www.karfan.is/15-manna-hopur-a-landslids-karla-valinn-fyrir-novembergluggann-bosnia-i-hollinni-og-utileikur-i-istanbul-framundan/","karlar"],
- ["A","A-landslið kvenna","Þóranna Kika Hodge-Carr","For-undankeppni EM 2029 · 15 manna hópur fyrir nóvember 2026 · 11 landsleikir","https://www.kki.is/frettir/frett/2026/10/23/A-landslid-kvenna-15-leikmenn-valdir/","konur"],
- ["U20","U20 kvenna","Hanna Gróa Halldórsdóttir","EuroBasket A-deild · sumarið 2026","https://www.kki.is/frettir/frett/2026/06/05/Lokahopar-yngri-landslida-sumarid-2026/"],
- ["U18","U18 kvenna","Berta María Þorkelsdóttir","EuroBasket B-deild og NM · sumarið 2026","https://www.kki.is/frettir/frett/2026/06/05/Lokahopar-yngri-landslida-sumarid-2026/"],
- ["U16","U16 drengja","Atli Freyr Haraldsson Katrínarson","EuroBasket B-deild (2. sæti) og NM · sumarið 2026","https://www.kki.is/frettir/frett/2026/06/05/Lokahopar-yngri-landslida-sumarid-2026/"],
- ["U15","U15 stúlkna","Íris Lóa Hermannsdóttir","Nordic Open (silfur) · sumarið 2026","https://www.kki.is/frettir/frett/2026/06/05/Lokahopar-yngri-landslida-sumarid-2026/"]];
-function natValurRow(r){return `<a class="g" href="${r[4]}" target="_blank" rel="noopener"><div class="tm">${r[0]}</div>
-  <div class="mid"><div class="vs">${esc(r[2])}</div><div class="meta">${esc(r[1])} · ${esc(r[3])}</div></div><div class="res"></div></a>`}
+ {lvl:"A",team:"A-landslið karla",name:"Kári Jónsson",note:"Undankeppni HM 2027 · 15 manna hópur fyrir nóvember 2026",caps:50,capsLbl:"A-landsleikir",url:"https://www.karfan.is/15-manna-hopur-a-landslids-karla-valinn-fyrir-novembergluggann-bosnia-i-hollinni-og-utileikur-i-istanbul-framundan/",nat:"karlar"},
+ {lvl:"A",team:"A-landslið kvenna",name:"Þóranna Kika Hodge-Carr",note:"For-undankeppni EM 2029 · 15 manna hópur fyrir nóvember 2026 · auk þess 24 leikir með U18 og 14 með U16",caps:11,capsLbl:"A-landsleikir",url:"https://www.kki.is/frettir/frett/2026/10/23/A-landslid-kvenna-15-leikmenn-valdir/",nat:"konur"},
+ {lvl:"U18",team:"U18 kvenna",name:"Berta María Þorkelsdóttir",note:"EuroBasket B-deild og NM · sumarið 2026",caps:7,capsLbl:"leikir á EM 2026",url:"https://www.kki.is/frettir/frett/2026/06/05/Lokahopar-yngri-landslida-sumarid-2026/"},
+ {lvl:"U18",team:"U18 karla",name:"Páll Gústaf Einarsson",note:"EuroBasket B-deild og NM · sumarið 2026 · spilar í Bandaríkjunum, skráður hjá Val hjá FIBA",caps:8,capsLbl:"leikir á EM 2026",url:"https://www.kki.is/frettir/frett/2026/07/23/U18-ara-landslid-karla-maett-a-EuroBasket-EM-i-Rijeka-og-Opatija-i-Kroatiu/"},
+ {lvl:"U16",team:"U16 drengja",name:"Atli Freyr Haraldsson Katrínarson",note:"EuroBasket B-deild (2. sæti) og NM · sumarið 2026",caps:8,capsLbl:"leikir á EM 2026",url:"https://www.kki.is/frettir/frett/2026/06/05/Lokahopar-yngri-landslida-sumarid-2026/"},
+ {lvl:"U16",team:"U16 stúlkna",name:"Rún Sveinbjarnardóttir",note:"EuroBasket B-deild · sumarið 2026 · spilar í Bandaríkjunum, skráð hjá Val hjá FIBA",caps:4,capsLbl:"leikir á EM 2026",url:"https://www.kki.is/frettir/frett/2026/08/05/U16-ara-landslid-kvenna-er-maett-a-EuroBasket-EM-i-Grikklandi/"},
+ {lvl:"U15",team:"U15 stúlkna",name:"Íris Lóa Hermannsdóttir",note:"Nordic Open (silfur) · sumarið 2026",url:"https://www.kki.is/frettir/frett/2026/06/05/Lokahopar-yngri-landslida-sumarid-2026/"}];
+function natValurRow(r){return `<a class="g" href="${r.url}" target="_blank" rel="noopener"><div class="tm">${r.lvl}</div>
+  <div class="mid"><div class="vs">${esc(r.name)}</div><div class="meta">${esc(r.team)} · ${esc(r.note)}</div></div>
+  <div class="res">${r.caps!=null?`<span class="caps">${r.caps}<small>${esc(r.capsLbl)}</small></span>`:""}</div></a>`}
 function renderNatValur(){
-  const a=NAT_VALUR.filter(r=>r[0]==="A"),y=NAT_VALUR.filter(r=>r[0]!=="A");
+  const a=NAT_VALUR.filter(r=>r.lvl==="A"),y=NAT_VALUR.filter(r=>r.lvl!=="A");
   return `<section class="teamhead"><h2>Valsarar í landsliðum</h2><div class="sub">${NAT_VALUR.length} leikmenn Vals í landsliðshópum Íslands 2026</div></section>
   <section class="day"><div class="dayhd">A-landslið</div>${a.map(natValurRow).join("")}</section>
   <section class="day"><div class="dayhd">Yngri landslið · sumarið 2026</div>${y.map(natValurRow).join("")}</section>
-  <div class="meta note">Úr landsliðshópum sem KKÍ hefur tilkynnt (fréttir á kki.is og karfan.is). Yngri landslið eru valin á vorin og félag miðast við þann tíma. Smelltu á leikmann til að sjá fréttina.</div>`}
+  <div class="meta note">Úr landsliðshópum KKÍ (fréttir á kki.is og karfan.is). Leikjafjöldi: A-landsleikir eftir karfan.is og KKÍ í nóvember 2026. Hjá yngri landsliðum eru taldir leikir á EM 2026 samkvæmt fiba.basketball, en ekki leikir á NM eða Nordic Open, því tölur um þá liggja ekki fyrir. Yngri landsleikir Þórönnu eru af leikjafjöldasíðu KKÍ. Smelltu á leikmann til að sjá fréttina.</div>`}
 const natState={sub:null};
 try{const v=localStorage.getItem("valur-landslid");if(v==="karlar"||v==="konur"||v==="valur")natState.sub=v}catch(e){}
 function natGames(k){
@@ -1069,7 +1072,7 @@ function renderLandslid(main){
   const k=natState.sub,I=NAT_INFO[k],list=natGames(k),played=list.filter(natDone).reverse(),up=list.filter(x=>!natDone(x));
   const S=played.filter(x=>natOutcome(x)==="S").length,T=played.filter(x=>natOutcome(x)==="T").length,n=up[0];
   const g=NAT[k].group,me=g&&g.rows.find(r=>r[1]==="ISL"),started=g&&g.rows.some(r=>r[2]!=="0/0");
-  const fromV=NAT_VALUR.filter(r=>r[5]===k).map(r=>`<b>${esc(r[2])}</b>`);
+  const fromV=NAT_VALUR.filter(r=>r.nat===k).map(r=>`<b>${esc(r.name)}</b> (${r.caps} ${r.capsLbl})`);
   let html=`${tabs}
   <section class="teamhead"><h2>${I.title}</h2><div class="sub">${I.comp} · ${I.grp}</div>
   <div class="sub">${played.length?`${played.length} leikir · ${S} sigrar, ${T} töp`:"Enginn leikur búinn"}${me&&started?` · ${me[0]}. sæti í riðli`:""}</div>
