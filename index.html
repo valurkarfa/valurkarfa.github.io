@@ -191,8 +191,8 @@ footer{color:var(--muted);font-size:12.5px}
 
 <div class="filters"><div class="wrap">
   <nav class="tabs" id="view" aria-label="Síður">
-    <a href="#leikir" data-v="leikir" aria-current="page">Leikir</a>
     <a href="#minn" data-v="minn">Minn Valur</a>
+    <a href="#leikir" data-v="leikir" aria-current="page">Leikir</a>
     <a href="#stada" data-v="stada">Staða</a>
     <a href="#reglur" data-v="reglur">Leikreglur</a>
     <a href="#landslid" data-v="landslid">Landslið</a>
@@ -915,12 +915,14 @@ function minnStandingLine(t){
   return '<span class="note">Engin stöðutafla</span>'}
 
 function renderMinn(main){
+  const names=minn.kids.map(k=>esc(k.name));
   let html=`<section class="teamhead"><h2>Minn Valur</h2>
-    <div class="sub">Skráðu iðkendur og flokkana þeirra og sjáðu bara leikina sem skipta þig máli.</div></section>`;
+    <div class="sub">${names.length?`Leikir og staða · ${names.length>1?names.slice(0,-1).join(", ")+" og "+names[names.length-1]:names[0]}`:"Skráðu iðkendur og flokkana þeirra og sjáðu bara leikina sem skipta þig máli."}</div></section>`;
   if(!minn.kids.length&&!minn.edit){minn.edit="new";minn.draft={name:"",teams:[],color:"red"};}
   if(minn.edit)html+=minnForm();
+  let kidsHtml="";
   if(minn.kids.length){
-    html+=`<div class="kidcards">${minn.kids.map(k=>{const ts=kidTeams(k);
+    kidsHtml=`<h2>Iðkendur · ${minn.kids.length}</h2><div class="kidcards">${minn.kids.map(k=>{const ts=kidTeams(k);
       return `<div class="card kidcard"><div class="kidtop"><span class="nm">${esc(k.name)}</span>${kidChip(k)}
         <span class="kidbtns">${minn.confirmDel===k.id?`<span class="note">Eyða ${esc(k.name)}?</span><button class="btn danger" data-act="del" data-id="${k.id}">Já, eyða</button><button class="btn" data-act="nodel">Hætta við</button>`
           :`<button class="btn" data-act="edit" data-id="${k.id}">Breyta</button><button class="btn" data-act="askdel" data-id="${k.id}">Eyða</button>`}</span></div>
@@ -942,7 +944,7 @@ function renderMinn(main){
   if(minn.sub==="stada"){
     html+=`<h2>Staða${one?` · ${esc(one.name)}`:""}</h2>`+minnStandings(shownKids,!one&&minn.kids.length>1)+
       `<div class="note">U/T = unnir/tapaðir leikir. Í fjölliðamótum sýnir taflan riðilinn í nýjustu umferð og hvert liðið færist í þeirri næstu (áætlað).</div>`;
-    main.innerHTML=html;bindMinn(main);return}
+    main.innerHTML=html+kidsHtml;bindMinn(main);return}
 
   // sameina leiki: game id -> {gm, side, kids}
   const byId=new Map(),rounds=new Map();
@@ -964,7 +966,7 @@ function renderMinn(main){
       buf+=x.mot?roundRow(x.mot,names):gameRow(x.gm,x.side,true,names)}
     html+=buf+"</div>";
     if(list.length>minn.limit)html+=`<button class="more" data-act="more">Sýna fleiri (${list.length-minn.limit} eftir)</button>`;}
-  html+=`<div class="note">Iðkendur eru aðeins vistaðir í þessum vafra og fara hvergi annað. Í öðru tæki þarf að skrá þá aftur.</div>`;
+  html+=kidsHtml+`<div class="note">Iðkendur eru aðeins vistaðir í þessum vafra og fara hvergi annað. Í öðru tæki þarf að skrá þá aftur.</div>`;
   main.innerHTML=html;bindMinn(main);
 }
 
@@ -1064,7 +1066,7 @@ function renderLandslid(main){
 
 function render(){
   const main=document.getElementById("main");let html="";
-  const view=location.hash==="#landslid"?"landslid":location.hash==="#reglur"?"reglur":location.hash==="#stada"?"stada":location.hash==="#minn"?"minn":"leikir";
+  const view=location.hash==="#landslid"?"landslid":location.hash==="#reglur"?"reglur":location.hash==="#stada"?"stada":(location.hash==="#minn"||(!location.hash&&minn.kids.length))?"minn":"leikir";
   document.getElementById("gamefilters").hidden=view!=="leikir";
   document.querySelectorAll("#view a").forEach(a=>{if(a.dataset.v===view)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
   if(view==="minn"){renderMinn(main);return}
