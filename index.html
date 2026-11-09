@@ -89,6 +89,9 @@ h2{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.12e
 .gf{display:flex;flex-direction:column;gap:8px}
 .tabs{display:flex;gap:18px;border-bottom:1px solid var(--line);margin-bottom:2px}
 .tabs a{font-family:var(--display);font-weight:700;font-size:17px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:4px 0 6px;border-bottom:3px solid transparent;margin-bottom:-1px}
+.tabs{overflow-x:auto;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tabs a{white-space:nowrap;flex:none}
+@media (max-width:440px){.tabs{gap:8px;justify-content:space-between}.tabs a{font-size:15.5px}}
+.natinfo{margin:0;line-height:1.5}.natinfo+h2{margin-top:4px}
 .tabs a[aria-current="page"]{color:var(--fg);border-bottom-color:var(--red)}
 .linkbtn{align-self:flex-start;font:inherit;font-weight:600;font-size:13.5px;color:var(--red-ink);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 .chips{display:flex;gap:6px;flex-wrap:wrap}
@@ -192,6 +195,7 @@ footer{color:var(--muted);font-size:12.5px}
     <a href="#minn" data-v="minn">Minn Valur</a>
     <a href="#stada" data-v="stada">Staða</a>
     <a href="#reglur" data-v="reglur">Leikreglur</a>
+    <a href="#landslid" data-v="landslid">Landslið</a>
   </nav>
   <div id="gamefilters" class="gf">
   <div class="row">
@@ -997,13 +1001,75 @@ function bindMinn(main){
   }));
 }
 
+// ===== Landslið (FIBA + kki.is) =====
+//<NAT>
+const NAT={"karlar":{"slug":"fiba-basketball-world-cup-2027-european-qualifiers","nGames":139,"games":[{"id":127028,"utc":"2025-11-27T19:00","a":"ITA","b":"ISL","sc":[76,81],"city":"Tortona","venue":"Palazzetto Dello Sport","post":false},{"id":127029,"utc":"2025-11-30T16:45","a":"ISL","b":"GBR","sc":[84,90],"city":"Reykjavik","venue":"Laugardalshöll","post":false},{"id":127031,"utc":"2026-02-27T19:30","a":"ISL","b":"LTU","sc":[86,85],"city":"Reykjavik","venue":"Laugardalshöll","post":false},{"id":127034,"utc":"2026-03-02T16:30","a":"LTU","b":"ISL","sc":[99,82],"city":"Klaipėda","venue":"Svyturio Arena","post":false},{"id":127036,"utc":"2026-07-02T19:45","a":"ISL","b":"ITA","sc":[83,102],"city":"Reykjavik","venue":"Laugardalshöll","post":false},{"id":127026,"utc":"2026-07-05T14:00","a":"GBR","b":"ISL","sc":[86,88],"city":"Manchester","venue":"National Basketball Performance Centre","post":false},{"id":127135,"utc":"2026-08-28T18:00","a":"SRB","b":"ISL","sc":[102,73],"city":"Belgrade","venue":"Belgrade Arena","post":false},{"id":127137,"utc":"2026-08-31T19:30","a":"ISL","b":"TUR","sc":[73,110],"city":"Reykjavik","venue":"Laugardalshöll","post":false},{"id":127142,"utc":"2026-11-26T19:30","a":"ISL","b":"BIH","sc":null,"city":"Reykjavik","venue":"Laugardalshöll","post":false},{"id":127150,"utc":"2026-11-29T16:00","a":"TUR","b":"ISL","sc":null,"city":"Istanbul","venue":"Turkcell Basketball Development Centre","post":false}],"group":{"name":"Group J","rows":[[1,"TUR","8/0",16,1],[2,"SRB","6/2",14,0],[3,"ITA","5/3",13,0],[4,"LTU","4/4",12,0],[5,"BIH","3/5",11,0],[6,"ISL","3/5",11,0]]}},"konur":{"slug":"fiba-womens-eurobasket-2029-pre-qualifiers","nGames":11,"games":[{"id":134244,"utc":"2026-11-11T19:00","a":"IRL","b":"ISL","sc":null,"city":"Dublin","venue":"National Basketball Arena","post":false},{"id":134245,"utc":"2026-11-14T16:00","a":"ISL","b":"SUI","sc":null,"city":"Hafnarfjordur","venue":"Ithrottamidstod Asvellir","post":false},{"id":134248,"utc":"2026-11-17T19:30","a":"ISL","b":"AZE","sc":null,"city":"Hafnarfjordur","venue":"Ithrottamidstod Asvellir","post":false}],"group":{"name":"Group A","rows":[[1,"SUI","0/0",0,0],[2,"IRL","0/0",0,0],[3,"ISL","0/0",0,0],[4,"AZE","0/0",0,0]]}}};
+//</NAT>
+// Leikir af kki.is sem FIBA hefur ekki birt enn: [dags., mótherji, heima(1/0), staður]. Hverfa sjálfkrafa þegar FIBA birtir leikinn.
+const NAT_KKI={karlar:[["2027-02-26","SRB",1,"Laugardalshöll"],["2027-03-01","BIH",0,"Bosníu"]],
+ konur:[["2027-02-10","IRL",1,"Ólafssal, Ásvöllum"],["2027-02-13","SUI",0,"Sviss"],["2027-02-16","AZE",0,"Bakú"]]};
+const NAT_INFO={
+ karlar:{title:"Karlalandsliðið",comp:"Undankeppni HM 2027",grp:"J-riðill · lokastig",
+  text:"Ísland komst áfram úr fyrra stigi undankeppninnar (með Ítalíu, Litháen og Bretlandi) með sigri á Bretum í Manchester. Á lokastiginu eru Bosnía, Serbía og Tyrkland nýir mótherjar, en úrslitin gegn Ítalíu og Litháen fylgja Íslandi áfram og þjóðirnar mætast ekki aftur. Þrjú efstu liðin komast á HM 2027 í Katar.",
+  kki:"https://kki.is/landslid/karlar/naestu-landsleikir-karla/"},
+ konur:{title:"Kvennalandsliðið",comp:"For-undankeppni EM 2029",grp:"A-riðill",
+  text:"Leikið heima og heiman gegn Írlandi, Sviss og Aserbaídsjan í tveimur gluggum, nóvember 2026 og febrúar 2027, alls 6 leikir. Góður árangur fleytir Íslandi áfram á næsta stig undankeppni EuroBasket kvenna 2029.",
+  kki:"https://kki.is/landslid/konur/naestu-landsleikir-kvenna/"}};
+const NAT_NAME={ISL:"Ísland",ITA:"Ítalía",GBR:"Bretland",LTU:"Litháen",SRB:"Serbía",TUR:"Tyrkland",BIH:"Bosnía",IRL:"Írland",SUI:"Sviss",AZE:"Aserbaídsjan"};
+const NAT_PLACE={"Reykjavik":"Reykjavík","Hafnarfjordur":"Hafnarfjörður","Belgrade":"Belgrad","Istanbul":"Istanbúl","Ithrottamidstod Asvellir":"Ólafssalur, Ásvöllum"};
+const natPlace=s=>NAT_PLACE[s]||s;
+const natState={sub:null};
+try{const v=localStorage.getItem("valur-landslid");if(v==="karlar"||v==="konur")natState.sub=v}catch(e){}
+function natGames(k){
+  const n=NAT[k],fiba=n.games.map(g=>{const home=g.a==="ISL";const c=natPlace(g.city),v=natPlace(g.venue);
+    return{dt:new Date(g.utc+":00Z"),opp:home?g.b:g.a,home,sc:g.sc,post:g.post,
+      where:/Reykjav|Hafnarfj/.test(c)?v:`${v}, ${c}`,url:`https://www.fiba.basketball/en/events/${n.slug}/games/${g.id}-${g.a}-${g.b}`}});
+  const extra=(NAT_KKI[k]||[]).filter(([d,o])=>!fiba.some(f=>f.opp===o&&Math.abs(f.dt-new Date(d+"T12:00:00Z"))<4*864e5))
+    .map(([d,o,h,p])=>({dt:new Date(d+"T12:00:00Z"),notime:1,opp:o,home:!!h,sc:null,where:p,url:NAT_INFO[k].kki}));
+  return fiba.concat(extra).sort((a,b)=>a.dt-b.dt)}
+const natDone=x=>!!x.sc||x.dt<new Date(now-(x.notime?36:3)*36e5);
+const natOutcome=x=>{if(!x.sc)return null;const us=x.home?x.sc[0]:x.sc[1],them=x.home?x.sc[1]:x.sc[0];return us>them?"S":"T"};
+function natRow(x){
+  const nm=c=>c==="ISL"?'<span class="us">Ísland</span>':esc(NAT_NAME[c]||c);
+  const [A,B]=x.home?["ISL",x.opp]:[x.opp,"ISL"],o=natOutcome(x);
+  const res=x.sc?`${x.sc[0]}:${x.sc[1]}<span class="pill ${o}">${o==="S"?"Sigur":"Tap"}</span>`:x.post?'<span class="meta">Frestað</span>':natDone(x)?'<span class="meta">Úrslit vantar</span>':"";
+  return `<a class="g" href="${x.url}" target="_blank" rel="noopener"><div class="tm">${x.notime?"–":fmtTime(x.dt)}</div>
+    <div class="mid"><div class="vs">${nm(A)} – ${nm(B)}</div><div class="meta">${esc(x.where)}${x.home?' · <span class="home">HEIMA</span>':""}${x.notime?" · tími óstaðfestur":""}</div></div>
+    <div class="res">${res}</div></a>`}
+function natDays(list){let html="",cur="",buf="";
+  for(const x of list){const k=fmtDay(x.dt);if(k!==cur){if(buf)html+=buf+"</div>";cur=k;buf=`<div class="day"><div class="dayhd">${k}</div>`}buf+=natRow(x)}
+  return buf?html+buf+"</div>":html}
+function natTable(k){const g=NAT[k].group;if(!g)return '<div class="empty">Staða riðilsins fékkst ekki frá FIBA.</div>';const go=g.rows.some(r=>r[2]!=="0/0");
+  return `<div class="tblwrap"><table class="rules stand"><thead><tr><th scope="col">Nr.</th><th scope="col">Lið</th><th scope="col" class="num">U/T</th><th scope="col" class="num">Stig</th></tr></thead>
+  <tbody>${g.rows.map(r=>`<tr${r[1]==="ISL"?' class="me"':""}><td><span class="pos${go?medal(r[0]):""}">${r[0]}.</span></td><th scope="row">${esc(NAT_NAME[r[1]]||r[1])}${r[4]?' <span class="tag fjol">Komið á HM</span>':""}</th><td class="num">${r[2]}</td><td class="num"><b>${r[3]}</b></td></tr>`).join("")}</tbody></table></div>`}
+function renderLandslid(main){
+  const nextOf=k=>natGames(k).find(x=>!natDone(x));
+  if(!natState.sub){const a=nextOf("karlar"),b=nextOf("konur");natState.sub=!a||(b&&b.dt<a.dt)?"konur":"karlar"}
+  const k=natState.sub,I=NAT_INFO[k],list=natGames(k),played=list.filter(natDone).reverse(),up=list.filter(x=>!natDone(x));
+  const S=played.filter(x=>natOutcome(x)==="S").length,T=played.filter(x=>natOutcome(x)==="T").length,n=up[0];
+  const g=NAT[k].group,me=g&&g.rows.find(r=>r[1]==="ISL"),started=g&&g.rows.some(r=>r[2]!=="0/0");
+  let html=`<nav class="subtabs" aria-label="Landslið">${[["karlar","Karlar"],["konur","Konur"]].map(([v,l])=>`<button data-nat="${v}" aria-current="${k===v?"page":"false"}">${l}</button>`).join("")}</nav>
+  <section class="teamhead"><h2>${I.title}</h2><div class="sub">${I.comp} · ${I.grp}</div>
+  <div class="sub">${played.length?`${played.length} leikir · ${S} sigrar, ${T} töp`:"Enginn leikur búinn"}${me&&started?` · ${me[0]}. sæti í riðli`:""}</div>
+  ${n?`<div class="sub">Næsti leikur: ${fmtShort(n.dt)}${n.notime?"":` kl. ${fmtTime(n.dt)}`} – ${esc(n.home?NAT_NAME[n.opp]+" (heima)":NAT_NAME[n.opp]+" (úti)")}</div>`:""}</section>
+  <p class="note natinfo">${I.text}</p>
+  <h2>Framundan · ${up.length}</h2>${up.length?natDays(up):'<div class="empty">Engir leikir á dagskrá.</div>'}
+  <section class="day"><div class="dayhd">Staða · ${I.grp}</div>${natTable(k)}
+  <div class="meta note">${k==="karlar"?"Þrjú efstu liðin komast á HM 2027 í Katar. Úrslit fyrra stigs gegn liðum sem komust áfram telja með.":started?"Tvö stig fyrir sigur, eitt fyrir tap.":"Enginn leikur búinn í riðlinum. Staðan uppfærist eftir fyrstu leikina."}</div></section>
+  <h2>Úrslit · ${played.length}</h2>${played.length?natDays(played):'<div class="empty">Engin úrslit enn.</div>'}
+  <div class="meta note">Úrslit og staða af fiba.basketball, leikir og leikstaðir líka af <a href="${I.kki}" target="_blank" rel="noopener">kki.is</a> · sótt 9. nóvember 2026. Miðasala á heimaleiki fer fram á Stubb.is og í Stubb-appinu.</div>`;
+  main.innerHTML=html;
+  main.querySelectorAll("[data-nat]").forEach(b=>b.addEventListener("click",()=>{natState.sub=b.dataset.nat;try{localStorage.setItem("valur-landslid",natState.sub)}catch(e){}render()}));
+}
+
 function render(){
   const main=document.getElementById("main");let html="";
-  const view=location.hash==="#reglur"?"reglur":location.hash==="#stada"?"stada":location.hash==="#minn"?"minn":"leikir";
+  const view=location.hash==="#landslid"?"landslid":location.hash==="#reglur"?"reglur":location.hash==="#stada"?"stada":location.hash==="#minn"?"minn":"leikir";
   document.getElementById("gamefilters").hidden=view!=="leikir";
   document.querySelectorAll("#view a").forEach(a=>{if(a.dataset.v===view)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
   if(view==="minn"){renderMinn(main);return}
   if(view==="reglur"){renderRules(main);return}
+  if(view==="landslid"){renderLandslid(main);return}
   if(view==="stada"){renderStandings(main);return}
   const team=state.team==="all"?null:teams.get(state.team);
   let list=(team?team.games.map(x=>({gm:x.gm,side:x.side})):games.map(gm=>({gm,side:gm.sides[0]?.side})));
