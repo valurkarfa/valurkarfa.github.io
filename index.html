@@ -1020,9 +1020,9 @@ const NAT_INFO={
 const NAT_NAME={ISL:"Ísland",ITA:"Ítalía",GBR:"Bretland",LTU:"Litháen",SRB:"Serbía",TUR:"Tyrkland",BIH:"Bosnía",IRL:"Írland",SUI:"Sviss",AZE:"Aserbaídsjan"};
 const NAT_PLACE={"Reykjavik":"Reykjavík","Hafnarfjordur":"Hafnarfjörður","Belgrade":"Belgrad","Istanbul":"Istanbúl","Ithrottamidstod Asvellir":"Ólafssalur, Ásvöllum"};
 const natPlace=s=>NAT_PLACE[s]||s;
-// Valsarar í landsliðshópum (handvirkt af kki.is): [stig, landslið, leikmaður, skýring, heimild]. Uppfæra þegar nýir hópar eru tilkynntir.
+// Valsarar í landsliðshópum (handvirkt af kki.is og karfan.is): [stig, landslið, leikmaður, skýring, heimild]. Uppfæra þegar nýir hópar eru tilkynntir.
 const NAT_VALUR=[
- ["A","A-landslið karla","Kári Jónsson","Undankeppni HM 2027 · hópurinn gegn Serbíu og Tyrklandi, ágúst 2026","https://www.kki.is/frettir/frett/2026/08/28/A-landslid-karla-maetir-Serbiu-i-kvold/","karlar"],
+ ["A","A-landslið karla","Kári Jónsson","Undankeppni HM 2027 · 15 manna hópur fyrir nóvember 2026 · 50 landsleikir","https://www.karfan.is/15-manna-hopur-a-landslids-karla-valinn-fyrir-novembergluggann-bosnia-i-hollinni-og-utileikur-i-istanbul-framundan/","karlar"],
  ["A","A-landslið kvenna","Þóranna Kika Hodge-Carr","For-undankeppni EM 2029 · 15 manna hópur fyrir nóvember 2026 · 11 landsleikir","https://www.kki.is/frettir/frett/2026/10/23/A-landslid-kvenna-15-leikmenn-valdir/","konur"],
  ["U20","U20 kvenna","Hanna Gróa Halldórsdóttir","EuroBasket A-deild · sumarið 2026","https://www.kki.is/frettir/frett/2026/06/05/Lokahopar-yngri-landslida-sumarid-2026/"],
  ["U18","U18 kvenna","Berta María Þorkelsdóttir","EuroBasket B-deild og NM · sumarið 2026","https://www.kki.is/frettir/frett/2026/06/05/Lokahopar-yngri-landslida-sumarid-2026/"],
@@ -1035,7 +1035,7 @@ function renderNatValur(){
   return `<section class="teamhead"><h2>Valsarar í landsliðum</h2><div class="sub">${NAT_VALUR.length} leikmenn Vals í landsliðshópum Íslands 2026</div></section>
   <section class="day"><div class="dayhd">A-landslið</div>${a.map(natValurRow).join("")}</section>
   <section class="day"><div class="dayhd">Yngri landslið · sumarið 2026</div>${y.map(natValurRow).join("")}</section>
-  <div class="meta note">Úr landsliðshópum sem KKÍ hefur tilkynnt. Yngri landslið eru valin á vorin og félag miðast við þann tíma. Hópur karla fyrir leikina í nóvember hefur ekki verið tilkynntur. Smelltu á leikmann til að sjá frétt KKÍ.</div>`}
+  <div class="meta note">Úr landsliðshópum sem KKÍ hefur tilkynnt (fréttir á kki.is og karfan.is). Yngri landslið eru valin á vorin og félag miðast við þann tíma. Smelltu á leikmann til að sjá fréttina.</div>`}
 const natState={sub:null};
 try{const v=localStorage.getItem("valur-landslid");if(v==="karlar"||v==="konur"||v==="valur")natState.sub=v}catch(e){}
 function natGames(k){
