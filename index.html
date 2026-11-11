@@ -7,8 +7,20 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
 <meta name="apple-mobile-web-app-title" content="Valur karfa">
 <meta name="theme-color" content="#c8102e">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Valur körfubolti">
+<meta property="og:title" content="Leikir Vals 2026–27">
+<meta property="og:description" content="Leikir, úrslit og staða allra liða Vals í körfubolta – og Minn Valur, þar sem þú sérð næstu leiki barnsins þíns.">
+<meta property="og:url" content="https://valurkarfa.github.io/">
+<meta property="og:image" content="https://valurkarfa.github.io/share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Valur körfubolti – leikir, úrslit og staða 2026–27">
+<meta property="og:locale" content="is_IS">
+<meta name="twitter:card" content="summary_large_image">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Valur körfubolti 2026–27</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -53,12 +65,6 @@ select{background:var(--surface);border:1px solid var(--line);border-radius:8px;
 .seg button[aria-pressed="true"]{background:var(--red);color:var(--on-red)}
 button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--red-ink);outline-offset:2px}
 main .wrap{padding-block:14px 48px;display:flex;flex-direction:column;gap:22px}
-.teams{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
-.tcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;text-align:left;cursor:pointer;font:inherit;color:inherit;display:flex;flex-direction:column;gap:2px;min-width:0}
-.tcard:hover{border-color:var(--red)}
-.tcard .nm{font-family:var(--display);font-weight:700;font-size:18px;line-height:1.1}
-.tcard .rec{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
-.tcard .nx{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 h2{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
 .teamhead{display:flex;flex-direction:column;gap:4px}
 .teamhead h2{font-size:28px;letter-spacing:.01em;color:var(--fg);text-transform:none}
@@ -126,7 +132,6 @@ table.rules.stand.summary{min-width:0}
 .pos{font-family:var(--display);font-weight:800;font-size:16px}
 .pos{color:var(--fg)}.pos.p1{color:var(--gold)}.pos.p2{color:var(--silver)}.pos.p3{color:var(--bronze)}
 .of{color:var(--muted);font-size:12.5px}
-.tcard .rec .pos{font-size:14px}
 [id^="s-"],[id^="m-"]{scroll-margin-top:120px}
 .mv{font-size:12px;font-weight:700;white-space:nowrap}
 .mv.up{color:var(--win)}.mv.down{color:var(--loss)}.mv.stay{color:var(--muted)}
@@ -178,7 +183,7 @@ ul.keys{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px;m
 .more{align-self:center;font:inherit;font-weight:600;background:none;border:1px solid var(--line);border-radius:8px;padding:8px 14px;color:var(--fg);cursor:pointer}
 footer{color:var(--muted);font-size:12.5px}
 @media (max-width:420px){.g{grid-template-columns:44px minmax(0,1fr) auto;padding:8px 10px}.g .tm{font-size:17px}.g .res{font-size:18px}}
-@media (prefers-reduced-motion:no-preference){.g,.tcard{transition:border-color .15s}}
+@media (prefers-reduced-motion:no-preference){.g{transition:border-color .15s}}
 </style>
 
 </head>
@@ -633,7 +638,7 @@ const STAND={"BK":[["Deildarkeppni",["1|KR|5|5|0|10|492/423|69|5/0","2|Valur|5|5
 // Minnibolti: riðlastaða eftir 1. umferð af kki.is (Stada?league_id=34045/34047/244/245), sótt 9. nóvember 2026.
 // levels = fjöldi riðla á hverju styrkleikastigi. Röð: sæti|lið|leikir|unnir|töp|stig|skor|+/-
 //<MB>
-const MB={"MB10d":{"umferd":1,"levels":{"A":1,"B":2,"C":4,"D":2},"t":[["A",["1|Stjarnan|5|5|0|10|203/60|143","2|Haukar|5|3|2|6|155/108|47","3|Keflavík|5|3|2|6|133/115|18","4|Höttur|5|3|2|6|121/162|-41","5|Selfoss|5|1|4|2|127/163|-36","6|Njarðvík|5|0|5|0|83/214|-131"]],["B2",["1|Tindastóll|4|4|0|8|138/77|61","2|Breiðablik|4|3|1|6|160/94|66","3|ÍA|4|1|3|2|130/143|-13","4|KR|4|1|3|2|102/129|-27","5|Valur|4|1|3|2|75/162|-87"]],["C4",["1|Njarðvík b|4|4|0|8|123/90|33","2|Álftanes|4|2|2|4|101/96|5","3|Valur b|4|2|2|4|89/76|13","4|Stjarnan|0|0|0|0|0/0|0","5|Keflavík c|4|0|4|0|67/118|-51"]]]},"MB10s":{"umferd":1,"levels":{"A":1,"B":1,"C":2,"D":2},"t":[["A",["1|Stjarnan|5|5|0|10|145/62|83","2|Haukar|5|4|1|8|126/59|67","3|Aþena|5|3|2|6|114/110|4","4|Njarðvík|5|2|3|4|84/117|-33","5|Valur|5|1|4|2|83/120|-37","6|Breiðablik|5|0|5|0|36/120|-84"]],["C2",["1|Þór Ak.|4|4|0|8|109/36|73","2|Stjarnan c|4|3|1|6|74/75|-1","3|Valur b|4|1|3|2|66/84|-18","4|Álftanes|4|1|3|2|40/62|-22","5|Aþena b|4|1|3|2|68/100|-32"]]]},"MB11d":{"umferd":1,"levels":{"A":1,"B":2,"C":4,"D":4},"t":[["A",["1|Stjarnan|5|5|0|10|153/127|26","2|Höttur|5|4|1|8|156/124|32","3|Haukar|5|2|3|4|141/127|14","4|Keflavík|5|2|3|4|118/133|-15","5|Selfoss|5|2|3|4|96/131|-35","6|Njarðvík|5|0|5|0|118/140|-22"]],["D1",["1|Snæfell|4|3|1|6|136/86|50","2|Valur|4|3|1|6|128/106|22","3|Selfoss b|4|2|2|4|85/97|-12","4|Ármann b|4|0|4|0|63/123|-60"]],["D4",["1|Álftanes|4|4|0|8|133/97|36","2|ÍA b|4|3|1|6|148/97|51","3|Valur b|4|1|3|2|101/106|-5","4|Haukar d|4|1|3|2|89/119|-30","5|Fjölnir d|4|1|3|2|77/129|-52"]]]},"MB11s":{"umferd":1,"levels":{"A":1,"B":1,"C":2,"D":2},"t":[["A",["1|Stjarnan|5|5|0|10|166/76|90","2|Valur|5|4|1|8|139/114|25","3|Aþena|5|3|2|6|118/123|-5","4|Haukar|5|2|3|4|79/110|-31","5|Njarðvík|5|1|4|2|93/118|-25","6|Breiðablik|5|0|5|0|69/123|-54"]],["C2",["1|Valur b|4|4|0|8|123/80|43","2|KR|4|3|1|6|82/49|33","3|Aþena c|4|2|2|4|89/63|26","4|Breiðablik b|4|1|3|2|51/97|-46","5|Ármann|4|0|4|0|41/97|-56"]],["D1",["1|Stjarnan c|4|4|0|8|106/36|70","2|Hamar|4|3|1|6|96/56|40","3|Aþena b|4|2|2|4|74/66|8","4|Valur d|4|1|3|2|46/84|-38","5|Selfoss b|4|0|4|0|0/80|-80"]],["D2",["1|KR c|4|4|0|8|75/45|30","2|Haukar b|4|2|2|4|99/73|26","3|Breiðablik c|4|2|2|4|76/71|5","4|Valur c|4|2|2|4|73/75|-2","5|Stjarnan d|4|0|4|0|49/108|-59"]]]},"7d":{"umferd":1,"levels":{"A":1,"B":1,"C":2,"D":2,"E":1},"t":[["A",["1|KR|4|4|0|8|243/134|109","2|Njarðvík|4|2|2|4|221/164|57","3|Sindri|4|2|2|4|160/206|-46","4|Álftanes|4|2|2|4|179/201|-22","5|Stjarnan|4|0|4|0|127/225|-98"]],["B",["1|Valur|4|3|1|6|185/183|2","2|Fjölnir|4|3|1|6|255/171|84","3|Haukar|4|2|2|4|158/190|-32","4|Ármann|4|2|2|4|182/180|2","5|Selfoss|4|0|4|0|135/191|-56"]],["D1",["1|ÍR b|4|4|0|8|181/118|63","2|Fylkir|4|2|2|4|147/143|4","3|Valur b|4|2|2|4|157/167|-10","4|Keflavík d|4|2|2|4|170/209|-39","5|Ármann b|4|0|4|0|138/156|-18"]]]},"7s":{"umferd":1,"levels":{"A":1,"B":1,"C":2,"D":1},"t":[["A",["1|Haukar|4|4|0|8|290/104|186","2|Stjarnan|4|3|1|6|183/165|18","3|Valur|4|2|2|4|116/169|-53","4|Aþena|4|1|3|2|139/213|-74","5|Álftanes|4|0|4|0|102/179|-77"]]]},"8d":{"umferd":2,"levels":{"A":1,"B":1,"C":2,"D":2,"E":2},"t":[["A",["1|Þór Ak.|0|0|0|0|0/0|0","1|Stjarnan|0|0|0|0|0/0|0","1|Keflavík|0|0|0|0|0/0|0","1|Breiðablik|0|0|0|0|0/0|0","1|KR|0|0|0|0|0/0|0"]],["C1",["1|Stjarnan b|0|0|0|0|0/0|0","1|Skallagrímur|0|0|0|0|0/0|0","1|Ármann|0|0|0|0|0/0|0","1|Valur|0|0|0|0|0/0|0","1|Keflavík b|0|0|0|0|0/0|0"]],["D1",["1|Haukar|0|0|0|0|0/0|0","1|Höttur b|0|0|0|0|0/0|0","1|Afturelding|0|0|0|0|0/0|0","1|Valur b|0|0|0|0|0/0|0","1|Álftanes|0|0|0|0|0/0|0"]]]},"8s":{"umferd":2,"levels":{"A":1,"B":1,"C":1},"t":[["A",["1|Stjarnan|0|0|0|0|0/0|0","1|Haukar|0|0|0|0|0/0|0","1|Tindastóll|0|0|0|0|0/0|0","1|KR|0|0|0|0|0/0|0","1|Njarðvík|0|0|0|0|0/0|0"]],["B",["1|ÍR|0|0|0|0|0/0|0","1|Ármann|0|0|0|0|0/0|0","1|Valur|0|0|0|0|0/0|0","1|Keflavík|0|0|0|0|0/0|0","1|Aþena|0|0|0|0|0/0|0","1|Höttur|0|0|0|0|0/0|0"]]]}};
+const MB={"MB10d":{"umferd":1,"levels":{"A":1,"B":2,"C":4,"D":2},"t":[["A",["1|Stjarnan|5|5|0|10|203/60|143","2|Haukar|5|3|2|6|155/108|47","3|Keflavík|5|3|2|6|133/115|18","4|Höttur|5|3|2|6|121/162|-41","5|Selfoss|5|1|4|2|127/163|-36","6|Njarðvík|5|0|5|0|83/214|-131"]],["B2",["1|Tindastóll|4|4|0|8|138/77|61","2|Breiðablik|4|3|1|6|160/94|66","3|ÍA|4|1|3|2|130/143|-13","4|KR|4|1|3|2|102/129|-27","5|Valur|4|1|3|2|75/162|-87"]],["C4",["1|Njarðvík b|4|4|0|8|123/90|33","2|Álftanes|4|2|2|4|101/96|5","3|Valur b|4|2|2|4|89/76|13","4|Stjarnan|0|0|0|0|0/0|0","5|Keflavík c|4|0|4|0|67/118|-51"]]]},"MB10s":{"umferd":1,"levels":{"A":1,"B":1,"C":2,"D":2},"t":[["A",["1|Stjarnan|5|5|0|10|145/62|83","2|Haukar|5|4|1|8|126/59|67","3|Aþena|5|3|2|6|114/110|4","4|Njarðvík|5|2|3|4|84/117|-33","5|Valur|5|1|4|2|83/120|-37","6|Breiðablik|5|0|5|0|36/120|-84"]],["C2",["1|Þór Ak.|4|4|0|8|109/36|73","2|Stjarnan c|4|3|1|6|74/75|-1","3|Valur b|4|1|3|2|66/84|-18","4|Álftanes|4|1|3|2|40/62|-22","5|Aþena b|4|1|3|2|68/100|-32"]]]},"MB11d":{"umferd":1,"levels":{"A":1,"B":2,"C":4,"D":4},"t":[["A",["1|Stjarnan|5|5|0|10|153/127|26","2|Höttur|5|4|1|8|156/124|32","3|Haukar|5|2|3|4|141/127|14","4|Keflavík|5|2|3|4|118/133|-15","5|Selfoss|5|2|3|4|96/131|-35","6|Njarðvík|5|0|5|0|118/140|-22"]],["D1",["1|Snæfell|4|3|1|6|136/86|50","2|Valur|4|3|1|6|128/106|22","3|Selfoss b|4|2|2|4|85/97|-12","4|Ármann b|4|0|4|0|63/123|-60"]],["D4",["1|Álftanes|4|4|0|8|133/97|36","2|ÍA b|4|3|1|6|148/97|51","3|Valur b|4|1|3|2|101/106|-5","4|Haukar d|4|1|3|2|89/119|-30","5|Fjölnir d|4|1|3|2|77/129|-52"]]]},"MB11s":{"umferd":1,"levels":{"A":1,"B":1,"C":2,"D":2},"t":[["A",["1|Stjarnan|5|5|0|10|166/76|90","2|Valur|5|4|1|8|139/114|25","3|Aþena|5|3|2|6|118/123|-5","4|Haukar|5|2|3|4|79/110|-31","5|Njarðvík|5|1|4|2|93/118|-25","6|Breiðablik|5|0|5|0|69/123|-54"]],["C2",["1|Valur b|4|4|0|8|123/80|43","2|KR|4|3|1|6|82/49|33","3|Aþena c|4|2|2|4|89/63|26","4|Breiðablik b|4|1|3|2|51/97|-46","5|Ármann|4|0|4|0|41/97|-56"]],["D1",["1|Stjarnan c|4|4|0|8|106/36|70","2|Hamar|4|3|1|6|96/56|40","3|Aþena b|4|2|2|4|74/66|8","4|Valur d|4|1|3|2|46/84|-38","5|Selfoss b|4|0|4|0|0/80|-80"]],["D2",["1|KR c|4|4|0|8|75/45|30","2|Haukar b|4|2|2|4|99/73|26","3|Breiðablik c|4|2|2|4|76/71|5","4|Valur c|4|2|2|4|73/75|-2","5|Stjarnan d|4|0|4|0|49/108|-59"]]]},"7d":{"umferd":1,"levels":{"A":1,"B":1,"C":2,"D":2,"E":1},"t":[["A",["1|KR|4|4|0|8|243/134|109","2|Njarðvík|4|2|2|4|221/164|57","3|Sindri|4|2|2|4|160/206|-46","4|Álftanes|4|2|2|4|179/201|-22","5|Stjarnan|4|0|4|0|127/225|-98"]],["B",["1|Valur|4|3|1|6|185/183|2","2|Fjölnir|4|3|1|6|255/171|84","3|Haukar|4|2|2|4|158/190|-32","4|Ármann|4|2|2|4|182/180|2","5|Selfoss|4|0|4|0|135/191|-56"]],["D1",["1|ÍR b|4|4|0|8|181/118|63","2|Fylkir|4|2|2|4|147/143|4","3|Valur b|4|2|2|4|157/167|-10","4|Keflavík d|4|2|2|4|170/209|-39","5|Ármann b|4|0|4|0|138/156|-18"]]]},"7s":{"umferd":1,"levels":{"A":1,"B":1,"C":2,"D":1},"t":[["A",["1|Haukar|4|4|0|8|290/104|186","2|Stjarnan|4|3|1|6|183/165|18","3|Valur|4|2|2|4|116/169|-53","4|Aþena|4|1|3|2|139/213|-74","5|Álftanes|4|0|4|0|102/179|-77"]]]},"8d":{"umferd":1,"levels":{"A":1,"B":1,"C":2,"D":2},"t":[["A",["1|KR|4|4|0|8|296/173|123","2|Stjarnan|4|3|1|6|229/226|3","3|Breiðablik|4|2|2|4|229/222|7","4|Keflavík|4|1|3|2|220/271|-51","5|Sindri|4|0|4|0|200/282|-82"]],["C1",["1|Selfoss|4|3|1|6|210/186|24","2|Valur|4|3|1|6|265/149|116","3|ÍR|4|2|2|4|202/220|-18","4|Skallagrímur|4|1|3|2|181/249|-68","5|Haukar|4|1|3|2|176/230|-54"]],["D2",["1|Fjölnir b|4|4|0|8|249/155|94","2|Breiðablik b|4|1|3|2|227/219|8","3|Valur b|4|1|3|2|154/256|-102"]]],"next":{"umferd":2,"levels":{"A":1,"B":1,"C":2,"D":2,"E":2},"t":[["C1",["1|Stjarnan b|0|0|0|0|0/0|0","1|Skallagrímur|0|0|0|0|0/0|0","1|Ármann|0|0|0|0|0/0|0","1|Valur|0|0|0|0|0/0|0","1|Keflavík b|0|0|0|0|0/0|0"]],["D1",["1|Haukar|0|0|0|0|0/0|0","1|Höttur b|0|0|0|0|0/0|0","1|Afturelding|0|0|0|0|0/0|0","1|Valur b|0|0|0|0|0/0|0","1|Álftanes|0|0|0|0|0/0|0"]]]}},"8s":{"umferd":1,"levels":{"A":1,"B":1,"C":1},"t":[["A",["1|Njarðvík|4|4|0|8|285/116|169","2|Tindastóll|4|3|1|6|199/195|4","3|Stjarnan|4|2|2|4|155/178|-23","4|Haukar|4|1|3|2|186/239|-53","5|Aþena|4|0|4|0|142/239|-97"]],["B",["1|KR|4|4|0|8|235/114|121","2|Valur|4|2|2|4|126/92|34","3|Keflavík|4|2|2|4|180/132|48","4|Ármann|4|2|2|4|136/144|-8","5|Njarðvík b|4|0|4|0|87/282|-195"]],["C",["1|ÍR|4|4|0|8|241/123|118","2|Höttur|4|3|1|6|189/137|52","3|KR b|4|2|2|4|158/156|2","4|Breiðablik|4|1|3|2|147/168|-21","5|Valur b|4|0|4|0|77/228|-151"]]],"next":{"umferd":2,"levels":{"A":1,"B":1,"C":1},"t":[["B",["1|ÍR|0|0|0|0|0/0|0","1|Ármann|0|0|0|0|0/0|0","1|Valur|0|0|0|0|0/0|0","1|Keflavík|0|0|0|0|0/0|0","1|Aþena|0|0|0|0|0/0|0","1|Höttur|0|0|0|0|0/0|0"]]]}}};
 //</MB>
 const TITLE_ROUNDS={MB10d:"3. og 4. umferð",MB10s:"3. og 4. umferð",MB11d:"3., 4. og 5. umferð",MB11s:"3., 4. og 5. umferð"};
 const NEXT_LEVEL={A:"B",B:"C",C:"D",D:"E",E:null};
@@ -643,13 +648,19 @@ function moveOf(g,riðill,i,n){const lv=riðill[0];const L=MB[g].levels;
   if(i===n-1&&NEXT_LEVEL[lv]&&L[NEXT_LEVEL[lv]])return "down";
   return "stay"}
 const MOVE_TXT={up:"↑ Upp",stay:"= Helst",down:"↓ Niður"};
+const mbPlayed=rs=>rs.some(x=>+x[2]>0); // riðill sem enginn leikur hefur verið spilaður í
 function mbStandingOf(t){const m=MB[t.g];if(!m)return null;const nm=t.letter?"Valur "+t.letter:"Valur";
-  for(const [r,rows] of m.t){const rs=rows.map(x=>x.split("|"));const i=rs.findIndex(x=>x[1]===nm);if(i>=0)return{g:t.g,riðill:r,rows:rs,i,move:moveOf(t.g,r,i,rs.length)}}return null}
+  for(const [r,rows] of m.t){const rs=rows.map(x=>x.split("|"));const i=rs.findIndex(x=>x[1]===nm);if(i>=0){const pl=mbPlayed(rs);return{g:t.g,riðill:r,rows:rs,i,played:pl,move:pl?moveOf(t.g,r,i,rs.length):null}}}return null}
+// Riðill liðs í næstu umferð, ef KKÍ hefur raðað í hana: {n, riðill, opp:[mótherjar], round}
+function mbNextOf(t){const nx=MB[t.g]&&MB[t.g].next;if(!nx)return null;const nm=t.letter?"Valur "+t.letter:"Valur";
+  for(const [r,rows] of nx.t){const names=rows.map(x=>x.split("|")[1]);if(names.includes(nm))return{n:nx.umferd,riðill:r,opp:names.filter(x=>x!==nm),round:roundsOf(t.g).find(x=>x.n===nx.umferd)}}return null}
+const mbNextLine=t=>{const x=mbNextOf(t);if(!x)return"";return `Í ${x.n}. umferð${x.round?` (${fmtRange(x.round)}, ${esc(x.round.host)})`:""}: ${riðillName(x.riðill)} · mótherjar: ${x.opp.map(esc).join(", ")}`};
+const mbPos=s=>s.played?`<span class="pos${medal(s.rows[s.i][0])}">${s.rows[s.i][0]}.</span> sæti`:"ekki hafin";
 const riðillName=r=>r==="A"?"A-riðill":r[0]+"-riðill"+(r.length>1?" "+r.slice(1):"");
-function mbTable(g,r,rs,hl){const isA=r==="A"&&/^MB/.test(g);
+function mbTable(g,r,rs){const isA=r==="A"&&/^MB/.test(g),pl=mbPlayed(rs);
   return `<div class="tblwrap"><table class="rules stand"><thead><tr><th scope="col">Nr.</th><th scope="col">Lið</th><th scope="col" class="num">U/T</th><th scope="col" class="num">Stig</th><th scope="col" class="num">Skor</th><th scope="col" class="num">${isA?"Titilstig*":"Næsta umf.**"}</th></tr></thead>
   <tbody>${rs.map((x,i)=>{const mv=moveOf(g,r,i,rs.length);const me=/^Valur( [b-e])?$/.test(x[1]);
-    return `<tr${me?' class="me"':""}><td>${x[0]}.</td><th scope="row">${esc(x[1])}</th><td class="num">${x[3]}/${x[4]}</td><td class="num"><b>${x[5]}</b></td><td class="num">${x[6]}</td><td class="num">${isA?(i<5?5-i:0)+(mv==="down"?' <span class="mv down">↓</span>':""):`<span class="mv ${mv}">${MOVE_TXT[mv]}</span>`}</td></tr>`}).join("")}</tbody></table></div>`}
+    return `<tr${me?' class="me"':""}><td>${pl?x[0]+".":"–"}</td><th scope="row">${esc(x[1])}</th><td class="num">${x[3]}/${x[4]}</td><td class="num"><b>${x[5]}</b></td><td class="num">${x[6]}</td><td class="num">${!pl?"–":isA?(i<5?5-i:0)+(mv==="down"?' <span class="mv down">↓</span>':""):`<span class="mv ${mv}">${MOVE_TXT[mv]}</span>`}</td></tr>`}).join("")}</tbody></table></div>`}
 function standingOf(t){
   const code=t.g==="mk"?(t.letter?"3K":"BK"):t.g==="mv"?"BV":t.g;
   const nm=t.letter?"Valur "+t.letter:"Valur";
@@ -671,7 +682,6 @@ const RULE_COL_OF={MB10d:0,MB10s:0,MB11d:1,MB11s:1,"7d":2,"7s":2,"8d":3,"8s":3,"
 const isUs=n=>/^Valur( [b-e])?$/.test(n);
 const groupOf=c=>{const b=c.replace(/B$/,"");if(["BK","OK","VK","3K"].includes(b))return"mk";if(["BV","OV","VV"].includes(b))return"mv";return b};
 const compOf=c=>{if(/B$/.test(c)||c==="VK"||c==="VV")return"bikar";if(c==="OK"||c==="OV")return"onnur";if(/^(MB|7|8)/.test(c))return"fjol";return"deild"};
-const leagueName=c=>/B$/.test(c)?LEAGUE[c.slice(0,-1)]+" · bikar":LEAGUE[c];
 const teamLabel=(g,letter)=>(GROUP_NAME[g]||LEAGUE[g])+(letter?" "+letter.toUpperCase()+"-lið":"");
 
 const games=RAW.trim().split("\n").map(l=>{
@@ -693,7 +703,7 @@ for(const gm of games){for(const s of gm.sides){const key=gm.g+(s.letter?"-"+s.l
   teams.get(key).games.push({gm,side:s.side});}}
 const teamList=[...teams.values()].sort((a,b)=>GROUP_ORDER.indexOf(a.g)-GROUP_ORDER.indexOf(b.g)||a.letter.localeCompare(b.letter));
 
-const now=new Date();
+let now=new Date();
 const isPlayed=gm=>!!gm.sc;
 const outcome=(gm,side)=>{if(!gm.sc)return null;const[h,a]=gm.sc;const us=side==="h"?h:a,them=side==="h"?a:h;return us>them?"S":us<them?"T":"J"};
 const DAYS=["sun.","mán.","þri.","mið.","fim.","fös.","lau."];
@@ -723,8 +733,9 @@ function roundRow(r,extra=""){
     <div class="res"><span class="st ${r.end<now?"done":""}">${roundStatus(r)}</span></div></div>`}
 
 // header tally
-(()=>{const played=games.filter(isPlayed).length,up=games.filter(g=>!isPlayed(g)&&g.dt>=now).length;
- document.getElementById("tally").innerHTML=`<span><b>${teamList.length}</b> lið</span><span><b>${played}</b> leikir spilaðir</span><span><b>${up}</b> framundan</span>`})();
+function renderTally(){const played=games.filter(isPlayed).length,up=games.filter(g=>!isPlayed(g)&&g.dt>=now).length;
+ document.getElementById("tally").innerHTML=`<span><b>${teamList.length}</b> lið</span><span><b>${played}</b> leikir spilaðir</span><span><b>${up}</b> framundan</span>`}
+renderTally();
 
 const state={team:"all",when:"upcoming",comp:"all",limit:60};
 try{const s=JSON.parse(localStorage.getItem("valur-filter")||"{}");if(s.team&&(s.team==="all"||teams.has(s.team)))state.team=s.team;if(s.when)state.when=s.when;if(s.comp)state.comp=s.comp}catch(e){}
@@ -739,7 +750,7 @@ for(const id of["when","comp"]){const el=document.getElementById(id);
     b.addEventListener("click",()=>{state[id]=b.dataset.v;state.limit=60;el.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));save();render()})})}
 
 function gameRow(gm,side,showTeam,extra=""){
-  const o=side?outcome(gm,side):null;
+  const o=side&&!(showTeam&&gm.sides.length>1)?outcome(gm,side):null; // Valur–Valur: enginn sigur/tap í almennum listum
   const nm=(n)=>isUs(n)?`<span class="us">${esc(n)}</span>`:esc(n);
   const tag=gm.comp==="bikar"?'<span class="tag bikar">Bikar</span>':gm.comp==="fjol"?'<span class="tag fjol">Fjölliðamót</span>':gm.comp==="onnur"?'<span class="tag onnur">Æfingaleikur</span>':"";
   const home=gm.sides.some(s=>s.side==="h")?' · <span class="home">HEIMA</span>':"";
@@ -757,10 +768,9 @@ function gameRow(gm,side,showTeam,extra=""){
 const medal=n=>+n<=3?" p"+(+n):"";
 function renderStandings(main){
   const list=teamList.map(t=>({t,s:standingOf(t)})).filter(x=>x.s);
-  const fjol=teamList.filter(t=>!standingOf(t)&&roundsOf(t.g).length);
   let html=`<section class="teamhead"><h2>Staða liða Vals</h2><div class="sub">Deildarkeppni 2026–27 · af kki.is, sótt 9. nóvember 2026</div></section>
   <div class="tblwrap"><table class="rules stand summary"><thead><tr><th scope="col">Lið</th><th scope="col" class="wide">Deild</th><th scope="col">Nr.</th><th scope="col" class="num">U/T</th><th scope="col" class="num">Stig</th><th scope="col" class="num wide">Skor</th></tr></thead><tbody>
-  ${list.map(({t,s})=>{const r=s.rows[s.i];const top=+r[0]===1,bottom=s.i===s.rows.length-1&&+r[2]>0;
+  ${list.map(({t,s})=>{const r=s.rows[s.i];
     return `<tr><th scope="row"><a href="#stada" data-s="s-${t.key}">${esc(t.label)}</a><span class="under">${esc(s.title==="Deildarkeppni"?s.league:s.title)}</span></th><td class="wide">${esc(s.title==="Deildarkeppni"?s.league:s.title)}</td><td><span class="pos${medal(r[0])}">${r[0]}.</span> <span class="of">af ${s.rows.length}</span></td><td class="num">${r[3]}/${r[4]}</td><td class="num"><b>${r[5]}</b></td><td class="num wide">${r[6]}</td></tr>`}).join("")}
   </tbody></table></div>
   ${list.map(({t,s})=>`<section class="day" id="s-${t.key}"><div class="dayhd">${esc(t.label)} · ${esc(s.title==="Deildarkeppni"?s.league:s.title)}</div>${standTable(s)}</section>`).join("")}
@@ -769,11 +779,12 @@ function renderStandings(main){
   const mbl=teamList.map(t=>({t,s:mbStandingOf(t)})).filter(x=>x.s);
   html+=`<section class="teamhead" style="margin-top:10px"><h2>Fjölliðamót · nýjasta umferð</h2><div class="sub">Riðlastaða af kki.is · næsta umferð og titilstig reiknuð eftir 25. og 33.–34. grein reglugerðar</div></section>
   <div class="tblwrap"><table class="rules stand summary"><thead><tr><th scope="col">Lið</th><th scope="col" class="wide">Riðill</th><th scope="col">Nr.</th><th scope="col" class="num">U/T</th><th scope="col">Næst</th></tr></thead><tbody>
-  ${mbl.map(({t,s})=>{const r=s.rows[s.i];return `<tr><th scope="row"><a href="#stada" data-s="m-${t.key}">${esc(t.label)}</a><span class="under">${riðillName(s.riðill)}</span></th><td class="wide">${riðillName(s.riðill)}</td><td><span class="pos${medal(r[0])}">${r[0]}.</span> <span class="of">af ${s.rows.length}</span></td><td class="num">${r[3]}/${r[4]}</td><td><span class="mv ${s.move}">${s.riðill==="A"&&s.move==="stay"?"= Helst í A":MOVE_TXT[s.move]}</span></td></tr>`}).join("")}
+  ${mbl.map(({t,s})=>{const r=s.rows[s.i];return `<tr><th scope="row"><a href="#stada" data-s="m-${t.key}">${esc(t.label)}</a><span class="under">${riðillName(s.riðill)}</span></th><td class="wide">${riðillName(s.riðill)}</td><td>${s.played?`<span class="pos${medal(r[0])}">${r[0]}.</span> <span class="of">af ${s.rows.length}</span>`:"–"}</td><td class="num">${r[3]}/${r[4]}</td><td>${s.played?`<span class="mv ${s.move}">${s.riðill==="A"&&s.move==="stay"?"= Helst í A":MOVE_TXT[s.move]}</span>`:"–"}</td></tr>`}).join("")}
   </tbody></table></div>`;
   for(const g of ["8s","8d","7s","7d","MB11s","MB11d","MB10s","MB10d"]){const m=MB[g];
-    html+=`<section class="day"><div class="dayhd">${esc(LEAGUE[g])} · eftir ${m.umferd||1}. umferð</div>`+
-      m.t.map(([r,rows])=>{const rs=rows.map(x=>x.split("|"));const vt=teamList.find(t=>t.g===g&&rs.some(x=>x[1]===(t.letter?"Valur "+t.letter:"Valur")));
+    const nexts=teamList.filter(t=>t.g===g).map(t=>{const l=mbNextLine(t);return l?`<div class="note"><b>${esc(t.label)}</b> · ${l}</div>`:""}).join("");
+    html+=`<section class="day"><div class="dayhd">${esc(LEAGUE[g])} · eftir ${m.umferd||1}. umferð</div>${nexts}`+
+      m.t.map(([r,rows])=>{const rs=rows.map(x=>x.split("|"));
         const ids=teamList.filter(t=>t.g===g&&rs.some(x=>x[1]===(t.letter?"Valur "+t.letter:"Valur"))).map(t=>`<span id="m-${t.key}"></span>`).join("");
         return `${ids}<div class="note"><b>${riðillName(r)}</b>${r==="A"?(TITLE_ROUNDS[g]?` · keppt um Íslandsmeistaratitil, stig talin í ${TITLE_ROUNDS[g]}`:" · Íslandsmeistari er efsta liðið í A-riðli í 5. og síðustu umferð"):""}</div>${mbTable(g,r,rs)}`}).join("")+`</section>`;
   }
@@ -884,8 +895,8 @@ function minnStandings(shownKids,showNames){
     if(st){const r=st.rows[st.i];return `<section class="day minnstand"><div class="dayhd">${esc(t.label)}</div>
       <div class="meta">${chips}${esc(st.title==="Deildarkeppni"?st.league:st.title)} · <span class="pos${medal(r[0])}">${r[0]}.</span> sæti af ${st.rows.length} · ${r[3]}/${r[4]}</div>${standTable(st)}</section>`}
     const ms=mbStandingOf(t);
-    if(ms){const r=ms.rows[ms.i];return `<section class="day minnstand"><div class="dayhd">${esc(t.label)}</div>
-      <div class="meta">${chips}${riðillName(ms.riðill)} · eftir ${MB[ms.g].umferd||1}. umferð · <span class="pos${medal(r[0])}">${r[0]}.</span> sæti af ${ms.rows.length} · <span class="mv ${ms.move}">${MOVE_TXT[ms.move]}</span></div>${mbTable(ms.g,ms.riðill,ms.rows)}</section>`}
+    if(ms){return `<section class="day minnstand"><div class="dayhd">${esc(t.label)}</div>
+      <div class="meta">${chips}${riðillName(ms.riðill)} · eftir ${MB[ms.g].umferd||1}. umferð · ${mbPos(ms)}${ms.played?` af ${ms.rows.length} · <span class="mv ${ms.move}">${MOVE_TXT[ms.move]}</span>`:""}</div>${mbNextOf(t)?`<div class="meta">${mbNextLine(t)}</div>`:""}${mbTable(ms.g,ms.riðill,ms.rows)}</section>`}
     return `<section class="day minnstand"><div class="dayhd">${esc(t.label)}</div><div class="meta">${chips}Engin stöðutafla er til fyrir þennan flokk.</div></section>`}).join("")}
 const kidTeams=k=>k.teams.map(key=>teams.get(key)).filter(Boolean);
 const KID_COLORS=[["red","Rauð"],["black","Svört"],["white","Hvít"]];
@@ -912,7 +923,7 @@ function minnForm(){
 
 function minnStandingLine(t){
   const st=standingOf(t);if(st){const r=st.rows[st.i];return `<span class="pos${medal(r[0])}">${r[0]}.</span> sæti · ${esc(st.title==="Deildarkeppni"?st.league:st.title)} · ${r[3]}/${r[4]}`}
-  const ms=mbStandingOf(t);if(ms){const r=ms.rows[ms.i];return `<span class="pos${medal(r[0])}">${r[0]}.</span> sæti · ${riðillName(ms.riðill)} · ${r[3]}/${r[4]} · ${MOVE_TXT[ms.move]}`}
+  const ms=mbStandingOf(t);if(ms){const r=ms.rows[ms.i];return `${mbPos(ms)} · ${riðillName(ms.riðill)} · ${r[3]}/${r[4]}${ms.played?" · "+MOVE_TXT[ms.move]:""}`}
   return '<span class="note">Engin stöðutafla</span>'}
 
 function renderMinn(main){
@@ -1117,7 +1128,7 @@ function render(){
       <div class="sub">${team.games.length} leikir · ${r.S} sigrar, ${r.T} töp${r.J?`, ${r.J} jafnt`:""}${deild?` · ${deild} í deild`:""}${bikar?` · ${bikar} í bikar`:" · enginn bikarleikur skráður"}</div>
       ${n?`<div class="sub">Næsti leikur: ${fmtShort(n.gm.dt)} kl. ${fmtTime(n.gm.dt)} – ${esc(n.side==="h"?n.gm.away:n.gm.home)}</div>`:""}</section>`;
     const ms=mbStandingOf(team);
-    if(ms)html+=`<section class="day"><div class="dayhd">Staða eftir ${MB[ms.g].umferd||1}. umferð · ${riðillName(ms.riðill)} · ${ms.rows[ms.i][0]}. sæti · ${MOVE_TXT[ms.move]}</div>${mbTable(ms.g,ms.riðill,ms.rows)}</section>`;
+    if(ms)html+=`<section class="day"><div class="dayhd">Staða eftir ${MB[ms.g].umferd||1}. umferð · ${riðillName(ms.riðill)}${ms.played?` · ${ms.rows[ms.i][0]}. sæti · ${MOVE_TXT[ms.move]}`:""}</div>${mbNextOf(team)?`<div class="note">${mbNextLine(team)}</div>`:""}${mbTable(ms.g,ms.riðill,ms.rows)}</section>`;
     const st=standingOf(team);
     if(st)html+=`<section class="day"><div class="dayhd">Staða · ${esc(st.title==="Deildarkeppni"?st.league:st.title)} · ${st.rows[st.i][0]}. sæti</div>${standTable(st)}</section>`;
     if(RULE_COL_OF[team.g]!=null)html+=`<button class="linkbtn" id="torules">Leikreglur í ${RULE_COLS[RULE_COL_OF[team.g]]}: ${esc(RULES[0][1][RULE_COL_OF[team.g]])}, karfa ${esc(RULES[8][1][RULE_COL_OF[team.g]])}, bolti ${esc(RULES[7][1][RULE_COL_OF[team.g]])} →</button>`;
@@ -1137,12 +1148,13 @@ function render(){
     if(list.length>state.limit)html+=`<button class="more" id="more">Sýna fleiri (${list.length-state.limit} eftir)</button>`;
   }
   main.innerHTML=html;
-  main.querySelectorAll(".tcard").forEach(b=>b.addEventListener("click",()=>{state.team=b.dataset.k;sel.value=state.team;state.limit=60;save();render();window.scrollTo({top:0})}));
   const m=document.getElementById("more");if(m)m.addEventListener("click",()=>{state.limit+=60;render()});
   const tr=document.getElementById("torules");if(tr)tr.addEventListener("click",()=>{state.ruleCol=RULE_COL_OF[team.g];location.hash="reglur"});
 }
 state.ruleCol=null;
 window.addEventListener("hashchange",()=>{render();window.scrollTo({top:0})});
+// Síða sem stendur opin í síma (t.d. af heimaskjá) fær nýjan „núna“ þegar hún kemur aftur í forgrunn
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState!=="visible")return;const n=new Date();if(n-now<5*60e3)return;now=n;renderTally();render()});
 render();
 </script>
 
