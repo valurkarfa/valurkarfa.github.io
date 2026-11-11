@@ -1,0 +1,15 @@
+{
+  "name": "Valur körfubolti 2026–27",
+  "short_name": "Valur karfa",
+  "description": "Leikir, úrslit og staða allra liða Vals í körfubolta.",
+  "lang": "is",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f4f3",
+  "theme_color": "#c8102e",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
