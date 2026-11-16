@@ -695,6 +695,9 @@ function moveOf(g,riðill,i,n){const lv=riðill[0];const L=MB[g].levels;
   if(i===n-1&&NEXT_LEVEL[lv]&&L[NEXT_LEVEL[lv]])return "down";
   return "stay"}
 const MOVE_TXT={up:"↑ Upp",stay:"= Helst",down:"↓ Niður"};
+// Handskráðar skýringar á fjölliðaumferðum (heimild: Kristinn), t.d. leikir sem féllu niður: {flokkur:{umferð:texti}}
+const MB_NOTE={"8s":{2:"Valur og fleiri lið komust ekki til að spila í 2. umferð vegna veðurs"}};
+const mbNote=(g,n)=>(MB_NOTE[g]||{})[n]||"";
 const mbPlayed=rs=>rs.some(x=>+x[2]>0); // riðill sem enginn leikur hefur verið spilaður í
 function mbStandingOf(t){const m=MB[t.g];if(!m)return null;const nm=t.letter?"Valur "+t.letter:"Valur";
   for(const [r,rows] of m.t){const rs=rows.map(x=>x.split("|"));const i=rs.findIndex(x=>x[1]===nm);if(i>=0){const absent=mbPlayed(rs)&&+rs[i][2]===0,pl=mbPlayed(rs)&&!absent;return{g:t.g,riðill:r,rows:rs,i,played:pl,absent,move:pl?moveOf(t.g,r,i,rs.length):null}}}return null}
@@ -703,7 +706,7 @@ function mbNextOf(t){const nx=MB[t.g]&&MB[t.g].next;if(!nx)return null;const nm=
   const hits=nx.t.filter(([,rows])=>rows.some(x=>x.split("|")[1]===nm));if(!hits.length)return{n:nx.umferd,missing:true};if(hits.length>1)return null;
   for(const [r,rows] of hits){const names=rows.map(x=>x.split("|")[1]);if(names.includes(nm))return{n:nx.umferd,riðill:r,opp:names.filter(x=>x!==nm),round:roundsOf(t.g).find(x=>x.n===nx.umferd)}}return null}
 const mbNextLine=t=>{const x=mbNextOf(t);if(!x)return"";if(x.missing)return `Ekki í riðlum ${x.n}. umferðar hjá KKÍ`;return `Í ${x.n}. umferð${x.round?` (${fmtRange(x.round)}, ${esc(x.round.host)})`:""}: ${riðillName(x.riðill)} · mótherjar: ${x.opp.map(esc).join(", ")}`};
-const mbPos=s=>s.played?`<span class="pos${medal(s.rows[s.i][0])}">${s.rows[s.i][0]}.</span> sæti`:s.absent?"lék ekki í umferðinni":"ekki hafin";
+const mbPos=s=>s.played?`<span class="pos${medal(s.rows[s.i][0])}">${s.rows[s.i][0]}.</span> sæti`:s.absent?(mbNote(s.g,MB[s.g].umferd)?"lék ekki í umferðinni (veður)":"lék ekki í umferðinni"):"ekki hafin";
 const riðillName=r=>r==="A"?"A-riðill":r[0]+"-riðill"+(r.length>1?" "+r.slice(1):"");
 function mbTable(g,r,rs){const isA=r==="A"&&/^MB/.test(g),pl=mbPlayed(rs);
   return `<div class="tblwrap"><table class="rules stand"><thead><tr><th scope="col">Nr.</th><th scope="col">Lið</th><th scope="col" class="num">U/T</th><th scope="col" class="num">Stig</th><th scope="col" class="num">Skor</th><th scope="col" class="num">${isA?"Titilstig*":"Næsta umf.**"}</th></tr></thead>
@@ -831,7 +834,7 @@ function renderStandings(main){
   </tbody></table></div>`;
   for(const g of ["8s","8d","7s","7d","MB11s","MB11d","MB10s","MB10d"]){const m=MB[g];
     const nexts=teamList.filter(t=>t.g===g).map(t=>{const l=mbNextLine(t);return l?`<div class="note"><b>${esc(t.label)}</b> · ${l}</div>`:""}).join("");
-    html+=`<section class="day"><div class="dayhd">${esc(LEAGUE[g])} · eftir ${m.umferd||1}. umferð</div>${nexts}`+
+    const nt=mbNote(g,m.umferd);html+=`<section class="day"><div class="dayhd">${esc(LEAGUE[g])} · eftir ${m.umferd||1}. umferð</div>${nt?`<div class="note"><b>${esc(nt)}.</b></div>`:""}${nexts}`+
       m.t.map(([r,rows])=>{const rs=rows.map(x=>x.split("|"));
         const ids=teamList.filter(t=>t.g===g&&rs.some(x=>x[1]===(t.letter?"Valur "+t.letter:"Valur"))).map(t=>`<span id="m-${t.key}"></span>`).join("");
         return `${ids}<div class="note"><b>${riðillName(r)}</b>${r==="A"?(TITLE_ROUNDS[g]?` · keppt um Íslandsmeistaratitil, stig talin í ${TITLE_ROUNDS[g]}`:" · Íslandsmeistari er efsta liðið í A-riðli í 5. og síðustu umferð"):""}</div>${mbTable(g,r,rs)}`}).join("")+`</section>`;
@@ -1176,7 +1179,7 @@ function render(){
       <div class="sub">${team.games.length} leikir · ${r.S} sigrar, ${r.T} töp${r.J?`, ${r.J} jafnt`:""}${deild?` · ${deild} í deild`:""}${bikar?` · ${bikar} í bikar`:" · enginn bikarleikur skráður"}</div>
       ${n?`<div class="sub">Næsti leikur: ${fmtShort(n.gm.dt)} kl. ${fmtTime(n.gm.dt)} – ${esc(n.side==="h"?n.gm.away:n.gm.home)}</div>`:""}</section>`;
     const ms=mbStandingOf(team);
-    if(ms)html+=`<section class="day"><div class="dayhd">Staða eftir ${MB[ms.g].umferd||1}. umferð · ${riðillName(ms.riðill)}${ms.played?` · ${ms.rows[ms.i][0]}. sæti · ${MOVE_TXT[ms.move]}`:""}</div>${mbNextOf(team)?`<div class="note">${mbNextLine(team)}</div>`:""}${mbTable(ms.g,ms.riðill,ms.rows)}</section>`;
+    if(ms)html+=`<section class="day"><div class="dayhd">Staða eftir ${MB[ms.g].umferd||1}. umferð · ${riðillName(ms.riðill)}${ms.played?` · ${ms.rows[ms.i][0]}. sæti · ${MOVE_TXT[ms.move]}`:ms.absent?" · lék ekki í umferðinni":""}</div>${mbNote(ms.g,MB[ms.g].umferd)?`<div class="note"><b>${esc(mbNote(ms.g,MB[ms.g].umferd))}.</b></div>`:""}${mbNextOf(team)?`<div class="note">${mbNextLine(team)}</div>`:""}${mbTable(ms.g,ms.riðill,ms.rows)}</section>`;
     const st=standingOf(team);
     if(st)html+=`<section class="day"><div class="dayhd">Staða · ${esc(st.title==="Deildarkeppni"?st.league:st.title)} · ${st.rows[st.i][0]}. sæti</div>${standTable(st)}</section>`;
     if(RULE_COL_OF[team.g]!=null)html+=`<button class="linkbtn" id="torules">Leikreglur í ${RULE_COLS[RULE_COL_OF[team.g]]}: ${esc(RULES[0][1][RULE_COL_OF[team.g]])}, karfa ${esc(RULES[8][1][RULE_COL_OF[team.g]])}, bolti ${esc(RULES[7][1][RULE_COL_OF[team.g]])} →</button>`;
