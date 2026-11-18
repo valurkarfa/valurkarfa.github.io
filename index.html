@@ -191,7 +191,7 @@ footer{color:var(--muted);font-size:12.5px}
   <div class="eyebrow">Knattspyrnufélagið Valur · Körfubolti</div>
   <h1>Leikir Vals 2026–27</h1>
   <div class="tally" id="tally"></div>
-  <div class="stamp">Gögn af kki.is · sótt 16. nóvember 2026</div>
+  <div class="stamp">Gögn af kki.is · sótt 18. nóvember 2026</div>
 </div></header>
 
 <div class="filters"><div class="wrap">
@@ -417,9 +417,9 @@ const RAW=`0509|1315|10d|Haukar|60:89|Valur|Ásvellir|6156668
 1411|1400|MB11d|Njarðvík b|13:31|Valur b|H|6204538
 1411|1400|MB11s|Skallagrímur|19:23|Valur b|Smárinn|6204926
 1411|1530|MB11s|Laugdælir|23:14|Valur b|Smárinn|6204924
-1411|1600|12k|Valur b||Álftanes|H3|6158237
+1411|1600|12k|Valur b|93:82|Álftanes|H3|6158237
 1411|1630|3K|Hamar b||Valur b|Hveragerði|6180966
-1411|1940|8d|Valur||Skallagrímur/Tindastóll|ÞG Verk höllin|6203510
+1411|1940|8d|Valur|89:40|Skallagrímur/Tindastóll|ÞG Verk höllin|6203510
 1511|0900|MB11s|Valur d|17:20|Breiðablik d|Smárinn|6204962
 1511|0930|MB11d|Valur f|6:26|Keflavík d|H|6204570
 1511|0930|MB11s|Valur|24:19|Njarðvík|Smárinn|6204919
@@ -446,28 +446,45 @@ const RAW=`0509|1315|10d|Haukar|60:89|Valur|Ásvellir|6156668
 1511|1450|8d|Haukar|55:39|Valur b|Kaldalónshöllin|6203573
 1511|1500|12k|Þór Ak. b|68:80|Valur b|Glerárskóli|6158231
 1511|1700|10d|Valur|84:69|Afturelding|H3|6182026
-1611|2030|11d|Valur b||Haukar b|H3|6158019
+1611|2030|11d|Valur b|66:70|Haukar b|H3|6158019
 1711|1830|12k|KR/KV||Valur|Meistaravellir|6159765
 1811|1930|10d|Njarðvík||Valur|Ljónagryfjan|6156687
 1911|1900|12v|KR/KV||Valur b|Meistaravellir|6171639
 1911|1915|BK|Höttur||Valur|Varðarhöllin|6153496
 1911|1930|9d|Valur||Breiðablik|H3|6156989
 1911|2030|12v|Stjarnan||Valur|ÞG Verk höllin|6157915
+2111|0900|MB10s|Njarðvík||Valur|Meistaravellir|6206399
+2111|0930|MB10d|Valur||Ármann c|Laugardalshöll|6206149
+2111|1030|MB10s|Aþena||Valur|Meistaravellir|6206402
+2111|1100|MB10d|Valur||Haukar b|Laugardalshöll|6206152
 2111|1120|7d|Valur b||Hamar|IceMar-höllin|6206055
 2111|1120|7s|Valur||Njarðvík|AvAir höllin|6205324
+2111|1130|MB10s|Valur b||Selfoss|Meistaravellir|6206427
+2111|1230|MB10s|Hamar||Valur b|Meistaravellir|6206429
+2111|1300|MB10s|Stjarnan||Valur|Meistaravellir|6206407
 2111|1315|12k|Valur b||Breiðablik/Augnablik b|H3|6158242
 2111|1330|9s|KR||Valur|Hagaskóli|6156591
 2111|1340|7d|Breiðablik||Valur b|Blue-höllin B salur|6206057
 2111|1340|7s|Haukar||Valur|AvAir höllin|6205326
+2111|1430|MB10d|Valur b||KR d|Laugardalshöll|6206140
 2111|1450|7d|Njarðvík||Valur|IceMar-höllin|6205486
 2111|1500|10d|Valur||Haukar|H3|6182027
+2111|1530|MB10d|Ármann||Valur b|Laugardalshöll|6206142
 2111|1710|7d|Sindri||Valur|IceMar-höllin|6205488
 2211|0900|7d|Álftanes||Valur|IceMar-höllin|6205491
+2211|0930|MB10d|Sindri||Valur b|Laugardalshöll|6206144
+2211|0930|MB10s|Haukar||Valur|Meistaravellir|6206409
 2211|1010|7s|Stjarnan||Valur|AvAir höllin|6205328
+2211|1030|MB10d|Valur b||Hamar|Laugardalshöll|6206146
+2211|1030|MB10s|Valur||KR|Meistaravellir|6206411
 2211|1120|7d|KR||Valur|IceMar-höllin|6205493
+2211|1220|9d|Valur||Laugdælir/Selfoss|H3|6156996
 2211|1230|7s|Valur||Aþena|AvAir höllin|6205330
-2211|1330|9d|Valur||Laugdælir/Selfoss|H3|6156996
+2211|1230|MB10s|Keflavík b||Valur b|Meistaravellir|6206431
+2211|1330|MB10s|Valur b||KR b|Meistaravellir|6206433
 2211|1430|11d|Stjarnan/KFG||Valur|ÞG Verk höllin|6156518
+2211|1430|MB10d|Valur||Breiðablik c|Laugardalshöll|6206155
+2211|1530|MB10d|Valur||KR c|Laugardalshöll|6206157
 2211|1600|7d|Fylkir b||Valur b|Blue-höllin B salur|6206059
 2211|1820|7d|Valur b||Laugdælir|Blue-höllin B salur|6206061
 2411|1915|BV|Fjölnir||Valur|Dalhús|6154216
@@ -481,8 +498,11 @@ const RAW=`0509|1315|10d|Haukar|60:89|Valur|Ásvellir|6156668
 3011|1915|12v|Valur||Ármann|H3|6157925
 0112|1830|10d|ÍR||Valur b|TM Hellirinn|6156922
 0212|1915|BV|Valur||Grindavík|H|6154221
+0312|1915|12vB|Valur||Ármann|H3|6205266
 0412|1900|BK|Valur||ÍR|H|6153501
+0512|1400|11dB|Stjarnan/KFG||Valur|ÞG Verk höllin|6205246
 0612|1100|9sB|Keflavík||Valur|Blue-höllin|6205257
+0612|1230|10sB|Breiðablik||Valur|Smárinn 2|6205264
 0612|1230|9dB|Keflavík||Valur|Blue-höllin|6205233
 0612|1400|3K|Valur b||Ármann b|H3|6180974
 0812|1915|BV|Stjarnan||Valur|ÞG Verk höllin|6154226
@@ -510,8 +530,8 @@ const RAW=`0509|1315|10d|Haukar|60:89|Valur|Ásvellir|6156668
 0601|2045|12k|Fjölnir/Vængir Júpíters||Valur|Dalhús|6159780
 0701|1915|BK|Stjarnan||Valur|ÞG Verk höllin|6153529
 1201|1915|BV|Haukar||Valur|Ásvellir|6154246
-1401|1915|BK|Grindavík||Valur|HS Orku-höllin|6153534
 1401|1915|12v|Valur||Valur b|H3|6171641
+1501|1930|BK|Grindavík||Valur|HS Orku-höllin|6153534
 1601|1330|9s|Valur||Haukar|H3|6156603
 1601|1330|9s|Ármann||Valur b|Laugardalshöll|6156809
 1601|1500|11d|Snæfell||Valur b|Stykkishólmur|6158037
@@ -526,7 +546,7 @@ const RAW=`0509|1315|10d|Haukar|60:89|Valur|Ásvellir|6156668
 1801|2030|11d|Haukar||Valur|Ásvellir 2|6156532
 1901|1845|12k|Haukar b||Valur b|Ásvellir 2|6158259
 1901|1930|12v|Breiðablik||Valur|Smárinn|6157934
-2101|1915|BK|Valur||Njarðvík|H|6153536
+2101|1930|BK|Valur||Njarðvík|H|6153536
 2101|2115|12v|Valur b||Ármann|H3|6171631
 2301|1300|11d|Valur b||Snæfell|H3|6158001
 2301|1600|12k|Valur b||ÍR/Léttir b|H3|6158264
@@ -534,7 +554,7 @@ const RAW=`0509|1315|10d|Haukar|60:89|Valur|Ásvellir|6156668
 2401|1800|3K|Valur b||Stjarnan b|H3|6180979
 2501|1915|BV|Keflavík||Valur|Blue-höllin|6154256
 2601|2030|12k|Þór Þ.||Valur|Icelandic Glacial höllin|6159789
-2801|1915|BK|Ármann||Valur|Laugardalshöll|6153545
+2801|1930|BK|Ármann||Valur|Laugardalshöll|6153545
 2801|2030|12v|Valur||Fjölnir|H3|6157937
 3001|1300|12k|Þór Ak. b||Valur b|Glerárskóli|6158204
 3001|1500|10d|Valur b||Skallagrímur|H3|6182045
@@ -545,7 +565,7 @@ const RAW=`0509|1315|10d|Haukar|60:89|Valur|Ásvellir|6156668
 3101|1500|10s|Valur||KR/KV|H3|6182054
 0802|2030|11d|Valur||Ármann|H3|6182068
 0902|2030|12k|Valur b||Selfoss/Laugdælir b|H3|6158270
-1102|1915|BK|Valur||Sindri|H|6153549
+1102|1930|BK|Valur||Sindri|H|6153549
 1102|2000|12v|Breiðablik||Valur b|Smárinn|6171642
 1102|2030|12v|Haukar||Valur|Ásvellir 2|6157943
 1302|1100|9s|Valur||Keflavík|H3|6156611
@@ -557,7 +577,7 @@ const RAW=`0509|1315|10d|Haukar|60:89|Valur|Ásvellir|6156668
 1402|1330|9d|Álftanes||Valur b|Kaldalónshöllin|6158846
 1402|1400|3K|ÍR b||Valur b|Skógarsel 2|6180984
 1802|1845|12v|Valur b||Fjölnir|H3|6171632
-1802|1915|BK|Álftanes||Valur|Kaldalónshöllin|6153556
+1902|1930|BK|Álftanes||Valur|Kaldalónshöllin|6153556
 2002|1800|BV|Valur||Fjölnir|H|6154261
 2302|2015|11d|Ármann b||Valur b|Laugardalshöll|6158014
 2302|2030|12k|Stjarnan/KFG||Valur|ÞG Verk höllin|6159808
@@ -582,7 +602,7 @@ const RAW=`0509|1315|10d|Haukar|60:89|Valur|Ásvellir|6156668
 0703|1645|9s|Valur||Tindastóll|H3|6156587
 0803|2030|11d|Keflavík/Víðir||Valur|Blue-höllin|6156552
 1103|1900|12v|KR/KV||Valur|Meistaravellir|6157959
-1103|1915|BK|ÍR||Valur|Skógarsel|6153567
+1103|1930|BK|ÍR||Valur|Skógarsel|6153567
 1303|1315|10d|Haukar||Valur|Ásvellir 2|6156724
 1303|1330|9d|Sindri||Valur|Ice Lagoon höllin|6157005
 1303|1330|9s|Tindastóll||Valur|Sauðárkrókur|6156615
@@ -594,8 +614,8 @@ const RAW=`0509|1315|10d|Haukar|60:89|Valur|Ásvellir|6156668
 1603|1930|12k|Njarðvík||Valur|Ljónagryfjan|6159817
 1803|1715|12v|Njarðvík||Valur|Ljónagryfjan|6157961
 1803|1845|12v|Keflavík||Valur b|Blue-höllin|6171644
-1803|1915|BK|Valur||Keflavík|H|6153575
 1803|2000|12k|Breiðablik/Augnablik b||Valur b|Smárinn|6158287
+1903|1930|BK|Valur||Keflavík|H|6153575
 2003|1330|10d|Breiðablik b||Valur|Smárinn 2|6156725
 2003|1330|9s|Valur||KR|H3|6156619
 2003|1500|10d|Ármann b||Valur b|Laugardalshöll|6156954
@@ -645,10 +665,7 @@ const RAW=`0509|1315|10d|Haukar|60:89|Valur|Ásvellir|6156668
 2404|1400|10d|Valur b||Haukar b|H3|6182048
 2404|1500|10d|Njarðvík||Valur|IceMar-höllin|6156743
 2504|1330|9d|Laugdælir/Selfoss||Valur|Laugarvatn|6157040
-2504|1500|10s|Aþena||Valur|Unbroken Höllin|6158418
-0212|~0812|10sB|Breiðablik||Valur|Smárinn 2|6205264
-0212|~0812|11dB|Stjarnan/KFG||Valur|ÞG Verk höllin|6205246
-0212|~0812|12vB|Valur||Ármann|H3|6205266`;
+2504|1500|10s|Aþena||Valur|Unbroken Höllin|6158418`;
 
 const LEAGUE={BK:"Bónus deild karla",BV:"Bónus deild kvenna","3K":"3. deild karla",VK:"VÍS bikar karla",VV:"VÍS bikar kvenna",OK:"Önnur mót karla",OV:"Önnur mót kvenna",
  "12k":"12. flokkur karla","12v":"12. flokkur kvenna","11d":"11. flokkur drengja","10d":"10. flokkur drengja","10s":"10. flokkur stúlkna","9d":"9. flokkur drengja","9s":"9. flokkur stúlkna",
@@ -688,14 +705,14 @@ const DEF=[
  ["Skiptivarnir, skipta á hindrunum",[1,1,1,1,1,1],"Má skipta á hindrunum, bæði á bolta og frá bolta. En lið sem skipta kerfisbundið á flestum eða öllum aðgerðum frá bolta, t.d. stungum að körfu, eru að leika svæðisvörn, sem er óheimilt í 9. flokki og yngri."],
  ["Almennar hjálparreglur í maður á mann vörn",[1,1,1,1,1,1],"Leikmenn á veiku hliðinni mega stíga í átt að teig til að hjálpa, en verða að fylgja sínum manni þegar hann færir sig nær bolta. Ef varnarmaður verður oftast eftir í hjálparstöðu má álykta að verið sé að spila svæðisvörn."]];
 const DEF_SUMMARY=["Einungis maður á mann vörn. Ekki má tvöfalda eða gildra.","Einungis maður á mann vörn. Ekki má tvöfalda eða gildra.","Svæðisvörn bönnuð, bæði á varnar- og sóknarvelli.","Svæðisvörn bönnuð, bæði á varnar- og sóknarvelli.","Svæðisvörn bönnuð, bæði á varnar- og sóknarvelli.","Engar sérreglur um varnarleik."];
-// Staða í deildum af kki.is (Stada?league_id=…), sótt 16. nóvember 2026. Röð: sæti|lið|leikir|unnir|töp|stig|skor|+/-|síðustu 5
+// Staða í deildum af kki.is (Stada?league_id=…), sótt 18. nóvember 2026. Röð: sæti|lið|leikir|unnir|töp|stig|skor|+/-|síðustu 5
 //<STAND>
-const STAND={"BK":[["Deildarkeppni",["1|KR|6|6|0|12|604/515|89|5/0","2|Álftanes|6|5|1|10|642/550|92|4/1","3|Tindastóll|6|5|1|10|551/502|49|4/1","4|Valur|6|5|1|10|505/473|32|4/1","5|Keflavík|6|4|2|8|630/612|18|3/2","6|Grindavík|6|4|2|8|540/524|16|4/1","7|Stjarnan|6|3|3|6|585/560|25|3/2","8|Höttur|6|2|4|4|552/609|-57|2/3","9|Njarðvík|6|1|5|2|524/566|-42|1/4","10|ÍR|6|1|5|2|554/614|-60|0/5","11|Sindri|6|0|6|0|503/558|-55|0/5","12|Ármann|6|0|6|0|512/619|-107|0/5"]]],"BV":[["Deildarkeppni",["1|Grindavík|6|6|0|12|554/436|118|5/0","2|Stjarnan|6|5|1|10|538/447|91|5/0","3|Haukar|6|4|2|8|518/452|66|3/2","4|Njarðvík|6|4|2|8|550/486|64|4/1","5|KR|6|4|2|8|527/533|-6|3/2","6|Valur|6|4|2|8|478/431|47|3/2","7|Tindastóll|6|2|4|4|439/457|-18|1/4","8|Keflavík|6|1|5|2|452/485|-33|1/4","9|Ármann|6|0|6|0|453/557|-104|0/5","10|Fjölnir|6|0|6|0|387/612|-225|0/5"]]],"3K":[["Deildarkeppni",["1|UMFÁ|2|2|0|4|199/135|64|2/0","2|Stál-úlfur|2|2|0|4|193/165|28|2/0","3|Stjarnan b|2|2|0|4|171/149|22|2/0","4|Haukar b|2|1|1|2|140/149|-9|1/1","5|Höttur b|0|0|0|0|0/0|0|0/0","6|ÍR b|1|0|1|0|79/91|-12|0/1","7|Hamar b|1|0|1|0|77/99|-22|0/1","8|Ármann b|2|0|2|0|145/169|-24|0/2","9|Valur b|2|0|2|0|147/194|-47|0/2"]]],"12k":[["1. deild",["1|Stjarnan/KFG|6|6|0|12|641/512|129|5/0","2|Njarðvík|8|6|2|12|742/664|78|3/2","3|Breiðablik|7|5|2|10|640/574|66|3/2","4|Fjölnir|7|4|3|8|632/621|11|3/2","5|Þór Ak.|7|4|3|8|667/676|-9|2/3","6|Keflavík/Víðir|7|4|3|8|659/631|28|3/2","7|Selfoss/Laugdælir|6|3|3|6|526/544|-18|3/2","8|ÍR|7|2|5|4|618/675|-57|1/4","9|Þór Þ.|5|1|4|2|481/534|-53|1/4","10|KR|5|1|4|2|451/506|-55|1/4","11|Valur|7|0|7|0|567/687|-120|0/5"]],["3. deild",["1|Breiðablik b|8|6|2|12|710/569|141|4/1","2|Álftanes|6|4|2|8|573/496|77|4/1","3|Valur b|6|4|2|8|495/439|56|4/1","4|Haukar b|7|3|4|6|512/564|-52|1/4","5|Selfoss/Laugdælir b|4|2|2|4|349/344|5|2/2","6|ÍR b|7|2|5|4|433/578|-145|2/3","7|Þór Ak. b|6|2|4|4|455/510|-55|1/4","8|Fjölnir b|4|1|3|2|323/350|-27|1/3"]]],"12v":[["1. deild",["1|Njarðvík|6|6|0|12|532/398|134|5/0","2|Fjölnir|7|5|2|10|597/514|83|5/0","3|Haukar|8|5|3|10|620/533|87|4/1","4|Stjarnan|5|4|1|8|434/337|97|4/1","5|Keflavík|6|4|2|8|418/452|-34|3/2","6|Breiðablik|6|3|3|6|421/474|-53|3/2","7|KR|4|1|3|2|281/309|-28|1/3","8|Valur|6|1|5|2|383/412|-29|0/5","9|Ármann|6|1|5|2|416/515|-99|1/4","10|Valur b|6|0|6|0|354/512|-158|0/5"]]],"11d":[["1. deild",["1|Stjarnan/KFG|6|6|0|12|635/388|247|5/0","2|Breiðablik|8|6|2|12|703/645|58|5/0","3|Keflavík/Víðir|6|3|3|6|489/510|-21|3/2","4|Valur|7|3|4|6|627/618|9|1/4","5|Ármann|6|3|3|6|530/499|31|3/2","6|Haukar|6|2|4|4|457/509|-52|1/4","7|Þór Ak.|9|1|8|2|571/843|-272|0/5"]],["3. deild",["1|Tindastóll|7|6|1|12|585/456|129|4/1","2|Haukar b|6|5|1|10|472/372|100|5/0","3|Valur b|7|4|3|8|503/509|-6|2/3","4|Njarðvík|6|4|2|8|485/441|44|4/1","5|Ármann b|6|2|4|4|388/462|-74|1/4","6|Snæfell|4|1|3|2|282/369|-87|1/3","7|Vestri|6|1|5|2|438/483|-45|1/4","8|KR b|6|1|5|2|410/471|-61|1/4"]]],"10d":[["2. deild",["1|Afturelding|7|6|1|12|612/469|143|4/1","2|Njarðvík|6|5|1|10|553/443|110|4/1","3|Valur|6|5|1|10|457/401|56|4/1","4|Breiðablik b|7|4|3|8|583/581|2|3/2","5|Keflavík|7|3|4|6|506/503|3|2/3","6|KR|7|3|4|6|534/527|7|2/3","7|Haukar|7|1|6|2|519/632|-113|1/4","8|Stjarnan b|7|0|7|0|451/659|-208|0/5"]],["4. deild",["1|Valur b|5|4|1|8|403/294|109|4/1","2|ÍR|5|4|1|8|395/325|70|4/1","3|Haukar b|5|3|2|6|310/302|8|3/2","4|Skallagrímur|5|2|3|4|269/311|-42|2/3","5|Ármann b|5|2|3|4|314/338|-24|2/3","6|Afturelding b|0|0|0|0|0/0|0|0/0","7|Stjarnan c|5|0|5|0|266/387|-121|0/5"]]],"10s":[["1. deild",["1|Valur|7|6|1|12|551/417|134|4/1","2|Stjarnan|6|5|1|10|538/329|209|5/0","3|KR/KV|7|3|4|6|491/524|-33|2/3","4|Aþena|6|3|3|6|373/436|-63|2/3","5|Njarðvík|6|2|4|4|405/435|-30|1/4","6|Þór Þ./Hamar|6|0|6|0|311/528|-217|0/5"]]],"9d":[["1. deild",["1|Breiðablik|5|4|1|8|348/270|78|4/1","2|Sindri|5|3|2|6|304/276|28|3/2","3|Haukar|7|3|4|6|407/448|-41|3/2","4|Stjarnan|3|3|0|6|263/136|127|3/0","5|Valur|6|3|3|6|335/401|-66|2/3","6|Höttur|6|2|4|4|372/385|-13|2/3","7|Keflavík|5|2|3|4|300/343|-43|2/3","8|Laugdælir/Selfoss|5|1|4|2|291/361|-70|1/4"]],["4. deild",["1|Álftanes|5|5|0|10|271/211|60|5/0","2|Snæfell|3|3|0|6|170/133|37|5/0","3|Valur b|5|2|3|4|256/262|-6|2/3","4|ÍA b|4|2|2|4|170/180|-10|2/2","5|ÍR b|3|1|2|2|146/164|-18|2/3","6|Stjarnan d|3|1|2|2|138/152|-14|2/2","7|Vestri|6|1|5|2|283/302|-19|1/4","8|Breiðablik c|1|0|1|0|29/59|-30|0/1"]]],"9s":[["1. deild",["1|Valur|4|4|0|8|282/138|144|4/0","2|KR|4|4|0|8|275/151|124|5/0","3|Njarðvík|4|2|2|4|220/200|20|3/2","4|Hamar/Þór Þ.|5|2|3|4|255/314|-59|2/3","5|Haukar|4|2|2|4|219/213|6|2/2","6|Keflavík|4|0|4|0|146/257|-111|1/4","7|Tindastóll|3|0|3|0|75/199|-124|0/3"]],["2. deild",["1|KR b|5|5|0|10|239/168|71|5/0","2|Stjarnan|7|5|2|10|320/243|77|3/2","3|Breiðablik|5|5|0|10|266/119|147|5/0","4|Keflavík b|6|5|1|10|309/211|98|4/1","5|Valur b|5|3|2|6|259/137|122|3/2","6|Njarðvík b|6|2|4|4|227/301|-74|2/3","7|ÍR|4|1|3|2|143/220|-77|1/3","8|Ármann|5|1|4|2|205/234|-29|1/4","9|Þór Ak.|5|1|4|2|165/245|-80|1/4","10|Snæfell|5|1|4|2|177/229|-52|1/4","11|Valur F.|7|1|6|2|188/391|-203|1/4"]]]};
+const STAND={"BK":[["Deildarkeppni",["1|KR|6|6|0|12|604/515|89|5/0","2|Álftanes|6|5|1|10|642/550|92|4/1","3|Tindastóll|6|5|1|10|551/502|49|4/1","4|Valur|6|5|1|10|505/473|32|4/1","5|Keflavík|6|4|2|8|630/612|18|3/2","6|Grindavík|6|4|2|8|540/524|16|4/1","7|Stjarnan|6|3|3|6|585/560|25|3/2","8|Höttur|6|2|4|4|552/609|-57|2/3","9|Njarðvík|6|1|5|2|524/566|-42|1/4","10|ÍR|6|1|5|2|554/614|-60|0/5","11|Sindri|6|0|6|0|503/558|-55|0/5","12|Ármann|6|0|6|0|512/619|-107|0/5"]]],"BV":[["Deildarkeppni",["1|Grindavík|6|6|0|12|554/436|118|5/0","2|Stjarnan|6|5|1|10|538/447|91|5/0","3|Haukar|6|4|2|8|518/452|66|3/2","4|Njarðvík|6|4|2|8|550/486|64|4/1","5|KR|6|4|2|8|527/533|-6|3/2","6|Valur|6|4|2|8|478/431|47|3/2","7|Tindastóll|6|2|4|4|439/457|-18|1/4","8|Keflavík|6|1|5|2|452/485|-33|1/4","9|Ármann|6|0|6|0|453/557|-104|0/5","10|Fjölnir|6|0|6|0|387/612|-225|0/5"]]],"3K":[["Deildarkeppni",["1|UMFÁ|2|2|0|4|199/135|64|2/0","2|Stál-úlfur|2|2|0|4|193/165|28|2/0","3|Stjarnan b|2|2|0|4|171/149|22|2/0","4|Haukar b|2|1|1|2|140/149|-9|1/1","5|Höttur b|0|0|0|0|0/0|0|0/0","6|ÍR b|1|0|1|0|79/91|-12|0/1","7|Hamar b|1|0|1|0|77/99|-22|0/1","8|Ármann b|2|0|2|0|145/169|-24|0/2","9|Valur b|2|0|2|0|147/194|-47|0/2"]]],"12k":[["1. deild",["1|Stjarnan/KFG|8|8|0|16|868/705|163|5/0","2|Breiðablik|8|6|2|12|732/661|71|3/2","3|Njarðvík|9|6|3|12|848/782|66|2/3","4|Keflavík/Víðir|8|5|3|10|774/714|60|3/2","5|Fjölnir|8|4|4|8|719/713|6|3/2","6|Þór Ak.|7|4|3|8|667/676|-9|2/3","7|ÍR|8|3|5|6|733/761|-28|2/3","8|Selfoss/Laugdælir|7|3|4|6|613/653|-40|3/2","9|KR|5|1|4|2|451/506|-55|1/4","10|Þór Þ.|7|1|6|2|650/764|-114|0/5","11|Valur|7|0|7|0|567/687|-120|0/5"]],["3. deild",["1|Breiðablik b|8|6|2|12|710/569|141|4/1","2|Valur b|7|5|2|10|588/521|67|4/1","3|Álftanes|7|4|3|8|655/589|66|3/2","4|Haukar b|7|3|4|6|512/564|-52|1/4","5|Selfoss/Laugdælir b|5|3|2|6|466/395|71|3/2","6|ÍR b|7|2|5|4|433/578|-145|2/3","7|Þór Ak. b|6|2|4|4|455/510|-55|1/4","8|Fjölnir b|5|1|4|2|374/467|-93|1/4"]]],"12v":[["1. deild",["1|Njarðvík|6|6|0|12|532/398|134|5/0","2|Stjarnan|6|5|1|10|518/407|111|4/1","3|Fjölnir|7|5|2|10|597/514|83|5/0","4|Haukar|8|5|3|10|620/533|87|4/1","5|Keflavík|6|4|2|8|418/452|-34|3/2","6|Breiðablik|6|3|3|6|421/474|-53|3/2","7|KR|5|1|4|2|351/393|-42|1/4","8|Valur|6|1|5|2|383/412|-29|0/5","9|Ármann|6|1|5|2|416/515|-99|1/4","10|Valur b|6|0|6|0|354/512|-158|0/5"]]],"11d":[["1. deild",["1|Stjarnan/KFG|7|6|1|12|708/473|235|4/1","2|Breiðablik|8|6|2|12|703/645|58|5/0","3|Keflavík/Víðir|7|4|3|8|574/583|-9|4/1","4|Valur|7|3|4|6|627/618|9|1/4","5|Ármann|6|3|3|6|530/499|31|3/2","6|Haukar|6|2|4|4|457/509|-52|1/4","7|Þór Ak.|9|1|8|2|571/843|-272|0/5"]],["3. deild",["1|Haukar b|7|6|1|12|542/438|104|5/0","2|Tindastóll|7|6|1|12|585/456|129|4/1","3|Valur b|8|4|4|8|569/579|-10|2/3","4|Njarðvík|6|4|2|8|485/441|44|4/1","5|Ármann b|6|2|4|4|388/462|-74|1/4","6|Snæfell|4|1|3|2|282/369|-87|1/3","7|Vestri|6|1|5|2|438/483|-45|1/4","8|KR b|6|1|5|2|410/471|-61|1/4"]]],"10d":[["2. deild",["1|Afturelding|7|6|1|12|612/469|143|4/1","2|Njarðvík|6|5|1|10|553/443|110|4/1","3|Valur|6|5|1|10|457/401|56|4/1","4|Breiðablik b|7|4|3|8|583/581|2|3/2","5|Keflavík|7|3|4|6|506/503|3|2/3","6|KR|7|3|4|6|534/527|7|2/3","7|Haukar|7|1|6|2|519/632|-113|1/4","8|Stjarnan b|7|0|7|0|451/659|-208|0/5"]],["4. deild",["1|Valur b|5|4|1|8|403/294|109|4/1","2|ÍR|5|4|1|8|395/325|70|4/1","3|Haukar b|5|3|2|6|310/302|8|3/2","4|Skallagrímur|5|2|3|4|269/311|-42|2/3","5|Ármann b|5|2|3|4|314/338|-24|2/3","6|Afturelding b|0|0|0|0|0/0|0|0/0","7|Stjarnan c|5|0|5|0|266/387|-121|0/5"]]],"10s":[["1. deild",["1|Valur|7|6|1|12|551/417|134|4/1","2|Stjarnan|6|5|1|10|538/329|209|5/0","3|KR/KV|7|3|4|6|491/524|-33|2/3","4|Aþena|6|3|3|6|373/436|-63|2/3","5|Njarðvík|6|2|4|4|405/435|-30|1/4","6|Þór Þ./Hamar|6|0|6|0|311/528|-217|0/5"]]],"9d":[["1. deild",["1|Breiðablik|5|4|1|8|348/270|78|4/1","2|Sindri|5|3|2|6|304/276|28|3/2","3|Haukar|7|3|4|6|407/448|-41|3/2","4|Stjarnan|3|3|0|6|263/136|127|3/0","5|Valur|6|3|3|6|335/401|-66|2/3","6|Höttur|6|2|4|4|372/385|-13|2/3","7|Keflavík|5|2|3|4|300/343|-43|2/3","8|Laugdælir/Selfoss|5|1|4|2|291/361|-70|1/4"]],["4. deild",["1|Álftanes|5|5|0|10|271/211|60|5/0","2|Snæfell|3|3|0|6|170/133|37|5/0","3|Valur b|5|2|3|4|256/262|-6|2/3","4|ÍA b|4|2|2|4|170/180|-10|2/2","5|ÍR b|3|1|2|2|146/164|-18|2/3","6|Stjarnan d|3|1|2|2|138/152|-14|2/2","7|Vestri|6|1|5|2|283/302|-19|1/4","8|Breiðablik c|1|0|1|0|29/59|-30|0/1"]]],"9s":[["1. deild",["1|Valur|4|4|0|8|282/138|144|4/0","2|KR|4|4|0|8|275/151|124|5/0","3|Njarðvík|4|2|2|4|220/200|20|3/2","4|Hamar/Þór Þ.|5|2|3|4|255/314|-59|2/3","5|Haukar|4|2|2|4|219/213|6|2/2","6|Keflavík|4|0|4|0|146/257|-111|1/4","7|Tindastóll|3|0|3|0|75/199|-124|0/3"]],["2. deild",["1|KR b|5|5|0|10|239/168|71|5/0","2|Stjarnan|7|5|2|10|320/243|77|3/2","3|Breiðablik|5|5|0|10|266/119|147|5/0","4|Keflavík b|6|5|1|10|309/211|98|4/1","5|Valur b|5|3|2|6|259/137|122|3/2","6|Njarðvík b|6|2|4|4|227/301|-74|2/3","7|ÍR|4|1|3|2|143/220|-77|1/3","8|Ármann|5|1|4|2|205/234|-29|1/4","9|Þór Ak.|5|1|4|2|165/245|-80|1/4","10|Snæfell|5|1|4|2|177/229|-52|1/4","11|Valur F.|7|1|6|2|188/391|-203|1/4"]]]};
 //</STAND>
-// Minnibolti: riðlastaða eftir 1. umferð af kki.is (Stada?league_id=34045/34047/244/245), sótt 16. nóvember 2026.
+// Minnibolti: riðlastaða eftir 1. umferð af kki.is (Stada?league_id=34045/34047/244/245), sótt 18. nóvember 2026.
 // levels = fjöldi riðla á hverju styrkleikastigi. Röð: sæti|lið|leikir|unnir|töp|stig|skor|+/-
 //<MB>
-const MB={"MB10d":{"umferd":1,"levels":{"A":1,"B":2,"C":4,"D":2},"t":[["A",["1|Stjarnan|5|5|0|10|203/60|143","2|Haukar|5|3|2|6|155/108|47","3|Keflavík|5|3|2|6|133/115|18","4|Höttur|5|3|2|6|121/162|-41","5|Selfoss|5|1|4|2|127/163|-36","6|Njarðvík|5|0|5|0|83/214|-131"]],["B2",["1|Tindastóll|4|4|0|8|138/77|61","2|Breiðablik|4|3|1|6|160/94|66","3|ÍA|4|1|3|2|130/143|-13","4|KR|4|1|3|2|102/129|-27","5|Valur|4|1|3|2|75/162|-87"]],["C4",["1|Njarðvík b|4|4|0|8|123/90|33","2|Álftanes|4|2|2|4|101/96|5","3|Valur b|4|2|2|4|89/76|13","4|Keflavík c|4|0|4|0|67/118|-51"]]]},"MB10s":{"umferd":1,"levels":{"A":1,"B":1,"C":2,"D":2},"t":[["A",["1|Stjarnan|5|5|0|10|145/62|83","2|Haukar|5|4|1|8|126/59|67","3|Aþena|5|3|2|6|114/110|4","4|Njarðvík|5|2|3|4|84/117|-33","5|Valur|5|1|4|2|83/120|-37","6|Breiðablik|5|0|5|0|36/120|-84"]],["C2",["1|Þór Ak.|4|4|0|8|109/36|73","2|Stjarnan c|4|3|1|6|74/75|-1","3|Valur b|4|1|3|2|66/84|-18","4|Álftanes|4|1|3|2|40/62|-22","5|Aþena b|4|1|3|2|68/100|-32"]]]},"MB11d":{"umferd":2,"levels":{"A":1,"B":2,"C":4,"D":4,"E":2},"t":[["A",["1|Keflavík|5|5|0|10|184/131|53","2|Haukar|5|3|2|6|175/147|28","3|Breiðablik|5|3|2|6|117/126|-9","4|Stjarnan|5|2|3|4|151/148|3","5|Stjarnan b|5|2|3|4|143/170|-27","6|Höttur|5|0|5|0|134/182|-48"]],["D1",["1|Stjarnan e|4|4|0|8|135/54|81","2|Ármann|3|2|1|4|86/70|16","3|Valur c|4|1|3|2|67/93|-26","4|Fjölnir c|3|1|2|2|58/78|-20","5|Höttur c|4|1|3|2|66/117|-51"]],["D2",["1|Valur|4|4|0|8|127/48|79","2|Breiðablik c|4|3|1|6|87/52|35","3|Hamar b|4|2|2|4|62/80|-18","4|Fjölnir d|4|1|3|2|57/117|-60","5|Ármann b|4|0|4|0|54/90|-36"]],["D3",["1|Stjarnan f|4|4|0|8|123/60|63","2|Valur b|4|3|1|6|131/76|55","3|Þór Ak. b|4|2|2|4|92/116|-24","4|Njarðvík b|4|1|3|2|66/86|-20","5|Afturelding b|4|0|4|0|27/101|-74"]],["D4",["1|Stjarnan d|4|4|0|8|160/100|60","2|Valur d|4|2|2|4|128/115|13","3|Selfoss b|4|2|2|4|113/127|-14","4|Snæfell b|4|2|2|4|122/141|-19","5|Haukar d|4|0|4|0|95/135|-40"]],["E1",["1|Selfoss c|4|4|0|8|142/97|45","2|Dímon|4|3|1|6|146/98|48","3|Stjarnan g|4|2|2|4|121/109|12","4|Breiðablik b|4|1|3|2|124/146|-22","5|Valur e|4|0|4|0|65/148|-83"]],["E2",["1|Keflavík d|4|4|0|8|139/67|72","2|Vestri b|4|2|2|4|105/105|0","3|Stjarnan h|4|2|2|4|107/103|4","4|ÍR b|4|2|2|4|92/100|-8","5|Valur f|4|0|4|0|63/131|-68"]]]},"MB11s":{"umferd":2,"levels":{"A":1,"B":1,"C":2,"D":2,"E":1},"t":[["A",["1|Valur|5|4|1|8|148/90|58","2|Stjarnan|5|4|1|8|133/89|44","3|Aþena|5|4|1|8|121/103|18","4|Njarðvík|5|2|3|4|108/111|-3","5|Haukar|5|1|4|2|84/141|-57","6|Hamar|5|0|5|0|79/139|-60"]],["B",["1|Breiðablik|4|4|0|8|107/40|67","2|Laugdælir|4|2|2|4|87/92|-5","3|Skallagrímur|4|2|2|4|73/76|-3","4|Valur b|4|2|2|4|83/93|-10","5|Ármann b|4|0|4|0|57/106|-49"]],["D1",["1|Breiðablik d|4|3|1|6|100/82|18","2|Njarðvík b|4|3|1|6|102/69|33","3|Haukar b|4|3|1|6|102/92|10","4|Valur d|4|1|3|2|89/101|-12","5|Aþena b|4|0|4|0|78/127|-49"]],["D2",["1|Hamar|4|4|0|8|122/42|80","2|Breiðablik c|4|3|1|6|84/76|8","3|Valur c|4|2|2|4|73/86|-13","4|Stjarnan d|4|1|3|2|62/88|-26","5|Ármann|4|0|4|0|51/100|-49"]]]},"7d":{"umferd":1,"levels":{"A":1,"B":1,"C":2,"D":2,"E":1},"t":[["A",["1|KR|4|4|0|8|243/134|109","2|Njarðvík|4|2|2|4|221/164|57","3|Sindri|4|2|2|4|160/206|-46","4|Álftanes|4|2|2|4|179/201|-22","5|Stjarnan|4|0|4|0|127/225|-98"]],["B",["1|Valur|4|3|1|6|185/183|2","2|Fjölnir|4|3|1|6|255/171|84","3|Haukar|4|2|2|4|158/190|-32","4|Ármann|4|2|2|4|182/180|2","5|Selfoss|4|0|4|0|135/191|-56"]],["D1",["1|ÍR b|4|4|0|8|181/118|63","2|Fylkir|4|2|2|4|147/143|4","3|Valur b|4|2|2|4|157/167|-10","4|Keflavík d|4|2|2|4|170/209|-39","5|Ármann b|4|0|4|0|138/156|-18"]]],"next":{"umferd":2,"levels":{"A":1,"B":1,"C":2,"D":2,"E":2},"t":[["A",["1|Njarðvík|0|0|0|0|0/0|0","1|Álftanes|0|0|0|0|0/0|0","1|Sindri|0|0|0|0|0/0|0","1|KR|0|0|0|0|0/0|0","1|Valur|0|0|0|0|0/0|0"]],["D2",["1|Laugdælir|0|0|0|0|0/0|0","1|Valur b|0|0|0|0|0/0|0","1|Breiðablik|0|0|0|0|0/0|0","1|Fylkir b|0|0|0|0|0/0|0","1|Hamar|0|0|0|0|0/0|0"]]]}},"7s":{"umferd":1,"levels":{"A":1,"B":1,"C":2,"D":1},"t":[["A",["1|Haukar|4|4|0|8|290/104|186","2|Stjarnan|4|3|1|6|183/165|18","3|Valur|4|2|2|4|116/169|-53","4|Aþena|4|1|3|2|139/213|-74","5|Álftanes|4|0|4|0|102/179|-77"]]],"next":{"umferd":2,"levels":{"A":1,"B":1,"C":2,"D":1},"t":[["A",["1|Haukar|0|0|0|0|0/0|0","1|Stjarnan|0|0|0|0|0/0|0","1|Njarðvík|0|0|0|0|0/0|0","1|Valur|0|0|0|0|0/0|0","1|Aþena|0|0|0|0|0/0|0"]]]}},"8d":{"umferd":2,"levels":{"A":1,"B":1,"C":2,"D":2,"E":2},"t":[["A",["1|KR|4|4|0|8|270/217|53","2|Keflavík|4|2|2|4|233/230|3","3|Þór Ak.|4|2|2|4|235/220|15","4|Breiðablik|4|1|3|2|228/254|-26","5|Stjarnan|4|1|3|2|219/264|-45"]],["C1",["1|Valur|3|3|0|6|288/76|212","2|Ármann|4|3|1|6|192/180|12","3|Skallagrímur|3|2|1|4|151/112|39","4|Keflavík b|4|1|3|2|99/257|-158","5|Stjarnan b|4|0|4|0|117/222|-105"]],["D1",["1|Haukar|4|4|0|8|248/124|124","2|Valur b|4|3|1|6|243/151|92","3|Afturelding|4|1|3|2|128/203|-75","4|Höttur b|4|0|4|0|133/274|-141"]]]},"8s":{"umferd":2,"levels":{"A":1,"B":1,"C":1},"t":[["A",["1|Njarðvík|3|3|0|6|222/120|102","2|Haukar|3|2|1|4|167/182|-15","3|KR|3|1|2|2|143/179|-36","4|Tindastóll|0|0|0|0|0/0|0","5|Stjarnan|3|0|3|0|125/176|-51"]],["B",["1|Keflavík|4|3|1|6|199/145|54","2|Aþena|4|3|1|6|205/198|7","3|Ármann|0|0|0|0|0/0|0","3|Valur|0|0|0|0|0/0|0","5|ÍR|4|0|4|0|166/227|-61"]]]}};
+const MB={"MB10d":{"umferd":1,"levels":{"A":1,"B":2,"C":4,"D":2},"t":[["A",["1|Stjarnan|5|5|0|10|203/60|143","2|Haukar|5|3|2|6|155/108|47","3|Keflavík|5|3|2|6|133/115|18","4|Höttur|5|3|2|6|121/162|-41","5|Selfoss|5|1|4|2|127/163|-36","6|Njarðvík|5|0|5|0|83/214|-131"]],["B2",["1|Tindastóll|4|4|0|8|138/77|61","2|Breiðablik|4|3|1|6|160/94|66","3|ÍA|4|1|3|2|130/143|-13","4|KR|4|1|3|2|102/129|-27","5|Valur|4|1|3|2|75/162|-87"]],["C4",["1|Njarðvík b|4|4|0|8|123/90|33","2|Álftanes|4|2|2|4|101/96|5","3|Valur b|4|2|2|4|89/76|13","4|Keflavík c|4|0|4|0|67/118|-51"]]],"next":{"umferd":2,"levels":{"A":1,"B":2,"C":4,"D":3},"t":[["C2",["1|Hamar|0|0|0|0|0/0|0","1|Valur b|0|0|0|0|0/0|0","1|KR d|0|0|0|0|0/0|0","1|Ármann|0|0|0|0|0/0|0","1|Sindri|0|0|0|0|0/0|0"]],["C3",["1|Haukar b|0|0|0|0|0/0|0","1|Ármann c|0|0|0|0|0/0|0","1|Valur|0|0|0|0|0/0|0","1|KR c|0|0|0|0|0/0|0","1|Breiðablik c|0|0|0|0|0/0|0"]]]}},"MB10s":{"umferd":1,"levels":{"A":1,"B":1,"C":2,"D":2},"t":[["A",["1|Stjarnan|5|5|0|10|145/62|83","2|Haukar|5|4|1|8|126/59|67","3|Aþena|5|3|2|6|114/110|4","4|Njarðvík|5|2|3|4|84/117|-33","5|Valur|5|1|4|2|83/120|-37","6|Breiðablik|5|0|5|0|36/120|-84"]],["C2",["1|Þór Ak.|4|4|0|8|109/36|73","2|Stjarnan c|4|3|1|6|74/75|-1","3|Valur b|4|1|3|2|66/84|-18","4|Álftanes|4|1|3|2|40/62|-22","5|Aþena b|4|1|3|2|68/100|-32"]]],"next":{"umferd":2,"levels":{"A":1,"B":1,"C":2,"D":2,"E":1},"t":[["A",["1|Haukar|0|0|0|0|0/0|0","1|Stjarnan|0|0|0|0|0/0|0","1|Valur|0|0|0|0|0/0|0","1|KR|0|0|0|0|0/0|0","1|Njarðvík|0|0|0|0|0/0|0","1|Aþena|0|0|0|0|0/0|0"]],["C1",["1|Hamar|0|0|0|0|0/0|0","1|Keflavík b|0|0|0|0|0/0|0","1|Valur b|0|0|0|0|0/0|0","1|KR b|0|0|0|0|0/0|0","1|Selfoss|0|0|0|0|0/0|0"]]]}},"MB11d":{"umferd":2,"levels":{"A":1,"B":2,"C":4,"D":4,"E":2},"t":[["A",["1|Keflavík|5|5|0|10|184/131|53","2|Haukar|5|3|2|6|175/147|28","3|Breiðablik|5|3|2|6|117/126|-9","4|Stjarnan|5|2|3|4|151/148|3","5|Stjarnan b|5|2|3|4|143/170|-27","6|Höttur|5|0|5|0|134/182|-48"]],["D1",["1|Stjarnan e|4|4|0|8|135/54|81","2|Ármann|3|2|1|4|86/70|16","3|Valur c|4|1|3|2|67/93|-26","4|Fjölnir c|3|1|2|2|58/78|-20","5|Höttur c|4|1|3|2|66/117|-51"]],["D2",["1|Valur|4|4|0|8|127/48|79","2|Breiðablik c|4|3|1|6|87/52|35","3|Hamar b|4|2|2|4|62/80|-18","4|Fjölnir d|4|1|3|2|57/117|-60","5|Ármann b|4|0|4|0|54/90|-36"]],["D3",["1|Stjarnan f|4|4|0|8|123/60|63","2|Valur b|4|3|1|6|131/76|55","3|Þór Ak. b|4|2|2|4|92/116|-24","4|Njarðvík b|4|1|3|2|66/86|-20","5|Afturelding b|4|0|4|0|27/101|-74"]],["D4",["1|Stjarnan d|4|4|0|8|160/100|60","2|Valur d|4|2|2|4|128/115|13","3|Selfoss b|4|2|2|4|113/127|-14","4|Snæfell b|4|2|2|4|122/141|-19","5|Haukar d|4|0|4|0|95/135|-40"]],["E1",["1|Selfoss c|4|4|0|8|142/97|45","2|Dímon|4|3|1|6|146/98|48","3|Stjarnan g|4|2|2|4|121/109|12","4|Breiðablik b|4|1|3|2|124/146|-22","5|Valur e|4|0|4|0|65/148|-83"]],["E2",["1|Keflavík d|4|4|0|8|139/67|72","2|Vestri b|4|2|2|4|105/105|0","3|Stjarnan h|4|2|2|4|107/103|4","4|ÍR b|4|2|2|4|92/100|-8","5|Valur f|4|0|4|0|63/131|-68"]]]},"MB11s":{"umferd":2,"levels":{"A":1,"B":1,"C":2,"D":2,"E":1},"t":[["A",["1|Valur|5|4|1|8|148/90|58","2|Stjarnan|5|4|1|8|133/89|44","3|Aþena|5|4|1|8|121/103|18","4|Njarðvík|5|2|3|4|108/111|-3","5|Haukar|5|1|4|2|84/141|-57","6|Hamar|5|0|5|0|79/139|-60"]],["B",["1|Breiðablik|4|4|0|8|107/40|67","2|Laugdælir|4|2|2|4|87/92|-5","3|Skallagrímur|4|2|2|4|73/76|-3","4|Valur b|4|2|2|4|83/93|-10","5|Ármann b|4|0|4|0|57/106|-49"]],["D1",["1|Breiðablik d|4|3|1|6|100/82|18","2|Njarðvík b|4|3|1|6|102/69|33","3|Haukar b|4|3|1|6|102/92|10","4|Valur d|4|1|3|2|89/101|-12","5|Aþena b|4|0|4|0|78/127|-49"]],["D2",["1|Hamar|4|4|0|8|122/42|80","2|Breiðablik c|4|3|1|6|84/76|8","3|Valur c|4|2|2|4|73/86|-13","4|Stjarnan d|4|1|3|2|62/88|-26","5|Ármann|4|0|4|0|51/100|-49"]]]},"7d":{"umferd":1,"levels":{"A":1,"B":1,"C":2,"D":2,"E":1},"t":[["A",["1|KR|4|4|0|8|243/134|109","2|Njarðvík|4|2|2|4|221/164|57","3|Sindri|4|2|2|4|160/206|-46","4|Álftanes|4|2|2|4|179/201|-22","5|Stjarnan|4|0|4|0|127/225|-98"]],["B",["1|Valur|4|3|1|6|185/183|2","2|Fjölnir|4|3|1|6|255/171|84","3|Haukar|4|2|2|4|158/190|-32","4|Ármann|4|2|2|4|182/180|2","5|Selfoss|4|0|4|0|135/191|-56"]],["D1",["1|ÍR b|4|4|0|8|181/118|63","2|Fylkir|4|2|2|4|147/143|4","3|Valur b|4|2|2|4|157/167|-10","4|Keflavík d|4|2|2|4|170/209|-39","5|Ármann b|4|0|4|0|138/156|-18"]]],"next":{"umferd":2,"levels":{"A":1,"B":1,"C":2,"D":2,"E":2},"t":[["A",["1|Njarðvík|0|0|0|0|0/0|0","1|Álftanes|0|0|0|0|0/0|0","1|Sindri|0|0|0|0|0/0|0","1|KR|0|0|0|0|0/0|0","1|Valur|0|0|0|0|0/0|0"]],["D2",["1|Laugdælir|0|0|0|0|0/0|0","1|Valur b|0|0|0|0|0/0|0","1|Breiðablik|0|0|0|0|0/0|0","1|Fylkir b|0|0|0|0|0/0|0","1|Hamar|0|0|0|0|0/0|0"]]]}},"7s":{"umferd":1,"levels":{"A":1,"B":1,"C":2,"D":1},"t":[["A",["1|Haukar|4|4|0|8|290/104|186","2|Stjarnan|4|3|1|6|183/165|18","3|Valur|4|2|2|4|116/169|-53","4|Aþena|4|1|3|2|139/213|-74","5|Álftanes|4|0|4|0|102/179|-77"]]],"next":{"umferd":2,"levels":{"A":1,"B":1,"C":2,"D":1},"t":[["A",["1|Haukar|0|0|0|0|0/0|0","1|Stjarnan|0|0|0|0|0/0|0","1|Njarðvík|0|0|0|0|0/0|0","1|Valur|0|0|0|0|0/0|0","1|Aþena|0|0|0|0|0/0|0"]]]}},"8d":{"umferd":2,"levels":{"A":1,"B":1,"C":2,"D":2,"E":2},"t":[["A",["1|KR|4|4|0|8|270/217|53","2|Keflavík|4|2|2|4|233/230|3","3|Þór Ak.|4|2|2|4|235/220|15","4|Breiðablik|4|1|3|2|228/254|-26","5|Stjarnan|4|1|3|2|219/264|-45"]],["C1",["1|Valur|4|4|0|8|377/116|261","2|Ármann|4|3|1|6|192/180|12","3|Skallagrímur|4|2|2|4|191/201|-10","4|Keflavík b|4|1|3|2|99/257|-158","5|Stjarnan b|4|0|4|0|117/222|-105"]],["D1",["1|Haukar|4|4|0|8|248/124|124","2|Valur b|4|3|1|6|243/151|92","3|Afturelding|4|1|3|2|128/203|-75","4|Höttur b|4|0|4|0|133/274|-141"]]]},"8s":{"umferd":2,"levels":{"A":1,"B":1,"C":1},"t":[["A",["1|Njarðvík|3|3|0|6|222/120|102","2|Haukar|3|2|1|4|167/182|-15","3|KR|3|1|2|2|143/179|-36","4|Tindastóll|0|0|0|0|0/0|0","5|Stjarnan|3|0|3|0|125/176|-51"]],["B",["1|Keflavík|4|3|1|6|199/145|54","2|Aþena|4|3|1|6|205/198|7","3|Ármann|0|0|0|0|0/0|0","3|Valur|0|0|0|0|0/0|0","5|ÍR|4|0|4|0|166/227|-61"]]]}};
 //</MB>
 const TITLE_ROUNDS={MB10d:"3. og 4. umferð",MB10s:"3. og 4. umferð",MB11d:"3., 4. og 5. umferð",MB11s:"3., 4. og 5. umferð"};
 const NEXT_LEVEL={A:"B",B:"C",C:"D",D:"E",E:null};
@@ -836,7 +853,7 @@ function gameRow(gm,side,showTeam,extra=""){
 const medal=n=>+n<=3?" p"+(+n):"";
 function renderStandings(main){
   const list=teamList.map(t=>({t,s:standingOf(t)})).filter(x=>x.s);
-  let html=`<section class="teamhead"><h2>Staða liða Vals</h2><div class="sub">Deildarkeppni 2026–27 · af kki.is, sótt 16. nóvember 2026</div></section>
+  let html=`<section class="teamhead"><h2>Staða liða Vals</h2><div class="sub">Deildarkeppni 2026–27 · af kki.is, sótt 18. nóvember 2026</div></section>
   <div class="tblwrap"><table class="rules stand summary"><thead><tr><th scope="col">Lið</th><th scope="col" class="wide">Deild</th><th scope="col">Nr.</th><th scope="col" class="num">U/T</th><th scope="col" class="num">Stig</th><th scope="col" class="num wide">Skor</th></tr></thead><tbody>
   ${list.map(({t,s})=>{const r=s.rows[s.i];
     return `<tr><th scope="row"><a href="#stada" data-s="s-${t.key}">${esc(t.label)}</a><span class="under">${esc(s.title==="Deildarkeppni"?s.league:s.title)}</span></th><td class="wide">${esc(s.title==="Deildarkeppni"?s.league:s.title)}</td><td><span class="pos${medal(r[0])}">${r[0]}.</span> <span class="of">af ${s.rows.length}</span></td><td class="num">${r[3]}/${r[4]}</td><td class="num"><b>${r[5]}</b></td><td class="num wide">${r[6]}</td></tr>`}).join("")}
@@ -1085,7 +1102,7 @@ function bindMinn(main){
 
 // ===== Landslið (FIBA + kki.is) =====
 //<NAT>
-const NAT={"karlar":{"slug":"fiba-basketball-world-cup-2027-european-qualifiers","nGames":139,"games":[{"id":127028,"utc":"2025-11-27T19:00","a":"ITA","b":"ISL","sc":[76,81],"city":"Tortona","venue":"Palazzetto Dello Sport","post":false},{"id":127029,"utc":"2025-11-30T16:45","a":"ISL","b":"GBR","sc":[84,90],"city":"Reykjavik","venue":"Laugardalshöll","post":false},{"id":127031,"utc":"2026-02-27T19:30","a":"ISL","b":"LTU","sc":[86,85],"city":"Reykjavik","venue":"Laugardalshöll","post":false},{"id":127034,"utc":"2026-03-02T16:30","a":"LTU","b":"ISL","sc":[99,82],"city":"Klaipėda","venue":"Svyturio Arena","post":false},{"id":127036,"utc":"2026-07-02T19:45","a":"ISL","b":"ITA","sc":[83,102],"city":"Reykjavik","venue":"Laugardalshöll","post":false},{"id":127026,"utc":"2026-07-05T14:00","a":"GBR","b":"ISL","sc":[86,88],"city":"Manchester","venue":"National Basketball Performance Centre","post":false},{"id":127135,"utc":"2026-08-28T18:00","a":"SRB","b":"ISL","sc":[102,73],"city":"Belgrade","venue":"Belgrade Arena","post":false},{"id":127137,"utc":"2026-08-31T19:30","a":"ISL","b":"TUR","sc":[73,110],"city":"Reykjavik","venue":"Laugardalshöll","post":false},{"id":127142,"utc":"2026-11-26T19:30","a":"ISL","b":"BIH","sc":null,"city":"Reykjavik","venue":"Laugardalshöll","post":false},{"id":127150,"utc":"2026-11-29T16:00","a":"TUR","b":"ISL","sc":null,"city":"Istanbul","venue":"Turkcell Basketball Development Centre","post":false}],"group":{"name":"Group J","rows":[[1,"TUR","8/0",16,1],[2,"SRB","6/2",14,0],[3,"ITA","5/3",13,0],[4,"LTU","4/4",12,0],[5,"BIH","3/5",11,0],[6,"ISL","3/5",11,0]]}},"konur":{"slug":"fiba-womens-eurobasket-2029-pre-qualifiers","nGames":11,"games":[{"id":134244,"utc":"2026-11-11T19:00","a":"IRL","b":"ISL","sc":[73,81],"city":"Dublin","venue":"National Basketball Arena","post":false},{"id":134245,"utc":"2026-11-14T16:00","a":"ISL","b":"SUI","sc":[100,82],"city":"Hafnarfjordur","venue":"Ithrottamidstod Asvellir","post":false},{"id":134248,"utc":"2026-11-17T19:30","a":"ISL","b":"AZE","sc":null,"city":"Hafnarfjordur","venue":"Ithrottamidstod Asvellir","post":false}],"group":{"name":"Group A","rows":[[1,"ISL","2/0",4,0],[2,"SUI","1/1",3,0],[3,"IRL","1/1",3,0],[4,"AZE","0/2",2,0]]}}};
+const NAT={"karlar":{"slug":"fiba-basketball-world-cup-2027-european-qualifiers","nGames":139,"games":[{"id":127028,"utc":"2025-11-27T19:00","a":"ITA","b":"ISL","sc":[76,81],"city":"Tortona","venue":"Palazzetto Dello Sport","post":false},{"id":127029,"utc":"2025-11-30T16:45","a":"ISL","b":"GBR","sc":[84,90],"city":"Reykjavik","venue":"Laugardalshöll","post":false},{"id":127031,"utc":"2026-02-27T19:30","a":"ISL","b":"LTU","sc":[86,85],"city":"Reykjavik","venue":"Laugardalshöll","post":false},{"id":127034,"utc":"2026-03-02T16:30","a":"LTU","b":"ISL","sc":[99,82],"city":"Klaipėda","venue":"Svyturio Arena","post":false},{"id":127036,"utc":"2026-07-02T19:45","a":"ISL","b":"ITA","sc":[83,102],"city":"Reykjavik","venue":"Laugardalshöll","post":false},{"id":127026,"utc":"2026-07-05T14:00","a":"GBR","b":"ISL","sc":[86,88],"city":"Manchester","venue":"National Basketball Performance Centre","post":false},{"id":127135,"utc":"2026-08-28T18:00","a":"SRB","b":"ISL","sc":[102,73],"city":"Belgrade","venue":"Belgrade Arena","post":false},{"id":127137,"utc":"2026-08-31T19:30","a":"ISL","b":"TUR","sc":[73,110],"city":"Reykjavik","venue":"Laugardalshöll","post":false},{"id":127142,"utc":"2026-11-26T19:30","a":"ISL","b":"BIH","sc":null,"city":"Reykjavik","venue":"Laugardalshöll","post":false},{"id":127150,"utc":"2026-11-29T16:00","a":"TUR","b":"ISL","sc":null,"city":"Istanbul","venue":"Turkcell Basketball Development Centre","post":false}],"group":{"name":"Group J","rows":[[1,"TUR","8/0",16,1],[2,"SRB","6/2",14,0],[3,"ITA","5/3",13,0],[4,"LTU","4/4",12,0],[5,"BIH","3/5",11,0],[6,"ISL","3/5",11,0]]}},"konur":{"slug":"fiba-womens-eurobasket-2029-pre-qualifiers","nGames":11,"games":[{"id":134244,"utc":"2026-11-11T19:00","a":"IRL","b":"ISL","sc":[73,81],"city":"Dublin","venue":"National Basketball Arena","post":false},{"id":134245,"utc":"2026-11-14T16:00","a":"ISL","b":"SUI","sc":[100,82],"city":"Hafnarfjordur","venue":"Ithrottamidstod Asvellir","post":false},{"id":134248,"utc":"2026-11-17T19:30","a":"ISL","b":"AZE","sc":[129,41],"city":"Hafnarfjordur","venue":"Ithrottamidstod Asvellir","post":false}],"group":{"name":"Group A","rows":[[1,"ISL","3/0",6,0],[2,"SUI","2/1",5,0],[3,"IRL","1/2",4,0],[4,"AZE","0/3",3,0]]}}};
 //</NAT>
 // Leikir af kki.is sem FIBA hefur ekki birt enn: [dags., mótherji, heima(1/0), staður]. Hverfa sjálfkrafa þegar FIBA birtir leikinn.
 const NAT_KKI={karlar:[["2027-02-26","SRB",1,"Laugardalshöll"],["2027-03-01","BIH",0,"Bosníu"]],
@@ -1103,7 +1120,7 @@ const natPlace=s=>NAT_PLACE[s]||s;
 // Valsarar í landsliðshópum (handvirkt af kki.is, karfan.is og fiba.basketball). caps = leikjafjöldi þar sem hann liggur fyrir.
 const NAT_VALUR=[
  {lvl:"A",team:"A-landslið karla",name:"Kári Jónsson",note:"Undankeppni HM 2027 · 15 manna hópur fyrir nóvember 2026",caps:50,capsLbl:"A-landsleikir",url:"https://www.karfan.is/15-manna-hopur-a-landslids-karla-valinn-fyrir-novembergluggann-bosnia-i-hollinni-og-utileikur-i-istanbul-framundan/",nat:"karlar"},
- {lvl:"A",team:"A-landslið kvenna",name:"Þóranna Kika Hodge-Carr",note:"For-undankeppni EM 2029 · sigrar á Írlandi 11. nóv. (6 stig, 4 fráköst) og Sviss 14. nóv. (4 stig, 7 fráköst) · auk þess 24 leikir með U18 og 14 með U16",caps:13,capsLbl:"A-landsleikir",url:"https://www.karfan.is/glaesilegur-utisigur-i-dyflinni-island-lagdi-irland-eftir-mikla-spennu/",nat:"konur"},
+ {lvl:"A",team:"A-landslið kvenna",name:"Þóranna Kika Hodge-Carr",note:"For-undankeppni EM 2029 · sigrar á Írlandi 11. nóv. (6 stig, 4 fráköst), Sviss 14. nóv. (4 stig, 7 fráköst) og Aserbaídsjan 17. nóv. (8 stig, 4 fráköst) · auk þess 24 leikir með U18 og 14 með U16",caps:14,capsLbl:"A-landsleikir",url:"https://www.karfan.is/glaesilegur-utisigur-i-dyflinni-island-lagdi-irland-eftir-mikla-spennu/",nat:"konur"},
  {lvl:"U18",team:"U18 kvenna",name:"Berta María Þorkelsdóttir",note:"EuroBasket B-deild og NM · sumarið 2026",caps:7,capsLbl:"leikir á EM 2026",url:"https://www.kki.is/frettir/frett/2026/06/05/Lokahopar-yngri-landslida-sumarid-2026/"},
  {lvl:"U18",team:"U18 karla",name:"Páll Gústaf Einarsson",note:"EuroBasket B-deild og NM · sumarið 2026 · spilar í Bandaríkjunum, skráður hjá Val hjá FIBA",caps:8,capsLbl:"leikir á EM 2026",url:"https://www.kki.is/frettir/frett/2026/07/23/U18-ara-landslid-karla-maett-a-EuroBasket-EM-i-Rijeka-og-Opatija-i-Kroatiu/"},
  {lvl:"U16",team:"U16 drengja",name:"Atli Freyr Haraldsson Katrínarson",note:"EuroBasket B-deild (2. sæti) og NM · sumarið 2026",caps:8,capsLbl:"leikir á EM 2026",url:"https://www.kki.is/frettir/frett/2026/06/05/Lokahopar-yngri-landslida-sumarid-2026/"},
@@ -1162,7 +1179,7 @@ function renderLandslid(main){
   <section class="day"><div class="dayhd">Staða · ${I.grp}</div>${natTable(k)}
   <div class="meta note">${k==="karlar"?"Þrjú efstu liðin komast á HM 2027 í Katar. Úrslit fyrra stigs gegn liðum sem komust áfram telja með.":started?"Tvö stig fyrir sigur, eitt fyrir tap.":"Enginn leikur búinn í riðlinum. Staðan uppfærist eftir fyrstu leikina."}</div></section>
   <h2>Úrslit · ${played.length}</h2>${played.length?natDays(played):'<div class="empty">Engin úrslit enn.</div>'}
-  <div class="meta note">Úrslit og staða af fiba.basketball, leikir og leikstaðir líka af <a href="${I.kki}" target="_blank" rel="noopener">kki.is</a> · sótt 16. nóvember 2026. Miðasala á heimaleiki fer fram á Stubb.is og í Stubb-appinu.</div>`;
+  <div class="meta note">Úrslit og staða af fiba.basketball, leikir og leikstaðir líka af <a href="${I.kki}" target="_blank" rel="noopener">kki.is</a> · sótt 18. nóvember 2026. Miðasala á heimaleiki fer fram á Stubb.is og í Stubb-appinu.</div>`;
   main.innerHTML=html;bind();
 }
 
