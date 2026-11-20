@@ -1185,7 +1185,7 @@ function renderLandslid(main){
 function render(){
   const main=document.getElementById("main");let html="";
   const view=location.hash==="#landslid"?"landslid":location.hash==="#reglur"?"reglur":location.hash==="#stada"?"stada":(location.hash==="#minn"||(!location.hash&&minn.kids.length))?"minn":"leikir";
-  document.getElementById("gamefilters").hidden=view!=="leikir";
+  document.getElementById("gamefilters").hidden=view!=="leikir";gcView(view);
   document.querySelectorAll("#view a").forEach(a=>{if(a.dataset.v===view)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
   if(view==="minn"){renderMinn(main);return}
   if(view==="reglur"){renderRules(main);return}
@@ -1236,6 +1236,20 @@ function render(){
   const tr=document.getElementById("torules");if(tr)tr.addEventListener("click",()=>{state.ruleCol=RULE_COL_OF[team.g];location.hash="reglur"});
 }
 state.ruleCol=null;
+// Heimsóknatalning (GoatCounter, valurkarfa.goatcounter.com): ein nafnlaus talning á opnun og ein á hvern flipa
+// sem er skoðaður. Engar kökur, ekkert vistað í vafranum nema „ekki telja“-merkið. Telur aðeins á opinberu síðunni
+// (ekki í artifact eða staðbundinni prófun). Opnaðu síðuna einu sinni með #ekki-telja til að hætta að telja eigin
+// heimsóknir í þeim vafra (#telja aftur til að afturkalla).
+const GC_ON=location.hostname==="valurkarfa.github.io"&&(()=>{try{
+  if(location.hash==="#ekki-telja")localStorage.setItem("valur-ekki-telja","1");
+  if(location.hash==="#telja")localStorage.removeItem("valur-ekki-telja");
+  return!localStorage.getItem("valur-ekki-telja")}catch(e){return true}})();
+const gcSeen=new Set();
+function gcHit(p,title,ev){if(!GC_ON)return;try{
+  const q=new URLSearchParams({p,t:title,e:ev?"true":"false",r:ev?"":document.referrer,rnd:Math.random().toString(36).slice(2)});
+  new Image().src="https://valurkarfa.goatcounter.com/count?"+q}catch(e){}}
+gcHit("/","Valur körfubolti",false);
+function gcView(v){if(gcSeen.has(v))return;gcSeen.add(v);gcHit("flipi-"+v,"Flipi: "+v,true)}
 window.addEventListener("hashchange",()=>{render();window.scrollTo({top:0})});
 // Síða sem stendur opin í síma (t.d. af heimaskjá) fær nýjan „núna“ þegar hún kemur aftur í forgrunn
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState!=="visible")return;const n=new Date();if(n-now<5*60e3)return;now=n;renderTally();render()});
